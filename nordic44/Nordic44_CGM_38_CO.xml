@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF  
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:eu="http://iec.ch/TC57/CIM100-European#"
+	xmlns:nc="http://entsoe.eu/ns/nc/#"
+    xmlns:md="http://iec.ch/TC57/61970-552/ModelDescription/1#"
+    xmlns:cim="http://iec.ch/TC57/CIM100#" 
+	<!-- Header namespace -->
+	xmlns:dcterms="http://purl.org/dc/terms/#"
+	xmlns:dcat="http://www.w3.org/ns/dcat#"
+	xmlns:time="http://www.w3.org/2006/time#"
+	xmlns:prov="http://www.w3.org/ns/prov#"
+<!-- These should not be included 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:eumd="http://entsoe.eu/ns/Metadata-European#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	-->
+	> 
+
+<!-- 
+Change log:
+2022-01-27: Inital version
+
+-->
+	<md:FullModel rdf:about="urn:uuid:84552e03-0040-43d5-aff2-0f77f01668cb">
+		<!--Here the header fro Contingency Profile based instance files -->
+		<dcterms:identifier>urn:uuid:84552e03-0040-43d5-aff2-0f77f01668cb</dcterms:identifier> <!--In the same way as we have included mRID in addtion 
+		to rdf:ID/rdf:about we are including the unquie indentifer as an attribute. This is done so that tranformation between different serilisation shall be easier. -->
+		<!-- Validity period - time frame -->
+		<time:inXSDDateTimeStamp>2021-10-31T23:00:00Z</time:inXSDDateTimeStamp> <!-- Need to aligne all the timestamps -->
+		<time:hasXSDDuration>P1D</time:hasXSDDuration>    <!-- The CO should not really have a duration - or do we think that we need to create a new file each day -->
+		<prov:generatedAtTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-01-28T12:01:03Z</prov:generatedAtTime> 
+		<dcterms:description>CGM Test model developed by Statnett SF. Nordic 44 bus system for the Nordic region.</dcterms:description> 
+		<dcterms:conformsTo>http://entsoe.eu/ns/CIM/Contingency-EU/2.0</dcterms:conformsTo> 
+		<prov:atLocation rdf:resource="http://data.europa.eu/energy/EIC/10X1001A1001A38Y"/> <!-- EIC to Statnett SF -->
+	</md:FullModel>
+
+	<nc:OrdinaryContingency rdf:ID="_0c19a9a2-1165-49f9-bc0a-2f6b88deec9f">
+		<cim:IdentifiedObject.mRID>0c19a9a2-1165-49f9-bc0a-2f6b88deec9f</cim:IdentifiedObject.mRID>
+		<cim:Contingency.mustStudy>true</cim:Contingency.mustStudy>
+		<nc:Contingency.probability>100</nc:Contingency.probability>
+		<cim:IdentifiedObject.description>Tripping of 300KRISTIAN-ARENDAL</cim:IdentifiedObject.description>
+		<cim:IdentifiedObject.name>OC 300KRISTIAN-ARENDAL</cim:IdentifiedObject.name>
+		<nc:Contingency.ContingencyOwner rdf:resource="http://data.europa.eu/energy/EIC/10X1001A1001A38Y"/> <!-- EIC to Statnett SF -->
+	</nc:OrdinaryContingency>
+
+	<cim:ContingencyEquipment rdf:ID="_8ffcf7ab-2c5f-40eb-9e56-6338bdd8c96d">
+		<cim:IdentifiedObject.mRID>8ffcf7ab-2c5f-40eb-9e56-6338bdd8c96d</cim:IdentifiedObject.mRID>
+		<cim:IdentifiedObject.description>Tripping of 300KRISTIAN-ARENDAL</cim:IdentifiedObject.description>
+		<cim:IdentifiedObject.name>CE 300KRISTIAN-ARENDAL</cim:IdentifiedObject.name>
+		<cim:ContingencyElement.Contingency rdf:resource="#_0c19a9a2-1165-49f9-bc0a-2f6b88deec9f" />
+		<cim:ContingencyEquipment.contingentStatus rdf:resource="http://iec.ch/TC57/CIM100#ContingencyEquipmentStatusKind.outOfService"/>
+		<cim:ContingencyEquipment.Equipment rdf:resource="#__f1769cd4-9aeb-11e5-91da-b8763fd99c5f" />
+	</cim:ContingencyEquipment>
+</rdf:RDF>
