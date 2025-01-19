@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs/promises";
-import { NextResponse } from "next/server";
+import {NextResponse} from "next/server";
 
-type JsonData = Record<string, any>;
+type JsonData = Record<string, unknown>;
 
 const dataDir = path.join(process.cwd(), "app", "api", "data");
 
@@ -14,22 +14,22 @@ const readJsonFile = async (filename: string): Promise<JsonData> => {
 
 export const findById = async (id: string): Promise<JsonData | null> => {
     const data = await readJsonFile("nordic44_cgm_37a_eq_by_id.json");
-    return data[id] || null;
+    return typeof data[id] === "object" && data[id] !== null ? (data[id] as JsonData) : null;
 };
 
 export const findByType = async (type: string): Promise<JsonData[]> => {
     const data = await readJsonFile("nordic44_cgm_37a_eq_by_type.json");
-    return data[type] || [];
+    return Array.isArray(data[type]) ? (data[type] as JsonData[]) : [];
 };
 
 export const findByName = async (name: string): Promise<JsonData | null> => {
     const data = await readJsonFile("nordic44_cgm_37a_eq_by_name.json");
-    return data[name] || null;
+    return typeof data[name] === "object" && data[name] !== null ? (data[name] as JsonData) : null;
 };
 
 // API handler
 export async function GET(request: Request) {
-    const { searchParams } = new URL(request.url);
+    const {searchParams} = new URL(request.url);
     const id = searchParams.get("id");
     const type = searchParams.get("type");
     const name = searchParams.get("name");
@@ -45,12 +45,16 @@ export async function GET(request: Request) {
             const result = await findByName(name);
             return NextResponse.json(result);
         } else {
-            return NextResponse.json(
-                { error: "Please specify id, type, or name in query parameters" },
-                { status: 400 }
+            return new Response(
+                JSON.stringify({error: "Please specify id, type, or name in query parameters"}),
+                {status: 400, headers: {"Content-Type": "application/json"}}
             );
         }
-    } catch (error) {
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? "Internal Server Error - " + error.message : "Internal Server Error";
+        return new Response(
+            JSON.stringify({error: message}),
+            {status: 500, headers: {"Content-Type": "application/json"}}
+        );
     }
 }
