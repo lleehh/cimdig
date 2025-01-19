@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--Nordic44 CGMES 2.5 Test model.
+	Created: 2018-07-04T18:00
+-->
+<!--
+	This is a new profile in CGMES 2.5 and are serialized according to IEC 61970-552 Ed2. 
+-->
+<?iec61970-552 version="2.0"?>
+
+<rdf:RDF xmlns:fw="http://entsoe.eu/CIM/Framework/1/0#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<!--
+	A Manifest Specification is created to version the sequence of communication - manifest. 
+-->
+
+<fw:ManifestSpecification rdf:about="urn:uuid:d6fdac5d-5e04-4c3d-b182-be1b89266cf8">
+	<fw:FrameworkIdentifiedObject.description>Nordic44 Test Manifest Specification</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>MFS Nordic44 Test</fw:FrameworkIdentifiedObject.name>
+</fw:ManifestSpecification>
+
+ <!--
+	A Manifest that defines this communication exchange with the given version. 
+-->
+<fw:Manifest rdf:about="urn:uuid:835152ff-c1f0-474a-bd0a-ab029af4df9b">
+	<fw:FrameworkIdentifiedObject.description>Nordic44 Test Manifest Version 2</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44 Test Manifest Version 2</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-09T16:11:55.1404051Z</fw:FrameworkVersionObject.created>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+	<fw:Manifest.ManifestSpecification rdf:resource="urn:uuid:d6fdac5d-5e04-4c3d-b182-be1b89266cf8"/>
+</fw:Manifest>
+
+ <!--
+	No frames are defined in this test case - This will be added later.
+-->
+ 
+<fw:FullModelSpecification rdf:about="urn:uuid:aaf2b60e-4673-4d00-b8c6-b59574db0120">
+	<fw:FrameworkIdentifiedObject.description>CGM Test model developed by Statnett SF. Nordic 44 bus system for the Nordic region.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_CGM</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-09T16:11:55.1404051Z</fw:FrameworkVersionObject.created>
+	<fw:ModelSpecification.ontology>http://entsoe.eu/CIM/CGMES/2/5#</fw:ModelSpecification.ontology>
+	<fw:ModelSpecification.type>OperationPlanningNodeBreakerHybrid</fw:ModelSpecification.type>	
+</fw:FullModelSpecification>
+ 
+  <!--
+	The full model after the merge of the different profiles models. Note the rdf:ID for the Full Model does not match any of the rdf:ID in any of the instance file, since the full model 
+	has not been materialized. If a full model in one instance file is exported this instance file will have this rdf:ID.  
+-->
+ <fw:FullModel rdf:about="urn:uuid:a846e071-94c2-4e60-b143-83f55a8e5d67">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_CGM_v3_6</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-10T13:47:55.000Z</fw:FrameworkVersionObject.created>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+	<fw:Model.profile>http://entsoe.eu/CIM/EquipmentCore/3/1</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/EquipmentOperation/3/1</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/EquipmentCore/3/2</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/EquipmentOperation/3/2</fw:Model.profile>	
+	<fw:Model.profile>http://entsoe.eu/CIM/SteadyStateHypothesis/1/1</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/SteadyStateHypothesis/1/2</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/DiagramLayout/3/1</fw:Model.profile>
+    <fw:Model.profile>http://entsoe.eu/CIM/Topology/4/1</fw:Model.profile>
+    <fw:Model.profile>http://entsoe.eu/CIM/StateVariables/4/1</fw:Model.profile>
+    <fw:Model.profile>http://entsoe.eu/CIM/GeographicalLocation/2/1</fw:Model.profile>	
+	<fw:Model.validFrom>2015-03-06T01:30:00.0000000Z</fw:Model.validFrom>
+	<fw:Model.ModelSpecification rdf:resource="urn:uuid:aaf2b60e-4673-4d00-b8c6-b59574db0120"/>
+</fw:FullModel>
+
+
+  <!--
+	The full model specification is the persistent part of the EQ model.  
+-->
+ 
+<fw:FullModelSpecification rdf:about="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1">
+	<fw:FrameworkIdentifiedObject.description>The EQ CGM Test model developed by Statnett SF. Nordic 44 bus system for the Nordic region.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_EQ</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-09T16:11:55.1404051Z</fw:FrameworkVersionObject.created>
+	<fw:ModelSpecification.ontology>http://entsoe.eu/CIM/CGMES/2/5#</fw:ModelSpecification.ontology>
+	<fw:ModelSpecification.type>OperationPlanningNodeBreakerHybrid</fw:ModelSpecification.type>	
+</fw:FullModelSpecification>
+  <!--
+	This is the same model and header information as for the EQ file.  
+-->
+ <fw:FullModel rdf:about="urn:uuid:2dd9014f-bdfb-11e5-94fa-c8f73332c8f4">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_v3_6_EQ</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-10T13:47:55</fw:FrameworkVersionObject.created>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+	<fw:Model.profile>http://entsoe.eu/CIM/EquipmentCore/3/1</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/EquipmentOperation/3/1</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/EquipmentCore/3/2</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/EquipmentOperation/3/2</fw:Model.profile>	
+	<fw:Model.validFrom>2015-03-06T01:30:00.0000000Z</fw:Model.validFrom>
+	<fw:Model.ModelSpecification rdf:resource="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1"/>
+</fw:FullModel>
+
+
+  <!--
+	The full model specification is the persistent part of the SSH model.  
+-->
+ 
+<fw:FullModelSpecification rdf:about="urn:uuid:9f3bf697-23fd-4c97-a937-0d4ea99da212">
+	<fw:FrameworkIdentifiedObject.description>The SSH CGM Test model developed by Statnett SF. Nordic 44 bus system for the Nordic region.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_SSH</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-09T16:11:55.1404051Z</fw:FrameworkVersionObject.created>
+	<fw:ModelSpecification.ontology>http://entsoe.eu/CIM/CGMES/2/5#</fw:ModelSpecification.ontology>
+	<fw:ModelSpecification.type>OperationPlanningNodeBreakerHybrid</fw:ModelSpecification.type>
+	<!--  Dependent on the EQ Model Specification  -->
+	<fw:ModelSpecification.DependentOn rdf:resource="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1"/>	
+</fw:FullModelSpecification>
+  <!--
+	This is the same model and header information as for the SSH file.  
+-->
+ <fw:FullModel rdf:about="urn:uuid:1d8b61bc-c7f3-4e9e-a3bd-f4ec24beb586">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_v3_6_SSH</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-10T13:47:55</fw:FrameworkVersionObject.created>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+	<fw:Model.profile>http://entsoe.eu/CIM/SteadyStateHypothesis/1/1</fw:Model.profile>
+	<fw:Model.profile>http://entsoe.eu/CIM/SteadyStateHypothesis/1/2</fw:Model.profile>
+	<fw:Model.validFrom>2015-03-06T01:30:00.0000000Z</fw:Model.validFrom>
+	<fw:Model.ModelSpecification rdf:resource="urn:uuid:9f3bf697-23fd-4c97-a937-0d4ea99da212"/>
+</fw:FullModel>
+
+
+  <!--
+	The full model specification is the persistent part of the GL model.  
+-->
+ 
+<fw:FullModelSpecification rdf:about="urn:uuid:6babc7ed-7a4d-4f5f-a88e-955abff45c1a">
+	<fw:FrameworkIdentifiedObject.description>The GL CGM Test model developed by Statnett SF. Nordic 44 bus system for the Nordic region.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_GL</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-09T16:11:55.1404051Z</fw:FrameworkVersionObject.created>
+	<fw:ModelSpecification.ontology>http://entsoe.eu/CIM/CGMES/2/5#</fw:ModelSpecification.ontology>
+	<fw:ModelSpecification.type>OperationPlanningNodeBreakerHybrid</fw:ModelSpecification.type>	
+	<!--  Dependent on the EQ Model Specification  -->
+	<fw:ModelSpecification.DependentOn rdf:resource="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1"/>		
+</fw:FullModelSpecification>
+  <!--
+	This is the same model and header information as for the GL file.  
+-->
+ <fw:FullModel rdf:about="urn:uuid:fba05f4d-eda1-4c70-a042-d03acfba2eb3">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_v3_3_GL</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-10T13:47:55</fw:FrameworkVersionObject.created>
+	<fw:FrameworkVersionObject.version>33</fw:FrameworkVersionObject.version>
+    <fw:Model.profile>http://entsoe.eu/CIM/GeographicalLocation/2/1</fw:Model.profile>	
+	<fw:Model.validFrom>2015-03-06T01:30:00.0000000Z</fw:Model.validFrom>
+	<fw:Model.ModelSpecification rdf:resource="urn:uuid:6babc7ed-7a4d-4f5f-a88e-955abff45c1a"/>
+</fw:FullModel>
+
+
+  <!--
+	The full model specification is the persistent part of the TP model.  
+-->
+
+<fw:FullModelSpecification rdf:about="urn:uuid:0a84c612-17cc-4a1c-9653-45bb0dad73e8">
+	<fw:FrameworkIdentifiedObject.description>The TP CGM Test model developed by Statnett SF. Nordic 44 bus system for the Nordic region.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_TP</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-09T16:11:55.1404051Z</fw:FrameworkVersionObject.created>
+	<fw:ModelSpecification.ontology>http://entsoe.eu/CIM/CGMES/2/5#</fw:ModelSpecification.ontology>
+	<fw:ModelSpecification.type>OperationPlanningNodeBreakerHybrid</fw:ModelSpecification.type>	
+	<!--  Dependent on the EQ Model Specification  -->
+	<fw:ModelSpecification.DependentOn rdf:resource="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1"/>
+	<!--  Dependent on the SSH Model Specification  -->
+	<fw:ModelSpecification.DependentOn rdf:resource="urn:uuid:9f3bf697-23fd-4c97-a937-0d4ea99da212"/>		
+</fw:FullModelSpecification>
+  <!--
+	This is the same model and header information as for the TP file.  
+-->
+ <fw:FullModel rdf:about="urn:uuid:b3ca40e2-1210-4d95-b475-24d474ecf4d8">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_v3_6_TP</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-10T13:47:55</fw:FrameworkVersionObject.created>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+    <fw:Model.profile>http://entsoe.eu/CIM/Topology/4/1</fw:Model.profile>
+	<fw:Model.validFrom>2015-03-06T01:30:00.0000000Z</fw:Model.validFrom>
+	<fw:Model.ModelSpecification rdf:resource="urn:uuid:0a84c612-17cc-4a1c-9653-45bb0dad73e8"/>
+</fw:FullModel>
+
+
+  <!--
+	The full model specification is the persistent part of the SV model.  
+-->
+
+<fw:FullModelSpecification rdf:about="urn:uuid:c14afecb-e612-4549-a639-f44fbbb40740">
+	<fw:FrameworkIdentifiedObject.description>The SV CGM Test model developed by Statnett SF. Nordic 44 bus system for the Nordic region.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_SV</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-09T16:11:55.1404051Z</fw:FrameworkVersionObject.created>
+	<fw:ModelSpecification.ontology>http://entsoe.eu/CIM/CGMES/2/5#</fw:ModelSpecification.ontology>
+	<fw:ModelSpecification.type>OperationPlanningNodeBreakerHybrid</fw:ModelSpecification.type>	
+		<!--  Dependent on the EQ Model Specification  -->
+	<fw:ModelSpecification.DependentOn rdf:resource="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1"/>
+		<!--  Dependent on the SSH Model Specification  -->
+	<fw:ModelSpecification.DependentOn rdf:resource="urn:uuid:9f3bf697-23fd-4c97-a937-0d4ea99da212"/>
+		<!--  Dependent on the TP Model Specification  -->
+	<fw:ModelSpecification.DependentOn rdf:resource="urn:uuid:0a84c612-17cc-4a1c-9653-45bb0dad73e8"/>		
+</fw:FullModelSpecification>
+  <!--
+	This is the same model and header information as for the SV file.  
+-->
+ <fw:FullModel rdf:about="urn:uuid:47eb7c36-d0f6-11e7-9f7b-b46d83638f70">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_v3_6_SV</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-10T13:47:55</fw:FrameworkVersionObject.created>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+    <fw:Model.profile>http://entsoe.eu/CIM/StateVariables/4/1</fw:Model.profile>
+	<fw:Model.validFrom>2015-03-06T01:30:00.0000000Z</fw:Model.validFrom>
+	<fw:Model.ModelSpecification rdf:resource="urn:uuid:c14afecb-e612-4549-a639-f44fbbb40740"/>
+</fw:FullModel>
+
+
+  <!--
+	The full model specification is the persistent part of the DL model.  
+-->
+
+<fw:FullModelSpecification rdf:about="urn:uuid:23b29cab-de3d-41f8-aa22-5799e55c2106">
+	<fw:FrameworkIdentifiedObject.description>The DL CGM Test model developed by Statnett SF. Nordic 44 bus system for the Nordic region.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_DL</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-09T16:11:55.1404051Z</fw:FrameworkVersionObject.created>
+	<fw:ModelSpecification.ontology>http://entsoe.eu/CIM/CGMES/2/5#</fw:ModelSpecification.ontology>
+	<fw:ModelSpecification.type>OperationPlanningNodeBreakerHybrid</fw:ModelSpecification.type>	
+		<!--  Dependent on the EQ Model Specification  -->
+	<fw:ModelSpecification.DependentOn rdf:resource="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1"/>	
+</fw:FullModelSpecification>
+  <!--
+	This is the same model and header information as for the DL file.  
+-->
+ <fw:FullModel rdf:about="urn:uuid:bca6655f-07e2-4155-b999-f1bfb3369997">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Nordic44_v3_6_DL</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.created>2018-05-10T13:47:55</fw:FrameworkVersionObject.created>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+	<fw:Model.profile>http://entsoe.eu/CIM/DiagramLayout/3/1</fw:Model.profile>
+	<fw:Model.validFrom>2015-03-06T01:30:00.0000000Z</fw:Model.validFrom>
+	<fw:Model.ModelSpecification rdf:resource="urn:uuid:23b29cab-de3d-41f8-aa22-5799e55c2106"/>
+</fw:FullModel>
+
+
+ <!--
+	Create a situation Specification to associate the input models for the operation. This forms the instruction for the operation.
+-->
+<fw:SituationSpecification rdf:about="urn:uuid:ef4bdc3f-19d0-4dd3-9549-5bda677a7990">
+	<fw:FrameworkIdentifiedObject.description>Situation Specification for merging Nordic44_CGM Input Only.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>SS_Nordic44_CGM</fw:FrameworkIdentifiedObject.name>
+	<!--  ModelSpecification Nordic44_EQ  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1"/>
+	<!--  ModelSpecification Nordic44_SSH  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:9f3bf697-23fd-4c97-a937-0d4ea99da212"/>
+	<!--  ModelSpecification Nordic44_GL  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:6babc7ed-7a4d-4f5f-a88e-955abff45c1a"/>
+	<!--  ModelSpecification Nordic44_DL  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:23b29cab-de3d-41f8-aa22-5799e55c2106"/>	
+</fw:SituationSpecification>
+ <!--
+	Create a specific Situation based on the instruction in the SituationSpecification. This is the log of the operation.
+-->
+<fw:Situation rdf:about="urn:uuid:ad5a5066-8039-4e50-9dbc-55285f1f8705">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>S_Nordic44_CGM_v3_6</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+	<fw:Situation.type>BaseCase</fw:Situation.type>
+	<fw:Situation.validOn>2015-03-06T01:30:00.000Z</fw:Situation.validOn>
+	<fw:Situation.SituationSpecification rdf:resource="urn:uuid:ef4bdc3f-19d0-4dd3-9549-5bda677a7990"/>
+	<!--Nordic44_v3_6_EQ-->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:2dd9014f-bdfb-11e5-94fa-c8f73332c8f4"/>
+		<!--Nordic44_v3_6_SSH-->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:1d8b61bc-c7f3-4e9e-a3bd-f4ec24beb586"/>
+		<!--Nordic44_v3_3_GL-->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:fba05f4d-eda1-4c70-a042-d03acfba2eb3"/>
+		<!--Nordic44_v3_6_DL-->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:bca6655f-07e2-4155-b999-f1bfb3369997"/>	
+ </fw:Situation>
+ 
+ <!--
+	Define the a given operation instruction to the situation specification - and log information to the given situation.
+-->
+
+<fw:AssembleOperation rdf:about="urn:uuid:808b82c0-bcd9-4046-8956-c57691f1946d">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Assemble_Nordic44_CGM</fw:FrameworkIdentifiedObject.name>
+	<!--Define the reference to the persistent situation that defines the input specifications SS_Nordic44_CGM .-->
+	<fw:SituationOperationSpecification.SituationSpecification rdf:resource="urn:uuid:ef4bdc3f-19d0-4dd3-9549-5bda677a7990"/>
+	<!-- Define the reference to the persistent output specification - in this case we do not create any we are just  
+	<fw:SituationOperationSpecification.OutputModelSpecification rdf:resource="URI to the ModelSpecification"/>
+-->
+</fw:AssembleOperation>
+
+ <!--
+	Create the specific log of the operation done on the situation.
+-->
+
+<fw:SituationOperation rdf:about="urn:uuid:ad5a5066-8039-4e50-9dbc-55285f1f8705">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Assemble_Nordic44_CGM_v3_6</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>	
+	<!--Assemble_Nordic44_CGM-->
+	<fw:SituationOperation.SituationOperationSpecification rdf:resource="urn:uuid:808b82c0-bcd9-4046-8956-c57691f1946d"/>
+	<!--S_Nordic44_CGM_v3_6-->
+	<fw:SituationOperation.Situation rdf:resource="urn:uuid:ad5a5066-8039-4e50-9dbc-55285f1f8705"/>	
+	<fw:SituationOperation.result rdf:resource="http://entsoe.eu/CIM/Framework/1/0#SituationOperationResultKind.ok"/>
+	   <!--
+	If we create a new instance of the result of the situation we would have a link to the output mode.
+	<fw:Situation.OutputModel rdf:resource="URI to the Model"/>
+-->
+</fw:SituationOperation>
+
+ <!--
+	The profile need to be updated with Topology Processing - it was incorrectly removed in the IOP.
+-->
+
+ <fw:TopologyProcessing rdf:about="urn:uuid:d0f6201d-73b9-41e1-8aad-e4c1ac6a8a9f">
+ 	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>TP_Nordic44_CGM</fw:FrameworkIdentifiedObject.name>
+	<fw:TopologyProcessing.enableMultiSectionLines>false</fw:TopologyProcessing.enableMultiSectionLines>
+	<fw:TopologyProcessing.kind rdf:resource="http://entsoe.eu/CIM/Framework/1/0#TopologyOperationKind.switchOpen"/>
+	<fw:TopologyProcessing.interchangeArea rdf:resource="http://entsoe.eu/CIM/Framework/1/0#InterchangeAreaKind.energyCongestionZone"/>		
+ 	<!--  Situation Specification SS_Nordic44_CGM  -->
+	<fw:SituationOperationSpecification.SituationSpecification rdf:resource="urn:uuid:ef4bdc3f-19d0-4dd3-9549-5bda677a7990"/>
+	<!--  ModelSpecification Nordic44_TP  -->
+	<fw:SituationOperationSpecification.OutputModelSpecification rdf:resource="urn:uuid:0a84c612-17cc-4a1c-9653-45bb0dad73e8"/>
+</fw:TopologyProcessing>
+
+<!--
+	The Situation operation for the Topology Processing
+-->
+
+ <fw:SituationOperation rdf:about="urn:uuid:4e3ce936-df46-4e9d-afbd-4bf9910c0e31">
+ 	<!-- TP_Nordic44_CGM   -->
+	<fw:SituationOperation.SituationOperationSpecification rdf:resource="urn:uuid:d0f6201d-73b9-41e1-8aad-e4c1ac6a8a9f"/>	
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>TopologyProcessing_Nordic44_CGM_v3_6</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+		<!--S_Nordic44_CGM_v3_6-->
+	<fw:SituationOperation.Situation rdf:resource="urn:uuid:ad5a5066-8039-4e50-9dbc-55285f1f8705"/>	
+	<fw:SituationOperation.result rdf:resource="http://entsoe.eu/CIM/Framework/1/0#SituationOperationResultKind.ok"/>
+	<!-- Nordic44_v3_6_TP -->
+	<fw:SituationOperation.OutputModel rdf:resource="urn:uuid:b3ca40e2-1210-4d95-b475-24d474ecf4d8"/>
+</fw:SituationOperation>
+
+<!--
+	The specification of the Power flow operation setting
+-->
+ <fw:PowerFlowOperation rdf:about="urn:uuid:5b2c57c6-c531-4163-9a97-10f32fd1fbc4">
+  	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>PF_Nordic44_CGM</fw:FrameworkIdentifiedObject.name>
+	<fw:PowerFlowOperation.algorithmKind rdf:resource="http://entsoe.eu/CIM/Framework/1/0#PowerFlowAlgorithmKind.fullNewtonRaphson"/>
+	<!--  This need to be extended so that we know what forms the control area - in this case EnergyCongestionZone - we need to set true and false on each of them  -->	
+	<fw:PowerFlowOperation.eneableInterchangeControl>true</fw:PowerFlowOperation.eneableInterchangeControl>
+	<fw:PowerFlowOperation.flatStart>true</fw:PowerFlowOperation.flatStart>
+	<fw:PowerFlowOperation.pTolerance>0.01</fw:PowerFlowOperation.pTolerance>
+	<fw:PowerFlowOperation.qTolerance>0</fw:PowerFlowOperation.qTolerance>
+	<fw:PowerFlowOperation.respectQlimits>false</fw:PowerFlowOperation.respectQlimits>
+	<fw:PowerFlowOperation.slackDistributionKind rdf:resource="http://entsoe.eu/CIM/Framework/1/0#slackDistributionKind.loadDistribution"/>	
+	<fw:PowerFlowOperation.staticVarCompensatorControlPriority>0</fw:PowerFlowOperation.staticVarCompensatorControlPriority>	
+	<fw:PowerFlowOperation.switchShuntControlPriority>0</fw:PowerFlowOperation.switchShuntControlPriority> 
+	<fw:PowerFlowOperation.transformerTapControlPriority>0</fw:PowerFlowOperation.transformerTapControlPriority>
+	<fw:PowerFlowOperation.voltageLimitAngle>0</fw:PowerFlowOperation.voltageLimitAngle>	
+	<!--  Situation Specification SS_Nordic44_CGM  -->		
+	<fw:SituationOperationSpecification.SituationSpecification rdf:resource="urn:uuid:ef4bdc3f-19d0-4dd3-9549-5bda677a7990"/>
+		<!--  ModelSpecification Nordic44_SV  -->
+	<fw:SituationOperationSpecification.OutputModelSpecification rdf:resource="urn:uuid:c14afecb-e612-4549-a639-f44fbbb40740"/>
+</fw:PowerFlowOperation>
+
+<!--
+	The situation operation for Power flow operation setting
+-->
+
+ <fw:SituationOperation rdf:about="urn:uuid:57d908e2-7de2-40a8-a5f3-2a8589ddca62">
+ 	<!-- PF_Nordic44_CGM   -->
+	<fw:SituationOperation.SituationOperationSpecification rdf:resource="urn:uuid:5b2c57c6-c531-4163-9a97-10f32fd1fbc4"/>	
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>PowerFlow_Nordic44_CGM_v3_6</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+		<!--S_Nordic44_CGM_v3_6-->
+	<fw:SituationOperation.Situation rdf:resource="urn:uuid:ad5a5066-8039-4e50-9dbc-55285f1f8705"/>	
+	<fw:SituationOperation.result rdf:resource="http://entsoe.eu/CIM/Framework/1/0#SituationOperationResultKind.ok"/>
+	<!-- Nordic44_v3_6_SV -->
+	<fw:SituationOperation.OutputModel rdf:resource="urn:uuid:47eb7c36-d0f6-11e7-9f7b-b46d83638f70"/>
+</fw:SituationOperation>
+
+
+ <!--
+	Create a situation Specification to associate the input and output of the operation performed on the input. This forms the instruction for the operation.
+-->
+<fw:SituationSpecification rdf:about="urn:uuid:3c8a3cc0-682e-441f-af9d-e8e51e0f662f">
+	<fw:FrameworkIdentifiedObject.description>Situation Specification for merging Nordic44_CGM Input and output.</fw:FrameworkIdentifiedObject.description>
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>SS_Nordic44_CGM_Full</fw:FrameworkIdentifiedObject.name>
+	<!--  ModelSpecification Nordic44_EQ  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:6bff3489-cdd2-478b-aa57-652b314dd6c1"/>
+	<!--  ModelSpecification Nordic44_SSH  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:9f3bf697-23fd-4c97-a937-0d4ea99da212"/>
+	<!--  ModelSpecification Nordic44_GL  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:6babc7ed-7a4d-4f5f-a88e-955abff45c1a"/>
+	<!--  ModelSpecification Nordic44_DL  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:23b29cab-de3d-41f8-aa22-5799e55c2106"/>
+	<!--  ModelSpecification Nordic44_TP  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:0a84c612-17cc-4a1c-9653-45bb0dad73e8"/>
+	<!--  ModelSpecification Nordic44_SV  -->
+	<fw:SituationSpecification.InputModelSpecification rdf:resource="urn:uuid:c14afecb-e612-4549-a639-f44fbbb40740"/>
+	
+</fw:SituationSpecification>
+ <!--
+	Create a specific Situation based on the instruction in the SituationSpecification. This is the log of the operation.
+-->
+<fw:Situation rdf:about="urn:uuid:c098f015-7b31-41d4-92b9-c65ecb93f652">
+  <fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+  <fw:FrameworkIdentifiedObject.name>S_Nordic44_CGM_v3_6</fw:FrameworkIdentifiedObject.name>
+  <fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+  <fw:Situation.type>MergeCase</fw:Situation.type>
+  <fw:Situation.validOn>2015-03-06T01:30:00.000Z</fw:Situation.validOn>
+	<!--  SS_Nordic44_CGM_Full  -->
+  <fw:Situation.SituationSpecification rdf:resource="urn:uuid:3c8a3cc0-682e-441f-af9d-e8e51e0f662f"/>
+	<!--Nordic44_v3_6_EQ-->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:2dd9014f-bdfb-11e5-94fa-c8f73332c8f4"/>
+		<!--Nordic44_v3_6_SSH-->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:9f3bf697-23fd-4c97-a937-0d4ea99da212"/>
+		<!--Nordic44_v3_3_GL-->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:fba05f4d-eda1-4c70-a042-d03acfba2eb3"/>
+		<!--Nordic44_v3_6_DL-->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:bca6655f-07e2-4155-b999-f1bfb3369997"/>	
+	<!--  Model Nordic44_v3_6_TP  -->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:b3ca40e2-1210-4d95-b475-24d474ecf4d8"/>
+	<!--  Model Nordic44_v3_6_SV  -->
+	<fw:Situation.InputModel rdf:resource="urn:uuid:47eb7c36-d0f6-11e7-9f7b-b46d83638f70"/>
+ 
+ </fw:Situation>
+ 
+ <!--
+	Define the a given operation instruction to the situation specification - and log information to the given situation.
+-->
+
+<fw:AssembleOperation rdf:about="urn:uuid:ca843888-3b92-45ea-8cb9-7cc4999fdfd4">
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>Assemble_Nordic44_CGM_Full</fw:FrameworkIdentifiedObject.name>
+	<fw:SituationOperationSpecification.SituationSpecification rdf:resource="urn:uuid:3c8a3cc0-682e-441f-af9d-e8e51e0f662f"/>
+	<!--  ModelSpecification Nordic44_CGM  -->
+	<fw:SituationOperationSpecification.OutputModelSpecification rdf:resource="urn:uuid:aaf2b60e-4673-4d00-b8c6-b59574db0120"/>
+</fw:AssembleOperation>
+
+
+<!--
+	The situation operation for Assemble of the complete model
+-->
+
+ <fw:SituationOperation rdf:about="urn:uuid:2beb795e-e15e-4ea3-aba8-c4c2de4a153d">
+ 	<!-- Assemble_Nordic44_CGM_Full   -->
+	<fw:SituationOperation.SituationOperationSpecification rdf:resource="urn:uuid:ca843888-3b92-45ea-8cb9-7cc4999fdfd4"/>	
+	<fw:FrameworkIdentifiedObject.modelAuthority>http://www.Statnett.no/IGM/Nordic44_CGM</fw:FrameworkIdentifiedObject.modelAuthority>
+	<fw:FrameworkIdentifiedObject.name>SO_Nordic44_CGM_v3_6</fw:FrameworkIdentifiedObject.name>
+	<fw:FrameworkVersionObject.version>36</fw:FrameworkVersionObject.version>
+		<!--S_Nordic44_CGM_v3_6-->
+	<fw:SituationOperation.Situation rdf:resource="urn:uuid:c098f015-7b31-41d4-92b9-c65ecb93f652"/>	
+	<fw:SituationOperation.result rdf:resource="http://entsoe.eu/CIM/Framework/1/0#SituationOperationResultKind.ok"/>
+	<!-- Nordic44_v3_6 -->
+	<fw:SituationOperation.OutputModel rdf:resource="urn:uuid:a846e071-94c2-4e60-b143-83f55a8e5d67"/>
+</fw:SituationOperation>
+
+</rdf:RDF>
