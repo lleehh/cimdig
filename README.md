@@ -5,21 +5,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Background and motivation
 
-- fix model takes time
-- manual
-- tool to visualize
-- different CimDesk
-- parse JSON and visualize it using nodes with React Flow
-- Nordic 44 test model
-- Create prototype,
-- Infrastructure as simple as possible
-- Visual look , show pictures
-
-Statnett creates a component model that describes the transmission grid (We call this the "driftsentralmodell"). This is a huge file in XML that can contain errors.
+Statnett creates new component models every week that describes the transmission grid (We call this the "driftsentralmodell"). This is a huge file in XML that can contain errors.
 These errors can be hard to find and fix. This often involves manual inspection to solve.
 
 The current tools which is used is `fgraph` that exists in Devbox and `CimDesk`. `fgraph` is a command line tool that can inspect elements in the component model.
-However, the user quickly looses track of component to traverse since the model is big. `CimDesk` provides a useful graphical view over the component model.
+However, the user quickly looses track of component to traverse since the model is too large. `CimDesk` provides a useful graphical view over the component model.
 Sadly, it doesn't show specific abstract components like terminals and connectivity nodes. These component doesn't exist in the physical world, but they are a part of the CIM standard.
 
 ### CimDig's usecase
@@ -42,7 +32,7 @@ developing a simple prototype and make room for development for the IT apprentic
 #### Technical info and visual look
 
 We will use React Flow to visualize the CIM model. React flow includes different visual looks that we can use [here](https://reactflow.dev/examples/layout/elkjs)
-One look could be to use the database schema look here: <br>
+One look could be to use the database schema visualization here: <br>
 <img src="./docs/database-schema-look.png" alt="Database schema" width="500"/>
 
 ## Getting Started
