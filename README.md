@@ -3,36 +3,34 @@
 A tool for digging deep into the CIM schema and exploring the power grid model.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Background and motivation
+## Background and Motivation
 
-Statnett creates new component models every week that describes the transmission grid (We call this the "driftsentralmodell"). This is a huge file in XML that can contain errors.
-These errors can be hard to find and fix. This often involves manual inspection to solve.
+Statnett generates new component models weekly to describe the transmission grid, referred to as the "driftsentralmodell." 
+These large XML files can contain errors that are often difficult to identify and correct, typically requiring manual inspection.
+Currently, tools like `fgraph` (available in Devbox) and `CimDesk` are used. `fgraph` is a command-line tool for inspecting elements within the component model,
+but users can easily lose track of components due to the model's size. `CimDesk` offers a graphical view of the component model but lacks visibility for specific abstract components like terminals and connectivity nodes, which, while not physically present, are part of the CIM standard.
 
-The current tools which is used is `fgraph` that exists in Devbox and `CimDesk`. `fgraph` is a command line tool that can inspect elements in the component model.
-However, the user quickly looses track of component to traverse since the model is too large. `CimDesk` provides a useful graphical view over the component model.
-Sadly, it doesn't show specific abstract components like terminals and connectivity nodes. These component doesn't exist in the physical world, but they are a part of the CIM standard.
+### CimDig's Use Case
 
-### CimDig's usecase
+We need a tool tailored for software developers to inspect the CIM model, including abstract components like terminals and connectivity nodes. 
+This will simplify the process of identifying and fixing errors in the component model.
 
-What we need is a tool specifically designed for software developers for inspecting the CIM model including abstract components like terminals and connectivity nodes.
-This will make it easier to find and fix errors with the component model.
+### Our Approach for Developing CimDig
 
-### Our approach for developing CimDig
+Rather than initiating a project with product owner, product sponsor etc. we opted to create a prototype.
+This prototype will be developed by IT apprentices at Statnett during their one-week internship (praksisuke for IT-lærlinger).
+The development will be supervised by the developers who are members of this repository.
 
-Instead of starting a project which involves a lot of setup and bureaucracay we decided to create a prototype.
-This prototype will be developed by IT apprentices at Statnett that has a short 1-week internship at Statnett (praksisuke for IT-lærlinger).
-The development will be supervised by the developers which is a member of this repo.
+#### Keeping Infrastructure Simple
 
-#### Infrastructure as simple as possible
+We aim to use minimal and simple infrastructure. Initially, we will not use a database, cache server, or other infrastructure components. 
+Our focus is on developing a simple prototype and providing development opportunities for the IT apprentices rather than setting up infrastructure.
 
-We strive to use as little and as simple infrastructure as possible.
-Therefore, we will initially not use a database, cache server or other infrastructure components in this project. The intention is to use all our efforts on 
-developing a simple prototype and make room for development for the IT apprentices rather than setting up infrastructure.
+#### Technical Information and Visual Look
 
-#### Technical info and visual look
+We will use [React Flow](https://reactflow.dev/) to visualize the CIM model.
+React Flow offers various visual styles, which can be explored here. One possible style is the database schema visualization:
 
-We will use React Flow to visualize the CIM model. React flow includes different visual looks that we can use [here](https://reactflow.dev/examples/layout/elkjs)
-One look could be to use the database schema visualization here: <br>
 <img src="./docs/database-schema-look.png" alt="Database schema" width="500"/>
 
 ## Getting Started
