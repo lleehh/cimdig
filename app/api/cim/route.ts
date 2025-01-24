@@ -1,31 +1,5 @@
-import path from "path";
-import fs from "fs/promises";
 import {NextResponse} from "next/server";
-import {JsonData} from "@/services/model-repository";
-
-
-const dataDir = "/models/nordic44";
-
-const readJsonFile = async (filename: string): Promise<JsonData> => {
-    const filePath = path.join(dataDir, filename);
-    const content = await fs.readFile(filePath, "utf-8");
-    return JSON.parse(content);
-};
-
-export const findById = async (id: string): Promise<JsonData | null> => {
-    const data = await readJsonFile("nordic44_cgm_37a_eq_by_id.json");
-    return typeof data[id] === "object" && data[id] !== null ? (data[id] as JsonData) : null;
-};
-
-export const findByType = async (type: string): Promise<JsonData[]> => {
-    const data = await readJsonFile("nordic44_cgm_37a_eq_by_type.json");
-    return Array.isArray(data[type]) ? (data[type] as JsonData[]) : [];
-};
-
-export const findByName = async (name: string): Promise<JsonData | null> => {
-    const data = await readJsonFile("nordic44_cgm_37a_eq_by_name.json");
-    return typeof data[name] === "object" && data[name] !== null ? (data[name] as JsonData) : null;
-};
+import {findById, findByName, findByType} from "@/services/model-repository";
 
 // API handler
 export async function GET(request: Request) {
