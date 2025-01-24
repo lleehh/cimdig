@@ -4,7 +4,7 @@ import {convertToCimObject} from "@/services/transform-cim-service";
 import {IdentifiedObject} from "@/models/cim";
 
 export type JsonData = Record<string, string>;
-const dataDir = path.join(process.cwd(), "app", "api", "data");
+const dataDir = path.join(process.cwd(), "models", "nordic44");
 
 
 const readJsonFile = async (filename: string): Promise<JsonData> => {

@@ -18,8 +18,15 @@ export interface IdentifiedObject extends CIM {
 
 export interface ACLineSegment extends IdentifiedObject {
     rdfType: "cim:ACLineSegment";
+    bch: number;
+    aggregate: boolean;
 }
 
+export interface Breaker extends IdentifiedObject {
+    rdfType: "cim:Breaker";
+    normalOpen: boolean;
+    equipmentContainer: RdfLink;
+}
 
 /*
 

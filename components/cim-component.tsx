@@ -1,8 +1,7 @@
 'use client'
 import {ACLineSegment, IdentifiedObject} from "@/models/cim";
-import EquipmentComponent from "@/components/equipment-component";
-import ACLineSegmentComponent from "@/components/aclinesegment-component";
-
+import EquipmentComponent from "@/components/equipment/equipment-component";
+import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
 
 interface EquipmentProps {
     equipment: IdentifiedObject
