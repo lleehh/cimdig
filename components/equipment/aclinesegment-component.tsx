@@ -2,7 +2,6 @@ import {ACLineSegment} from "@/models/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {AudioWaveform} from "lucide-react";
 
-
 interface EquipmentProps {
     equipment: ACLineSegment
 }
