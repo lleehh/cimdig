@@ -23,7 +23,7 @@ export default function EquipmentComponent({equipment}: EquipmentProps) {
             <CardContent>
                 <div className="text-gray-400">{equipment.description}</div>
             </CardContent>
-            <CardFooter className="text-red-200">
+            <CardFooter className="text-red-300">
                 Generic Component
             </CardFooter>
         </Card>

@@ -1,5 +1,5 @@
 import {ACLineSegment} from "@/models/cim";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {AudioWaveform} from "lucide-react";
 
 interface EquipmentProps {
@@ -34,6 +34,9 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                     </div>
                 </div>
             </CardContent>
+            <CardFooter className="text-green-400">
+                {equipment.rdfType}
+            </CardFooter>
         </Card>
     )
 }
