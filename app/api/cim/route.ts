@@ -1,10 +1,10 @@
 import path from "path";
 import fs from "fs/promises";
 import {NextResponse} from "next/server";
+import {JsonData} from "@/services/model-repository";
 
-type JsonData = Record<string, unknown>;
 
-const dataDir = path.join(process.cwd(), "app", "api", "data");
+const dataDir = "/models/nordic44";
 
 const readJsonFile = async (filename: string): Promise<JsonData> => {
     const filePath = path.join(dataDir, filename);

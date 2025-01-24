@@ -11,7 +11,7 @@
 Change log:
 2018-04-04: Version 31. Removed Values for the ControlArea that is removed in the EQ.
 2018-04-13: Version 32. Added reference to CGMES 2.5 in the header information.
-			Added entsoe2:Equipment.inService on Breaker, ConformLoad, Disconnector, GeneratingUnit,
+			Added entsoe2:EquipmentComponent.inService on Breaker, ConformLoad, Disconnector, GeneratingUnit,
 			LinearShuntCompensator, NonConformLoad and SynchronousMachine.
 2018-04-21: Version 34.
 			Added SIPS cases 1, 2 and 3 including PTC for case 4.

@@ -1,4 +1,4 @@
-import {findById, findByType, findByName} from "../app/api/cim/cim_api";
+import {findById, findByType, findByName} from "@/app/api/cim/route";
 
 jest.mock("fs/promises", () => ({
     readFile: jest.fn((filePath: string) => {

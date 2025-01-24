@@ -4,6 +4,13 @@ A tool for digging deep into the CIM schema and exploring the power grid model.
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## TODO 
+
+- [ ] If a component is not found, we should show a 404 page or a message that the component is not found
+- [ ] Nordic44 json export does not contain the ID (subject) of the CIM object
+        Should be fixed in convert_to_json.py. Add rdfID to the json object. 
+- [ ] Nordic44 json does not contain reversed lookups for the associations
+        Should be fixed in convert_to_json.py. Add reversed lookups to the json object using the file inverse.json
 ## Getting Started
 
 First, run the development server:
