@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 
 
 
+
 interface BreakerProps {
     equipment: Breaker
 }
