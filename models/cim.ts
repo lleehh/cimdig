@@ -28,6 +28,13 @@ export interface Breaker extends IdentifiedObject {
     equipmentContainer: RdfLink;
 }
 
+export interface equipmentContainer {
+    rdfType: "cim:Bay";
+    IdentifiedName: string;
+    voltageLevel: RdfLink;
+    description: string;
+}
+
 /*
 
  "rdfType": "cim:ACLineSegment",
