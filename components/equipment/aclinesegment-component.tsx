@@ -1,15 +1,21 @@
 import {ACLineSegment} from "@/models/cim";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {AudioWaveform} from "lucide-react";
+import {cn} from "@/lib/utils";
 
 interface EquipmentProps {
     equipment: ACLineSegment
 }
 
+
+function BaseVoltage({uppercase}: { uppercase: boolean }) {
+    return <div className={cn("font-extrabold", uppercase ? "uppercase" : "" )}>Hei Hopp</div>
+}
+
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
 
     return (
-        <Card className="w-[350px]">
+        <Card className="w-[350px] ">
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
@@ -21,7 +27,7 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                 <CardDescription>{equipment.rdfId}</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="max-w-md mx-auto p-4">
+                <div className="max-w-md mx-auto p-4 ">
                     <div className="space-y-2">
                         <div className="flex justify-between border-b pb-2">
                             <span className="font-medium text-gray-700">Bc</span>
@@ -31,6 +37,8 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                             <span className="font-medium text-gray-700">Agregate</span>
                             <span className="text-gray-900">{equipment.aggregate ? "True" : "False"}</span>
                         </div>
+                        <BaseVoltage uppercase={true}/>
+                        <BaseVoltage uppercase={false}/>
                     </div>
                 </div>
             </CardContent>
