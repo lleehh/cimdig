@@ -1,4 +1,4 @@
-import {findById} from "@/app/api/cim/route";
+import {findById} from "@/services/model-repository"
 import {convertToCimObject} from "@/services/transform-cim-service";
 import {ACLineSegment} from "@/models/cim";
 
