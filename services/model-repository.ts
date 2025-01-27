@@ -1,3 +1,4 @@
+'use server'
 import path from "path";
 import fs from "fs/promises";
 import {convertToCimObject} from "@/services/transform-cim-service";
