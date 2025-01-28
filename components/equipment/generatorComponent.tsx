@@ -1,5 +1,5 @@
 'use client'
-import {BaseVoltage, Breaker} from "@/models/cim";
+import {BaseVoltage, GeneratingUnit} from "@/models/cim";
 import {
     Card,
     CardContent,
@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/card"
 
 
-interface BreakerProps {
-    equipment: Breaker
+interface GeneratorProps {
+    equipment: GeneratingUnit
 }
 
 
-export default function BreakerComponent({equipment}: BreakerProps) {
+export default function GeneratorComponent({equipment}: GeneratorProps) {
 
-console.log("BreakerComponent", equipment)
+console.log("GeneratorComponent", equipment)
 
     return (
         <Card className="w-[350px]">
@@ -33,7 +33,7 @@ console.log("BreakerComponent", equipment)
             </CardFooter>
             <CardContent>
                 <div>
-                    Voltage {(equipment.baseVoltage as BaseVoltage).name}
+                    Max operating power limit {(equipment.maxOperatingP)}
                 </div>
             </CardContent>
         </Card>
