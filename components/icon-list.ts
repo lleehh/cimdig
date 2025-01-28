@@ -1,9 +1,7 @@
-import { iconSvgType } from './stn-icon';
-
-interface IconMeta {
+export interface IconMeta {
   name: string;
   svg: string;
-  svgType: iconSvgType;
+  svgType: 'fill' | 'stroke';
 }
 export const outlineMediumIcons: IconMeta[] = [
   {
