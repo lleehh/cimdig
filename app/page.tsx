@@ -12,6 +12,8 @@ import {
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import BreakerComponent from "@/components/equipment/breaker";
+import {GeneratingUnit} from "@/models/cim";
+import GeneratorComponent from "@/components/equipment/generatorComponent";
 
 export default async function Home() {
 
@@ -22,6 +24,7 @@ export default async function Home() {
 
     const acLineSegment = await getComponentById<ACLineSegment>(acLineSegmentId)
     const breaker = await getComponentById<Breaker>(breakerId)
+    const generator = await getComponentById<GeneratingUnit>("_f1769915-9aeb-11e5-91da-b8763fd99c5f")
 
 
     return (
@@ -52,9 +55,11 @@ export default async function Home() {
                     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
                         {acLineSegment && <CimComponent equipment={acLineSegment}/>}
                         {breaker && <BreakerComponent equipment={breaker}/>}
+                        {generator && <GeneratorComponent equipment={generator}/>}
                     </main>
                 </div>
             </SidebarInset>
+
         </SidebarProvider>
     );
 }

@@ -1,6 +1,5 @@
 'use client'
 import {IdentifiedObject} from "@/models/cim";
-import Test from "./test";
 import {
     Card,
     CardContent,

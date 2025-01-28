@@ -47,7 +47,7 @@ export const getComponentById = async <T extends IdentifiedObject>(rdfId: string
 async function enrichComponent<T extends IdentifiedObject>(component: T): Promise<T> {
     console.log("Enriching component", isConductingEquipment(component));
     if (isConductingEquipment(component) && component.baseVoltage?.id) {
-        const baseVoltage = await getComponentById<BaseVoltage>(component.baseVoltage.id, true);
+        const baseVoltage = await getComponentById<BaseVoltage>(component.baseVoltage.id as string, true);
         console.log("Base voltage", baseVoltage);
         if (baseVoltage) {
             component.baseVoltage = baseVoltage;

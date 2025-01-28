@@ -54,6 +54,12 @@ export interface BaseVoltage extends IdentifiedObject {
     nominalVoltage: number;
 }
 
+export interface GeneratingUnit extends Equipment {
+    rdfType: "cim:GeneratingUnit";
+    maxOperatingP: number;
+    minOperatingP: number;
+}
+
 
 /*
 
