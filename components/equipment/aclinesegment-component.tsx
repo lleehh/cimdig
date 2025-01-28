@@ -8,11 +8,6 @@ interface EquipmentProps {
     equipment: ACLineSegment
 }
 
-
-function BaseVoltage({uppercase}: { uppercase: boolean }) {
-    return <div className={cn("font-extrabold", uppercase ? "uppercase" : "")}>Hei Hopp</div>
-}
-
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
 
     return (
@@ -38,8 +33,6 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                             <span className="font-medium text-gray-700">Agregate</span>
                             <span className="text-gray-900">{equipment.aggregate ? "True" : "False"}</span>
                         </div>
-                        <BaseVoltage uppercase={true}/>
-                        <BaseVoltage uppercase={false}/>
                     </div>
                 </div>
             </CardContent>
