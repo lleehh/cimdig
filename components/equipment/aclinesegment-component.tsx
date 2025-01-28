@@ -2,6 +2,7 @@ import {ACLineSegment} from "@/models/cim";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {AudioWaveform} from "lucide-react";
 import {cn} from "@/lib/utils";
+import {ComponentIcon} from "@/components/component-icon";
 
 interface EquipmentProps {
     equipment: ACLineSegment
@@ -9,7 +10,7 @@ interface EquipmentProps {
 
 
 function BaseVoltage({uppercase}: { uppercase: boolean }) {
-    return <div className={cn("font-extrabold", uppercase ? "uppercase" : "" )}>Hei Hopp</div>
+    return <div className={cn("font-extrabold", uppercase ? "uppercase" : "")}>Hei Hopp</div>
 }
 
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
@@ -19,7 +20,7 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
-                        <AudioWaveform/>
+                        <ComponentIcon icon="overforing"/>
                         {equipment.name}
                     </div>
                 </CardTitle>
