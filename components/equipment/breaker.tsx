@@ -8,6 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import {ComponentIcon} from "@/components/component-icon";
 
 
 interface BreakerProps {
@@ -22,7 +23,12 @@ console.log("BreakerComponent", equipment)
     return (
         <Card className="w-[350px]">
             <CardHeader>
-                <CardTitle>{equipment.rdfType}</CardTitle>
+                <CardTitle>
+                    <div className="flex flex-row items-center gap-2">
+                        <ComponentIcon icon="bryter"/>
+                        {equipment.rdfType}
+                    </div>
+                </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
             </CardHeader>
             <CardContent>
