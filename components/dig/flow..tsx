@@ -1,6 +1,5 @@
 'use client';
 import {
-    ReactFlowProvider, useReactFlow,
     ReactFlow,
     useNodesState,
     useEdgesState,
@@ -19,12 +18,13 @@ const initialEdges = [{id: 'e1-2', source: '1', target: '2'}];
 
 export default function Dig() {
 
-    const {fitView} = useReactFlow();
 
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [nodes, _, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
     const onConnect = useCallback(
+        // eslint-disable-next-line
         (params) => setEdges((eds) => addEdge(params, eds)),
         [setEdges],
     );
@@ -48,8 +48,8 @@ export default function Dig() {
                 <Panel position="top-right">
                     <div
                         className={'flex space-x-2'}>
-                        <Button variant="secondary" onClick={() => onLayout('TB')}>vertical layout</Button>
-                        <Button variant="secondary" onClick={() => onLayout('LR')}>horizontal layout</Button>
+                        <Button  onClick={() => onLayout('TB')}>vertical layout</Button>
+                        <Button  onClick={() => onLayout('LR')}>horizontal layout</Button>
                     </div>
                 </Panel>
                 <Background/>

@@ -54,7 +54,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Run tets
+      - name: Run tests
         run: npm test
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
