@@ -40,6 +40,13 @@ React Flow offers various visual styles, which can be explored here. One possibl
         Should be fixed in convert_to_json.py. Add rdfID to the json object. 
 - [ ] Nordic44 json does not contain reversed lookups for the associations
         Should be fixed in convert_to_json.py. Add reversed lookups to the json object using the file inverse.json
+
+## Data overview via a class diagram
+
+Here we see an overview over the interfaces used for retrieving data from the CIM model. <br>
+
+<img src="./docs/class-diagram-over-data-cimdig.jpg">
+
 ## Getting Started
 
 First, run the development server:
