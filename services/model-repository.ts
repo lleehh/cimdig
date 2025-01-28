@@ -1,8 +1,8 @@
 'use server'
 import path from "path";
 import fs from "fs/promises";
-import {convertToCimObject} from "@/services/transform-cim-service";
-import {IdentifiedObject} from "@/models/cim";
+import {convertToCimObject, isConductingEquipment} from "@/services/transform-cim-service";
+import {BaseVoltage, IdentifiedObject} from "@/models/cim";
 
 export type JsonData = Record<string, string>;
 const dataDir = path.join(process.cwd(), "models", "nordic44");
@@ -30,11 +30,28 @@ export const findByName = async (name: string): Promise<JsonData | null> => {
 };
 
 
-export const getComponentById = async <T extends IdentifiedObject>(rdfId: string): Promise<T | null> => {
+export const getComponentById = async <T extends IdentifiedObject>(rdfId: string, dontEnrich?: boolean): Promise<T | null> => {
     const data = await findById(rdfId);
     if (data == null) {
         return null;
     } else {
-        return convertToCimObject<T>(rdfId, data);
+        const obj = convertToCimObject<T>(rdfId, data);
+        if (dontEnrich)
+            return obj;
+        else
+            return enrichComponent(obj);
     }
+}
+
+
+async function enrichComponent<T extends IdentifiedObject>(component: T): Promise<T> {
+    console.log("Enriching component", isConductingEquipment(component));
+    if (isConductingEquipment(component) && component.baseVoltage?.id) {
+        const baseVoltage = await getComponentById<BaseVoltage>(component.baseVoltage.id, true);
+        console.log("Base voltage", baseVoltage);
+        if (baseVoltage) {
+            component.baseVoltage = baseVoltage;
+        }
+    }
+    return component;
 }

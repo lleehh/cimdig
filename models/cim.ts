@@ -2,7 +2,7 @@ export interface RdfLink {
     id: string; // Represents a reference link (e.g., "#_2dd90169-bdfb-11e5-94fa-c8f73332c8f4")
 }
 
-export type RdfValue = string | number | boolean | RdfLink | undefined;
+export type RdfValue = string | number | boolean | RdfLink | IdentifiedObject | undefined;
 
 export interface CIM {
     rdfId: string
@@ -16,24 +16,44 @@ export interface IdentifiedObject extends CIM {
     description?: string;
 }
 
-export interface ACLineSegment extends IdentifiedObject {
+export interface Equipment extends IdentifiedObject {
+    aggregate: boolean;
+
+}
+
+export interface ConductingEquipment extends Equipment {
+    baseVoltage: RdfLink | BaseVoltage | undefined
+}
+
+
+export interface ACLineSegment extends ConductingEquipment {
     rdfType: "cim:ACLineSegment";
     bch: number;
-    aggregate: boolean;
 }
 
-export interface Breaker extends IdentifiedObject {
+export interface Breaker extends ConductingEquipment {
     rdfType: "cim:Breaker";
     normalOpen: boolean;
-    equipmentContainer: RdfLink;
+    equipmentContainer: RdfLink | EquipmentContainer;
 }
 
-export interface equipmentContainer {
-    rdfType: "cim:Bay";
-    IdentifiedName: string;
-    voltageLevel: RdfLink;
-    description: string;
+export interface EquipmentContainer  extends IdentifiedObject {
+
 }
+
+export interface VoltageLevel extends EquipmentContainer {
+    rdfType: "cim:VoltageLevel";
+}
+
+export interface Bay extends EquipmentContainer {
+    rdfType: "cim:Bay";
+}
+
+export interface BaseVoltage extends IdentifiedObject {
+    rdfType: "cim:BaseVoltage";
+    nominalVoltage: number;
+}
+
 
 /*
 
