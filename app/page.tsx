@@ -14,6 +14,7 @@ import {
 import BreakerComponent from "@/components/equipment/breaker";
 import {GeneratingUnit} from "@/models/cim";
 import GeneratorComponent from "@/components/equipment/generatorComponent";
+import {BreakerFlowProps} from "@/components/equipment/breaker";
 
 export default async function Home() {
 
@@ -24,6 +25,18 @@ export default async function Home() {
 
     const acLineSegment = await getComponentById<ACLineSegment>(acLineSegmentId)
     const breaker = await getComponentById<Breaker>(breakerId)
+    let breakerProp: BreakerFlowProps = {id: 'b', position: {x: 0, y: 0}, data : {'b' : null}} 
+    if (!breaker) {
+        console.error(`Breaker with ID ${breakerId} not found`);
+        return null; // Or handle it with a fallback component
+    }
+    else {
+        breakerProp = {
+            id: 'b',
+            position: {x: 0, y: 0},
+            data: {'b': {equipment: breaker, displayName: "Breaker"}}
+        }   
+    }
     const generator = await getComponentById<GeneratingUnit>("_f1769915-9aeb-11e5-91da-b8763fd99c5f")
 
 
@@ -54,7 +67,6 @@ export default async function Home() {
                     className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
                     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
                         {acLineSegment && <CimComponent equipment={acLineSegment}/>}
-                        {breaker && <BreakerComponent displayName="Breaker" equipment={breaker}/>}
                         {generator && <GeneratorComponent displayName="Generator" equipment={generator}/>}
                     </main>
                 </div>
