@@ -13,10 +13,11 @@ import {ComponentIcon} from "@/components/component-icon";
 
 interface BreakerProps {
     equipment: Breaker
+    displayName: string
 }
 
 
-export default function BreakerComponent({equipment}: BreakerProps) {
+export default function BreakerComponent({equipment, displayName}: BreakerProps) {
 
     return (
         <Card className="w-[350px]">
@@ -33,7 +34,7 @@ export default function BreakerComponent({equipment}: BreakerProps) {
                 <div className="text-gray-400">{equipment.description}</div>
             </CardContent>
             <CardFooter className="text-green-300 rounded-md">
-                Breaker Component
+                {displayName}
             </CardFooter>
             <CardContent>
                 <div>

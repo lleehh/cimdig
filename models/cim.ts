@@ -61,6 +61,9 @@ export interface GeneratingUnit extends Equipment {
     minOperatingP: number;
 }
 
+export interface ConnectivityNode extends IdentifiedObject {}
+
+
 
 /*
 

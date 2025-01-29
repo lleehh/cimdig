@@ -1,5 +1,5 @@
 'use client'
-import {GeneratingUnit} from "@/models/cim";
+import {ConnectivityNode} from "@/models/cim";
 import {
     Card,
     CardContent,
@@ -11,13 +11,12 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 
 
-interface GeneratorProps {
-    equipment: GeneratingUnit
-    displayName: string
+interface ConnectivetyNodeProps {
+    equipment: ConnectivityNode
 }
 
 
-export default function GeneratorComponent({equipment, displayName}: GeneratorProps) {
+export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
 
     return (
         <Card className="w-[350px]">
@@ -34,13 +33,8 @@ export default function GeneratorComponent({equipment, displayName}: GeneratorPr
                 <div className="text-gray-400">{equipment.description}</div>
             </CardContent>
             <CardFooter className="text-green-300 rounded-md">
-                {displayName}
+                Breaker Component
             </CardFooter>
-            <CardContent>
-                <div>
-                    Max operating power limit {(equipment.maxOperatingP)}
-                </div>
-            </CardContent>
         </Card>
     )
 }
