@@ -54,6 +54,7 @@ export interface BaseVoltage extends IdentifiedObject {
     nominalVoltage: number;
 }
 
+/*Refrence: https://ontology.tno.nl/IEC_CIM/cim_GeneratingUnit.html */
 export interface GeneratingUnit extends Equipment {
     rdfType: "cim:GeneratingUnit";
     maxOperatingP: number;
