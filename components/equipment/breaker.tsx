@@ -18,8 +18,6 @@ interface BreakerProps {
 
 export default function BreakerComponent({equipment}: BreakerProps) {
 
-console.log("BreakerComponent", equipment)
-
     return (
         <Card className="w-[350px]">
             <CardHeader>

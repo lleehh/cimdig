@@ -18,8 +18,6 @@ interface GeneratorProps {
 
 export default function GeneratorComponent({equipment}: GeneratorProps) {
 
-console.log("GeneratorComponent", equipment)
-
     return (
         <Card className="w-[350px]">
             <CardHeader>
