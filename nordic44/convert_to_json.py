@@ -44,11 +44,38 @@ def parse_cim_xml_to_json(xml_string):
         name = None
 
         for child in element:
+
             tag = get_prefixed_tag(child.tag)  # Use namespace prefix
             value = child.text or child.attrib.get(f"{{{ns['rdf']}}}resource", None)
             properties[tag] = value
             if tag == "cim:IdentifiedObject.name":
                 name = value
+
+
+        # Loops through root again, in order to find other element with matching rdf_id on field
+        for item in root:
+            rdf_id_item = item.attrib.get(f"{{{ns['rdf']}}}ID")
+            tag_item = get_prefixed_tag(item.tag)
+            propertiesChildren = {}
+
+
+            for child in item:
+                # If resource id matches the current element's rdf_id
+                attribute = child.attrib.get(f"{{{ns['rdf']}}}resource")
+                cleanAttribute = ""
+                if attribute:
+                    cleanAttribute = attribute.lstrip("#")
+                if cleanAttribute == rdf_id:
+                    propertiesChildren[rdf_id_item] = {}
+                    propertiesChildren[rdf_id_item].update({"rdfType": tag_item})
+                    for newBorn in item:
+                        attributeTag = get_prefixed_tag(newBorn.tag)
+                        value = newBorn.text
+                        propertiesChildren[rdf_id_item][attributeTag] = value
+                    if "items" not in properties:
+                        properties["items"] = []
+                    properties["items"].append(propertiesChildren)
+            # Adds all the element information into properties, under "item" field
 
         if rdf_id:
             result_by_id[rdf_id] = properties
