@@ -61,9 +61,11 @@ export interface BreakerFlowProps {
 export function FlowBreakerComponent({data}: NodeProps<BreakerNode>) {
     return (
         <div>
-            <Handle type="target" position={Position.Left} className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
-            <BreakerComponent displayName="Breaker"/>
+            <Handle type="target" position={Position.Top} className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
+            <BreakerComponent equipment={data} displayName="Breaker"/>
             <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
+            <Handle type="target" position={Position.Bottom} className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
+
         </div>
     )
 }
