@@ -9,32 +9,25 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
+import {Shell} from "lucide-react";
 
 
 interface ConnectivetyNodeProps {
     equipment: ConnectivityNode
 }
 
-
 export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
 
     return (
-        <Card className="w-[350px]">
+        <Card className="w-[150px]">
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
-                        <ComponentIcon icon="generator"/>
-                        {equipment.rdfType}
+                        <Shell/> CN
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
             </CardHeader>
-            <CardContent>
-                <div className="text-gray-400">{equipment.description}</div>
-            </CardContent>
-            <CardFooter className="text-green-300 rounded-md">
-                Breaker Component
-            </CardFooter>
         </Card>
     )
 }
