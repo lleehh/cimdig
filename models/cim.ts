@@ -2,7 +2,9 @@ export interface RdfLink {
     id: string; // Represents a reference link (e.g., "#_2dd90169-bdfb-11e5-94fa-c8f73332c8f4")
 }
 
-export type RdfValue = string | number | boolean | RdfLink | IdentifiedObject | undefined | IdentifiedObject[];
+export type RdfValue = string | number | boolean | RdfLink | IdentifiedObject | undefined | IdentifiedObject[] | Item[];
+
+export type Item = Terminal | OperatingShare
 
 export interface CIM {
     rdfId: string
@@ -20,6 +22,7 @@ export interface Equipment extends IdentifiedObject {
     aggregate: boolean;
     equipmentContainer: RdfLink | EquipmentContainer;
     normallyInService: boolean;
+    items: Item[] //custom field with either Terminal, OperatingShare or ConnctivityNodes
 }
 
 export interface ConductingEquipment extends Equipment {
@@ -66,6 +69,12 @@ export interface ConnectivityNode extends IdentifiedObject {}
 
 export interface Terminal extends IdentifiedObject {
     sequenceNumber: number;
+}
+
+export interface OperatingShare {
+    OperatingParticipant: RdfLink | null
+    PowerSystemResource: RdfLink | null
+    percentage: number
 }
 
 
