@@ -2,7 +2,7 @@ export interface RdfLink {
     id: string; // Represents a reference link (e.g., "#_2dd90169-bdfb-11e5-94fa-c8f73332c8f4")
 }
 
-export type RdfValue = string | number | boolean | RdfLink | IdentifiedObject | undefined;
+export type RdfValue = string | number | boolean | RdfLink | IdentifiedObject | undefined | IdentifiedObject[];
 
 export interface CIM {
     rdfId: string
@@ -18,11 +18,13 @@ export interface IdentifiedObject extends CIM {
 
 export interface Equipment extends IdentifiedObject {
     aggregate: boolean;
-
+    equipmentContainer: RdfLink | EquipmentContainer;
+    normallyInService: boolean;
 }
 
 export interface ConductingEquipment extends Equipment {
     baseVoltage: RdfLink | BaseVoltage | undefined
+    terminals: Terminal[]
 }
 
 
@@ -34,7 +36,6 @@ export interface ACLineSegment extends ConductingEquipment {
 export interface Breaker extends ConductingEquipment {
     rdfType: "cim:Breaker";
     normalOpen: boolean;
-    equipmentContainer: RdfLink | EquipmentContainer;
 }
 
 export interface EquipmentContainer  extends IdentifiedObject {
@@ -62,6 +63,10 @@ export interface GeneratingUnit extends Equipment {
 }
 
 export interface ConnectivityNode extends IdentifiedObject {}
+
+export interface Terminal extends IdentifiedObject {
+    sequenceNumber: number;
+}
 
 
 
