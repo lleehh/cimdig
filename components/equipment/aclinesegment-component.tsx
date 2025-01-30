@@ -3,12 +3,35 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} f
 import {AudioWaveform} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {ComponentIcon} from "@/components/component-icon";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu"
 
 interface EquipmentProps {
     equipment: ACLineSegment
 }
 
+const dropdownList = [
+    "rdfType:",
+    "bhc:",
+]
+
+const dropdownItems = dropdownList.map((item) => {return <DropdownMenuLabel key={item}>{item}</DropdownMenuLabel>});
+
+
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
+
+    const infoList = [
+        equipment.rdfType,
+        equipment.bch.toString(),
+    ]
+
+    const equipmentInfo = infoList.map((item) => {return <DropdownMenuLabel key={item}>{item}</DropdownMenuLabel>});
 
     return (
         <Card className="w-[350px] ">
@@ -35,6 +58,16 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                         </div>
                     </div>
                 </div>
+            </CardContent>
+            <CardContent >
+                <DropdownMenu >
+                        <DropdownMenuTrigger className="border-solid">
+                            <div className="border-2 border-black">Actions</div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {dropdownItems} {equipmentInfo}
+                        </DropdownMenuContent>
+                </DropdownMenu>
             </CardContent>
             <CardFooter className="text-green-400">
                 {equipment.rdfType}
