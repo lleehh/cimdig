@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-import {findById, findByName, findByType} from "@/services/model-repository";
+import {findById, findByName} from "@/services/model-repository";
 
 // API handler
 export async function GET(request: Request) {
@@ -11,9 +11,6 @@ export async function GET(request: Request) {
     try {
         if (id) {
             const result = await findById(id);
-            return NextResponse.json(result);
-        } else if (type) {
-            const result = await findByType(type);
             return NextResponse.json(result);
         } else if (name) {
             const result = await findByName(name);
