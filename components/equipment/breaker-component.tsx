@@ -35,10 +35,6 @@ export default function BreakerComponent({equipment}: BreakerProps) {
                     Voltage {(equipment.baseVoltage as BaseVoltage).name}
                 </div>
             </CardContent>
-            <CardFooter className="text-green-300 rounded-md">
-                Breaker
-            </CardFooter>
-
         </Card>
     )
 }
