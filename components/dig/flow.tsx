@@ -10,6 +10,7 @@ import '@xyflow/react/dist/style.css';
 import {useCallback} from "react";
 import {Button} from "@/components/ui/button";
 import FlowComponent from "@/components/dig/flow-component";
+import SearchBar from "@/components/ui/search-bar";
 
 const nodeTypes: NodeTypes = {flowContainer: FlowComponent}
 
@@ -85,7 +86,6 @@ const initialEdges = [{id: 'e1-2', source: '1', target: '2'}];
 
 export default function Dig() {
 
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [nodes, _, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -113,11 +113,14 @@ export default function Dig() {
                        defaultViewport={defaultViewport}
                        nodeTypes={nodeTypes}
             >
+                <Panel position="top-center" className={'w-1/2'}>
+                    <SearchBar />
+                </Panel>
                 <Panel position="top-right">
                     <div
                         className={'flex space-x-2'}>
-                        <Button onClick={() => onLayout('TB')}>vertical layout</Button>
-                        <Button onClick={() => onLayout('LR')}>horizontal layout</Button>
+                        <Button  onClick={() => onLayout('TB')}>vertical layout</Button>
+                        <Button  onClick={() => onLayout('LR')}>horizontal layout</Button>
                     </div>
                 </Panel>
                 <Background/>
