@@ -1,5 +1,5 @@
 'use client'
-import {BaseVoltage, Breaker} from "@/models/cim";
+import {BaseVoltage, Breaker} from "@/lib/cim";
 import {
     Card,
     CardContent,
@@ -23,7 +23,6 @@ const dropdownList = [
 
 
 export default function BreakerComponent({equipment}: BreakerProps) {
-
     return (
         <Card className="w-[350px]">
             <CardHeader>
@@ -40,7 +39,7 @@ export default function BreakerComponent({equipment}: BreakerProps) {
             <CardContent className="flex flex-col space-y-4">
                 <div className="text-gray-400">{equipment.description}</div>
                 <div>
-                    Voltage {(equipment.baseVoltage as BaseVoltage).name}
+                    Voltage {equipment.baseVoltage && (equipment.baseVoltage as BaseVoltage).name}
                 </div>
             </CardContent>
         </Card>

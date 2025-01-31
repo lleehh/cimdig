@@ -1,5 +1,5 @@
 'use client'
-import {IdentifiedObject} from "@/models/cim";
+import {IdentifiedObject} from "@/lib/cim";
 import {
     Card,
     CardContent,

@@ -1,10 +1,8 @@
 'use client'
-import {GeneratingUnit, Terminal} from "@/models/cim";
+import {GeneratingUnit, Terminal} from "@/lib/cim";
 import {
     Card,
-    CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -26,18 +24,20 @@ const dropdownList = [
 export default function TerminalComponent({equipment}: TerminalProps) {
 
     return (
-        <Card className="w-[150px]">
-            <CardHeader>
-                <CardTitle>
+        <Card className="w-[160px]">
+            <CardHeader className="p-2">
+                <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
-                        <FileTerminal/>
-                        {equipment.name}
-                        <AdditionalCimLinks nameList={dropdownList}/>
+                        <FileTerminal/> T{equipment.sequenceNumber}
                     </div>
-                    
+                    <AdditionalCimLinks nameList={dropdownList}/>
                 </CardTitle>
                 <CardDescription>
-                    <div className="text-gray-400">Sequence: {equipment.sequenceNumber}</div>
+                    <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
+                         title= {equipment.name}>
+                        {equipment.name}
+                    </div>
+
                 </CardDescription>
             </CardHeader>
         </Card>

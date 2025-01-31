@@ -1,5 +1,5 @@
-import {getComponentById} from "@/services/model-repository";
-import {ACLineSegment, Breaker} from "@/models/cim";
+import {getComponentById} from "@/lib/store/model-repository";
+import {ACLineSegment, Breaker} from "@/lib/cim";
 import CimComponent from "@/components/cim-component";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
@@ -17,13 +17,12 @@ import FlowRoot from "@/components/dig/flow_root";
 export default async function Home() {
 
 
-    const acLineSegmentId = "_f1769cf8-9aeb-11e5-91da-b8763fd99c5f"
-    const breakerId = "_22e5ddcf-ac23-b449-bc4f-83336535f7c2"
+    const acLineSegmentId = "f1769cf8-9aeb-11e5-91da-b8763fd99c5f"
+    const breakerId = "22e5ddcf-ac23-b449-bc4f-83336535f7c2"
 
 
     const acLineSegment = await getComponentById<ACLineSegment>(acLineSegmentId)
     const breaker = await getComponentById<Breaker>(breakerId)
-
 
     return (
         <SidebarProvider>
@@ -49,7 +48,7 @@ export default async function Home() {
                     </div>
                 </header>
                 <FlowRoot>
-                    <Dig/>
+                    <Dig equipment={acLineSegment}/>
                 </FlowRoot>
             </SidebarInset>
         </SidebarProvider>
