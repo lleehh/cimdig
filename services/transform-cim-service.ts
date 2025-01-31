@@ -18,27 +18,32 @@ export function convertToCimObject<T extends IdentifiedObject>(rdfId: string, da
 
     // Define rules for specific key patterns
     const keyProcessors: Record<string, (value: string) => RdfValue> = {
-        "baseVoltage|equipmentContainer": (value: string) => ({
-            id: value.replace("#", ""),
-        }), // Convert to Link type
         "aggregate|normallyInService": (value: string) => value === "true", // Convert to boolean
-        "bch|r|x|length": (value: string) => parseFloat(value), // Convert to number
+        "bch|r|x|length|sequenceNumber|nominalVoltage": (value: string) => parseFloat(value), // Convert to number
     };
 
 
     for (const [key, value] of Object.entries(data)) {
         // Strip prefix (e.g., "cim:")
         const strippedKey =
-            key.includes(":") && !key.startsWith("rdf") // Don't strip if it's `rdfType`
+            key.includes(":") && !key.startsWith("rdf") && !key.startsWith("mRID")// Don't strip if it's `rdfType`
                 ? key.replace(/^cim:[^:]*\./, "") // Removes the prefix and first segment (e.g., `cim:ACLineSegment.` -> `description`)
                 : key;
-        const parameter  = setFirstCharToLowercase(strippedKey);
+        const parameter = setFirstCharToLowercase(strippedKey);
         // Find a matching processor for the key
         const processor = Object.entries(keyProcessors).find(([pattern]) =>
             new RegExp(`^(${pattern})$`).test(parameter)
         );
 
-        if (processor) {
+        if (typeof value === "object" && !Array.isArray(value)) {
+            node[parameter] = convertToCimObject(value["mRID"], value as JsonData); // Recursively convert nested objects
+        } else if (Array.isArray(value)) {
+            const values: IdentifiedObject[] = []
+            for (const item of value) {
+                values.push(convertToCimObject(item["mRID"], item as JsonData))
+            }
+            node[parameter] = values;
+        } else if (processor) {
             const [, processFn] = processor;
             node[parameter] = processFn(value); // Apply the matching processor
         } else {
