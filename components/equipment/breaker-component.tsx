@@ -9,11 +9,17 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
+import AdditionalCimLinks from "../additional-cim-links-component";
 
 
 interface BreakerProps {
     equipment: Breaker
 }
+
+const dropdownList = [
+    "ConductingEquipment",
+    "ConnectivityNode",
+]
 
 
 export default function BreakerComponent({equipment}: BreakerProps) {
@@ -25,6 +31,8 @@ export default function BreakerComponent({equipment}: BreakerProps) {
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="bryter"/>
                         {equipment.rdfType}
+                        <AdditionalCimLinks nameList={dropdownList}/>
+                        
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>

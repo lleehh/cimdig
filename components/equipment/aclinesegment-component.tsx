@@ -1,10 +1,18 @@
 import {ACLineSegment, BaseVoltage} from "@/models/cim";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
+import AdditionalCimLinks from "../additional-cim-links-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
 }
+
+const dropdownList = [
+    "BaseVoltage",
+    "EquipmentContainer",
+    "ConductingEquipment",
+    "OperatingShare",
+]
 
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
 
@@ -15,6 +23,9 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="overforing"/>
                         {equipment.name}
+
+                        <AdditionalCimLinks nameList={dropdownList}/>
+
                     </div>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
