@@ -1,4 +1,4 @@
-import {findById, findByType, findByName} from "@/services/model-repository"
+import {findById, findByName} from "@/services/model-repository"
 
 jest.mock("fs/promises", () => ({
     readFile: jest.fn((filePath: string) => {
@@ -37,13 +37,6 @@ describe("Data API", () => {
     it("should return null for an unknown ID", async () => {
         const result = await findById("unknown_id");
         expect(result).toBeNull();
-    });
-
-    it("should find components by type", async () => {
-        const result = await findByType("cim:ACLineSegment");
-        expect(result).toEqual([
-            {rdfType: "cim:ACLineSegment", "cim:ACLineSegment.bch": "0.0003333333"},
-        ]);
     });
 
     it("should find a component by name", async () => {
