@@ -1,4 +1,4 @@
-import {NodeProps, useStore, Handle, Position,} from "@xyflow/react";
+import {NodeProps, useStore, Handle, Position, Edge,} from "@xyflow/react";
 import {
     ACLineSegment,
     Breaker,
@@ -67,11 +67,9 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     const {
         nodes,
         edges,
-        onNodesChange,
-        onEdgesChange,
-        onConnect,
         setNodes,
         setEdges,
+        setFocusNode
     } = useFlowStore(useShallow(selector),);
 
 
@@ -90,29 +88,36 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             terminals, connectivity nodes
          */
         console.log("EQ", equipment?.rdfId, equipment?.rdfType)
-
+        const newNodes: CimNode[] = []
+        const newEdges: Edge[] = []
         if (node && equipment) {
             if (isTerminal(equipment)) {
                 if (!doesEquipmentExistsInFlow(equipment.connectivityNode.rdfId, nodes)) {
-                    setNodes([...nodes, createNode(equipment.connectivityNode.rdfId, equipment.connectivityNode, 0, 0)])
-                    setEdges([...edges, createEdge(equipment.rdfId, equipment.connectivityNode.rdfId, equipment.sequenceNumber !== 1)])
+                    newNodes.push(createNode(equipment.connectivityNode.rdfId, equipment.connectivityNode, 0, 0))
+                    newEdges.push(createEdge(equipment.rdfId, equipment.connectivityNode.rdfId, equipment.sequenceNumber !== 1))
+
                 }
                 console.log("TERMINAL", equipment.rdfId, "ConductinEquipment", equipment.conductingEquipment.name, doesEquipmentExistsInFlow(equipment.conductingEquipment.rdfId, nodes))
 
                 if (!doesEquipmentExistsInFlow(equipment.conductingEquipment.rdfId, nodes)) {
-                    setNodes([...nodes, createNode(equipment.conductingEquipment.rdfId, equipment.conductingEquipment, 0, 0)])
-                    setEdges([...edges, createEdge(equipment.rdfId, equipment.conductingEquipment.rdfId, equipment.sequenceNumber !== 1)])
+                    newNodes.push(createNode(equipment.conductingEquipment.rdfId, equipment.conductingEquipment, 0, 0))
+                    newEdges.push(createEdge(equipment.rdfId, equipment.conductingEquipment.rdfId, equipment.sequenceNumber !== 1))
                 }
             }
             if (isConnectivityNode(equipment)) {
                 const rdfId = equipment.rdfId
                 equipment.terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
-                        setNodes([...nodes, createNode(terminal.rdfId, terminal, 0, 0)])
-                        setEdges([...edges, createEdge(terminal.rdfId, rdfId, false)])
+                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0))
+                        newEdges.push(createEdge(terminal.rdfId, rdfId, false))
                     }
                 })
             }
+        }
+        if (newNodes.length > 0) {
+            setNodes([...nodes, ...newNodes])
+            setEdges([...edges, ...newEdges])
+            setFocusNode(newNodes[newNodes.length - 1].id)
         }
     }
     return (

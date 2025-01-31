@@ -11,12 +11,14 @@ import {
 import {create} from "zustand";
 import {CIM, isConductingEquipment} from "@/lib/cim";
 import {edgeTemplate} from "@/lib/flow-utils";
+import {Connection} from "@xyflow/system/dist/esm/types/general";
 
 export type CimNode = Node<CIM, 'flowComponent'>
 
 export type FlowState = {
     nodes: CimNode[];
     edges: Edge[];
+    focusNodeId: string | null;
     onNodesChange: OnNodesChange<CimNode>;
     onEdgesChange: OnEdgesChange;
     onConnect: OnConnect;
@@ -24,6 +26,7 @@ export type FlowState = {
     setEdges: (edges: Edge[]) => void;
     getNodeData: (id: string) => CIM | undefined;
     addNode: (node: CimNode) => void;
+    setFocusNode: (id: string) => void;
 };
 
 /*
@@ -43,6 +46,8 @@ export const selector = (state: FlowState) => ({
     setEdges: state.setEdges,
     getNodeData: state.getNodeData,
     addNode: state.addNode,
+    focusNodeId: state.focusNodeId,
+    setFocusNode: state.setFocusNode,
 });
 
 
@@ -83,7 +88,14 @@ const useFlowStore = create<FlowState>((set, get) => ({
                 nodes: [...state.nodes, node]
             })
         })
-
+    },
+    setFocusNode: (id) => {
+        console.log("focus node", id)
+        set((state) => {
+            return ({
+                focusNodeId: id
+            })
+        })
     }
 }));
 
