@@ -16,6 +16,11 @@ interface BreakerProps {
     equipment: Breaker
 }
 
+const dropdownList = [
+    "ConductingEquipment",
+    "ConnectivityNode",
+]
+
 
 export default function BreakerComponent({equipment}: BreakerProps) {
 
@@ -26,7 +31,7 @@ export default function BreakerComponent({equipment}: BreakerProps) {
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="bryter"/>
                         {equipment.rdfType}
-                        <AdditionalCimLinks/>
+                        <AdditionalCimLinks nameList={dropdownList}/>
                         
                     </div>
                 </CardTitle>

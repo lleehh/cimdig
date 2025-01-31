@@ -10,11 +10,16 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import {Shell} from "lucide-react";
+import AdditionalCimLinks from "../additional-cim-links-component";
 
 
 interface ConnectivetyNodeProps {
     equipment: ConnectivityNode
 }
+
+const dropdownList = [
+    "ConductivityNodeContainer",
+]
 
 export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
 
@@ -24,9 +29,12 @@ export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeP
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
                         <Shell/> CN
+                        <AdditionalCimLinks nameList={dropdownList}/>
                     </div>
                 </CardTitle>
-                <CardDescription>{equipment.name}</CardDescription>
+                <CardDescription>
+                    {equipment.name}
+                </CardDescription>
             </CardHeader>
         </Card>
     )

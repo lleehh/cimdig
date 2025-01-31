@@ -7,6 +7,13 @@ interface EquipmentProps {
     equipment: ACLineSegment
 }
 
+const dropdownList = [
+    "BaseVoltage",
+    "EquipmentContainer",
+    "ConductingEquipment",
+    "OperatingShare",
+]
+
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
 
     return (
@@ -17,7 +24,7 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                         <ComponentIcon icon="overforing"/>
                         {equipment.name}
 
-                        <AdditionalCimLinks/>
+                        <AdditionalCimLinks nameList={dropdownList}/>
 
                     </div>
                 </CardTitle>

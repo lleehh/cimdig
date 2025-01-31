@@ -9,15 +9,11 @@ import {
 import {Button} from "@/components/ui/button"
 import { List } from "lucide-react";
 
-const dropdownList = [
-    {id: 1, name: "BaseVoltage"},
-    {id: 2, name: "EquipmentContainer"},
-    {id: 3, name: "ConductingEquipment"},
-    {id: 4, name: "OperatingShare"},
-    
-]
+interface CimLinksProps {
+    nameList: string[]
+}
 
- export default function AdditionalCimLinks () {
+ export default function AdditionalCimLinks ({nameList}: CimLinksProps) {
      return (
          <DropdownMenu >
  
@@ -28,8 +24,8 @@ const dropdownList = [
              <DropdownMenuContent className="flex flex-col space-y-2">
                  <DropdownMenuLabel>Properties</DropdownMenuLabel>
                  <DropdownMenuSeparator/>
-                 {dropdownList.map((item) => (
-                     <DropdownMenuItem key={item.id}>{item.name}</DropdownMenuItem>
+                 {nameList.map((item) => (
+                     <DropdownMenuItem key={item}>{item}</DropdownMenuItem>
                  ))}
              </DropdownMenuContent>
  

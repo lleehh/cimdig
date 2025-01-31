@@ -16,6 +16,10 @@ interface GeneratorProps {
     equipment: GeneratingUnit
 }
 
+const dropdownList = [
+    "EquipmentContainer",
+    "scheduleResource",
+]
 
 export default function GeneratorComponent({equipment}: GeneratorProps) {
 
@@ -26,7 +30,7 @@ export default function GeneratorComponent({equipment}: GeneratorProps) {
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="generator"/>
                         {equipment.rdfType}
-                        <AdditionalCimLinks/>
+                        <AdditionalCimLinks nameList={dropdownList}/>
                         
                     </div>
                 </CardTitle>
