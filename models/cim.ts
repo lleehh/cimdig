@@ -15,9 +15,8 @@ export interface IdentifiedObject extends CIM {
 
 export interface Equipment extends IdentifiedObject {
     aggregate: boolean;
-    equipmentContainer: RdfLink | EquipmentContainer;
+    equipmentContainer: EquipmentContainer;
     normallyInService: boolean;
-    items: Item[] //custom field with either Terminal, OperatingShare or ConnctivityNodes
 }
 
 export interface ConductingEquipment extends Equipment {

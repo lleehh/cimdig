@@ -9,7 +9,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import {useCallback} from "react";
 import {Button} from "@/components/ui/button";
-import BreakerComponent, { FlowBreakerComponent } from '../equipment/breaker';
+import BreakerComponent from '../equipment/breaker-component';
 import { Breaker } from '@/models/cim';
 
 export type BreakerNode = Node<Breaker, 'breaker'>;
@@ -38,7 +38,7 @@ export default function Dig() {
 
     const defaultViewport: Viewport = {x: 100, y: 300, zoom: 0.8};
 
-    const nodeTypes = { breaker: FlowBreakerComponent};
+    //const nodeTypes = { breaker: BreakerComponent };
 
     return (
         <div className="relative flex flex-col h-full flex-grow">
@@ -49,7 +49,7 @@ export default function Dig() {
                        onEdgesChange={onEdgesChange}
                        onConnect={onConnect}
                        defaultViewport={defaultViewport}
-                       nodeTypes={nodeTypes}
+                       //nodeTypes={nodeTypes}
             >
                 <Panel position="top-right">
                     <div

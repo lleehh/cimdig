@@ -9,6 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
+import AdditionalCimLinks from "../additional-cim-links-component";
 
 
 interface GeneratorProps {
@@ -25,6 +26,8 @@ export default function GeneratorComponent({equipment}: GeneratorProps) {
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="generator"/>
                         {equipment.rdfType}
+                        <AdditionalCimLinks/>
+                        
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>

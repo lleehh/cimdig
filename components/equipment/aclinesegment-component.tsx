@@ -1,35 +1,13 @@
 import {ACLineSegment, BaseVoltage} from "@/models/cim";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
+import AdditionalCimLinks from "../additional-cim-links-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
 }
 
-const dropdownList = [
-    "rdfType:",
-    "bhc:",
-]
-
-const dropdownItems = dropdownList.map((item) => {return <DropdownMenuLabel key={item}>{item}</DropdownMenuLabel>});
-
-
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
-
-    const infoList = [
-        equipment.rdfType,
-        equipment.bch.toString(),
-    ]
-
-    const equipmentInfo = infoList.map((item) => {return <DropdownMenuLabel key={item}>{item}</DropdownMenuLabel>});
 
     return (
         <Card className="w-[350px] ">
@@ -38,6 +16,9 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="overforing"/>
                         {equipment.name}
+
+                        <AdditionalCimLinks/>
+
                     </div>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
@@ -60,16 +41,6 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                         </div>
                     </div>
                 </div>
-            </CardContent>
-            <CardContent >
-                <DropdownMenu >
-                        <DropdownMenuTrigger className="border-solid">
-                            <div className="border-2 border-black">Actions</div>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            {dropdownItems} {equipmentInfo}
-                        </DropdownMenuContent>
-                </DropdownMenu>
             </CardContent>
             <CardFooter className="text-green-400">
                 {equipment.rdfType}
