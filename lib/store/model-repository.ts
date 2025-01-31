@@ -1,8 +1,8 @@
 'use server'
 import path from "path";
 import fs from "fs/promises";
-import {convertToCimObject, isConductingEquipment} from "@/services/transform-cim-service";
-import {BaseVoltage, CIM, IdentifiedObject} from "@/models/cim";
+import {convertToCimObject} from "@/lib/services/transform-cim-service";
+import {IdentifiedObject} from "@/lib/cim";
 
 export type JsonData = Record<string, string>;
 export type SearchResult = { name: string, id: string }[];
@@ -48,26 +48,11 @@ export const searchByName = async (query: string): Promise<SearchResult> => {
     return result
 }
 
-export const getComponentById = async <T extends IdentifiedObject>(rdfId: string, dontEnrich?: boolean): Promise<T | null> => {
+export const getComponentById = async <T extends IdentifiedObject>(rdfId: string): Promise<T | null> => {
     const data = await findById(rdfId);
     if (data == null) {
         return null;
     } else {
-        const obj = convertToCimObject<T>(rdfId, data);
-        if (dontEnrich)
-            return obj;
-        else
-            return enrichComponent(obj);
+        return convertToCimObject<T>(rdfId, data);
     }
-}
-
-
-async function enrichComponent<T extends IdentifiedObject>(component: T): Promise<T> {
-    if (isConductingEquipment(component) && component.baseVoltage?.id) {
-        const baseVoltage = await getComponentById<BaseVoltage>(component.baseVoltage.id as string, true);
-        if (baseVoltage) {
-            component.baseVoltage = baseVoltage;
-        }
-    }
-    return component;
 }

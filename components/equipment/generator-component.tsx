@@ -1,5 +1,5 @@
 'use client'
-import {GeneratingUnit} from "@/models/cim";
+import {GeneratingUnit} from "@/lib/cim";
 import {
     Card,
     CardContent,
