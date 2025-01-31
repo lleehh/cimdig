@@ -13,11 +13,10 @@ import {ComponentIcon} from "@/components/component-icon";
 
 interface GeneratorProps {
     equipment: GeneratingUnit
-    displayName: string
 }
 
 
-export default function GeneratorComponent({equipment, displayName}: GeneratorProps) {
+export default function GeneratorComponent({equipment}: GeneratorProps) {
 
     return (
         <Card className="w-[350px]">
@@ -30,13 +29,8 @@ export default function GeneratorComponent({equipment, displayName}: GeneratorPr
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col space-y-4">
                 <div className="text-gray-400">{equipment.description}</div>
-            </CardContent>
-            <CardFooter className="text-green-300 rounded-md">
-                {displayName}
-            </CardFooter>
-            <CardContent>
                 <div>
                     Max operating power limit {(equipment.maxOperatingP)}
                 </div>

@@ -13,11 +13,10 @@ import {ComponentIcon} from "@/components/component-icon";
 
 interface BreakerProps {
     equipment: Breaker
-    displayName: string
 }
 
 
-export default function BreakerComponent({equipment, displayName}: BreakerProps) {
+export default function BreakerComponent({equipment}: BreakerProps) {
 
     return (
         <Card className="w-[350px]">
@@ -30,17 +29,16 @@ export default function BreakerComponent({equipment, displayName}: BreakerProps)
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col space-y-4">
                 <div className="text-gray-400">{equipment.description}</div>
-            </CardContent>
-            <CardFooter className="text-green-300 rounded-md">
-                {displayName}
-            </CardFooter>
-            <CardContent>
                 <div>
                     Voltage {(equipment.baseVoltage as BaseVoltage).name}
                 </div>
             </CardContent>
+            <CardFooter className="text-green-300 rounded-md">
+                Breaker
+            </CardFooter>
+
         </Card>
     )
 }

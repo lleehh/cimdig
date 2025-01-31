@@ -1,7 +1,5 @@
-import {ACLineSegment} from "@/models/cim";
+import {ACLineSegment, BaseVoltage} from "@/models/cim";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {AudioWaveform} from "lucide-react";
-import {cn} from "@/lib/utils";
 import {ComponentIcon} from "@/components/component-icon";
 
 interface EquipmentProps {
@@ -19,8 +17,12 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                         {equipment.name}
                     </div>
                 </CardTitle>
-                <CardDescription>{equipment.description}</CardDescription>
-                <CardDescription>{equipment.rdfId}</CardDescription>
+                <CardDescription className="flex flex-col space-y-4">
+                    <div className="text-gray-400">{equipment.description}</div>
+                    <div>
+                        Voltage {(equipment.baseVoltage as BaseVoltage).name}
+                    </div>
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="max-w-md mx-auto p-4 ">
