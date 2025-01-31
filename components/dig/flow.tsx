@@ -23,6 +23,7 @@ export default function Dig({equipment}: DigProps) {
     const {fitView, getNode, setCenter} = useReactFlow();
 
     const {
+        focusNodeId,
         nodes,
         edges,
         onNodesChange,
@@ -43,6 +44,12 @@ export default function Dig({equipment}: DigProps) {
         }
     }, []);
 
+    useEffect(() => {
+        console.log("######FOCUS NODE IS SET TO", focusNodeId)
+        if (focusNodeId) {
+            focusNodeHandle(focusNodeId)
+        }
+    }, [focusNodeId]);
 
     const onLayout = useCallback(
         (direction: string) => {
@@ -59,13 +66,22 @@ export default function Dig({equipment}: DigProps) {
         [nodes, edges, setNodes, setEdges, fitView],
     )
 
-    const focusNode = (nodeId) => {
-        const node = getNode(nodeId);
+    const focusNodeHandle = (nodeId) => {
+        const layouted = getLayoutedElements(nodes, edges, {direction: 'LR'});
+        setNodes([...layouted.nodes]);
+        setEdges([...layouted.edges]);
+
+        const node = layouted.nodes.find(node => node.id === nodeId)
+        //const node = getNode(nodeId);
         if (node) {
+            console.log("FOCUS NODE", node.position.x, node.position.y)
+
             setCenter(node.position.x, node.position.y, {
-                zoom: 1.5, // Adjust zoom level if needed
+                zoom: 1.0, // Adjust zoom level if needed
                 duration: 500, // Smooth transition
             });
+
+
             // fitView({ nodes: [node], duration: 500, padding: 0.2 });
         }
     };
