@@ -75,14 +75,11 @@ export default function Dig({equipment}: DigProps) {
         //const node = getNode(nodeId);
         if (node) {
             console.log("FOCUS NODE", node.position.x, node.position.y)
-
+            //fitView({duration: 500, padding: 0.2});
             setCenter(node.position.x, node.position.y, {
                 zoom: 1.0, // Adjust zoom level if needed
                 duration: 500, // Smooth transition
             });
-
-
-            // fitView({ nodes: [node], duration: 500, padding: 0.2 });
         }
     };
 
