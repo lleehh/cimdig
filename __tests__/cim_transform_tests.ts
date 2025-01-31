@@ -90,6 +90,7 @@ describe("Data API", () => {
 
         if (result != null) {
             const entity = convertToCimObject<ACLineSegment>(id, result)
+
             // Note that this is converted to a number
             expect(entity.bch).toEqual(0.0003333333);
             expect(entity.baseVoltage?.nominalVoltage).toEqual(300);

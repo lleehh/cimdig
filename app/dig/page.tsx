@@ -11,7 +11,7 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import Dig from "@/components/dig/flow.";
+import Dig from "@/components/dig/flow";
 import FlowRoot from "@/components/dig/flow_root";
 
 export default async function Home() {
