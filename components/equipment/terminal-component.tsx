@@ -1,5 +1,5 @@
 'use client'
-import {ConnectivityNode} from "@/models/cim";
+import {GeneratingUnit, Terminal} from "@/models/cim";
 import {
     Card,
     CardContent,
@@ -9,31 +9,35 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import {Shell} from "lucide-react";
+import { FileTerminal } from "lucide-react";
 import AdditionalCimLinks from "../additional-cim-links-component";
 
 
-interface ConnectivetyNodeProps {
-    equipment: ConnectivityNode
+interface TerminalProps {
+    equipment: Terminal
 }
 
 const dropdownList = [
-    "ConductivityNodeContainer",
+    "ConductingEquipment",
+    "ConnectivityNode",
 ]
 
-export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
+
+export default function TerminalComponent({equipment}: TerminalProps) {
 
     return (
         <Card className="w-[150px]">
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
-                        <Shell/> CN
+                        <FileTerminal/>
+                        {equipment.name}
                         <AdditionalCimLinks nameList={dropdownList}/>
                     </div>
+                    
                 </CardTitle>
                 <CardDescription>
-                    {equipment.name}
+                    <div className="text-gray-400">Sequence: {equipment.sequenceNumber}</div>
                 </CardDescription>
             </CardHeader>
         </Card>

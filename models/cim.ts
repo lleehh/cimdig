@@ -15,7 +15,8 @@ export interface IdentifiedObject extends CIM {
 
 export interface Equipment extends IdentifiedObject {
     aggregate: boolean;
-
+    equipmentContainer: EquipmentContainer;
+    normallyInService: boolean;
 }
 
 export interface ConductingEquipment extends Equipment {
