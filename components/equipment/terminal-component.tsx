@@ -9,16 +9,12 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import { FileTerminal } from "lucide-react";
 import AdditionalCimLinks from "../additional-cim-links-component";
+import {componentRefs} from "@/lib/services/cim-service";
 
 
 interface TerminalProps {
     equipment: Terminal
 }
-
-const dropdownList = [
-    "ConductingEquipment",
-    "ConnectivityNode",
-]
 
 
 export default function TerminalComponent({equipment}: TerminalProps) {
@@ -30,7 +26,6 @@ export default function TerminalComponent({equipment}: TerminalProps) {
                     <div className="flex flex-row items-center gap-2">
                         <FileTerminal/> T{equipment.sequenceNumber}
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

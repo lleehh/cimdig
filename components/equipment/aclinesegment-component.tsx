@@ -2,19 +2,17 @@ import {ACLineSegment, BaseVoltage} from "@/lib/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
+import {componentRefs} from "@/lib/services/cim-service";
 
 interface EquipmentProps {
     equipment: ACLineSegment
 }
 
-const dropdownList = [
-    "BaseVoltage",
-    "EquipmentContainer",
-    "ConductingEquipment",
-    "OperatingShare",
-]
+
 
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
+
+    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
 
     return (
         <Card className="w-[250px]">

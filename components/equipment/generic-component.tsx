@@ -1,5 +1,5 @@
 'use client'
-import {CIM, ConnectivityNode, IdentifiedObject} from "@/lib/cim";
+import {CIM, ConnectivityNode, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
 import {
     Card,
     CardDescription,
@@ -9,17 +9,16 @@ import {
 import {Triangle} from "lucide-react";
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import {componentRefs} from "@/lib/services/cim-service";
 
 
 interface ConnectivetyNodeProps {
     equipment: CIM
 }
 
-const dropdownList = [
-    "Find Out More",
-]
-
 export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
+
+    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
 
     return (
         <Card className="w-[250px]">

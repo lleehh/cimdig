@@ -4,7 +4,7 @@ import {
     Breaker,
     CIM,
     ConnectivityNode,
-    GeneratingUnit,
+    GeneratingUnit, isConductingEquipment,
     isConnectivityNode,
     isTerminal,
     Terminal
@@ -19,9 +19,10 @@ import GeneratorComponent from "@/components/equipment/generator-component";
 import {Button} from "@/components/ui/button";
 import {Expand} from "lucide-react";
 import {useShallow} from "zustand/react/shallow";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {findById, getComponentById} from "@/lib/store/model-repository";
 import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
+import {isExandable} from "@/lib/services/cim-service";
 
 
 const Placeholder = () => (
@@ -60,9 +61,12 @@ function CimComponent({equipment}: { equipment: CIM }) {
 
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {
+    // The fully loaded component from the database
     const [component, setComponent] = useState<CIM | null>(null);
-
+    const [expanded, setExpanded] = useState(false);
     const showContent = useStore(zoomSelector);
+
+    const isExandableComponent = isExandable(data)
 
     const {
         nodes,
@@ -72,41 +76,44 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         setFocusNode
     } = useFlowStore(useShallow(selector),);
 
+    useEffect(() => {
+        if (!component) {
+            const loadComponent = async () => {
+                setComponent(await getComponentById(data.rdfId))
+            }
+            loadComponent()
+        }
+    }, []);
 
     const handleExpand = async () => {
         // We need to load the full component from the database to get all the properties
-        let equipment = component
-        if (!equipment) {
-            equipment = await getComponentById(data.rdfId)
-            setComponent(equipment)
-        }
-        const node = nodes.find(node => node.id === equipment?.rdfId)
-        const edge = edges.filter(edge => edge.source === equipment?.rdfId || edge.target === equipment?.rdfId)
+
+        const node = nodes.find(node => node.id === component?.rdfId)
+        const edge = edges.filter(edge => edge.source === component?.rdfId || edge.target === component?.rdfId)
 
         /*
             We have a set of different types that we will automatically render:
             terminals, connectivity nodes
          */
-        console.log("EQ", equipment?.rdfId, equipment?.rdfType)
+        console.log("EQ", component?.rdfId, component?.rdfType)
         const newNodes: CimNode[] = []
         const newEdges: Edge[] = []
-        if (node && equipment) {
-            if (isTerminal(equipment)) {
-                if (!doesEquipmentExistsInFlow(equipment.connectivityNode.rdfId, nodes)) {
-                    newNodes.push(createNode(equipment.connectivityNode.rdfId, equipment.connectivityNode, 0, 0))
-                    newEdges.push(createEdge(equipment.rdfId, equipment.connectivityNode.rdfId, equipment.sequenceNumber !== 1))
+        if (node && component) {
+            if (isTerminal(component)) {
+                if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
+                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0))
+                    newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, component.sequenceNumber !== 1))
 
                 }
-                console.log("TERMINAL", equipment.rdfId, "ConductinEquipment", equipment.conductingEquipment.name, doesEquipmentExistsInFlow(equipment.conductingEquipment.rdfId, nodes))
 
-                if (!doesEquipmentExistsInFlow(equipment.conductingEquipment.rdfId, nodes)) {
-                    newNodes.push(createNode(equipment.conductingEquipment.rdfId, equipment.conductingEquipment, 0, 0))
-                    newEdges.push(createEdge(equipment.rdfId, equipment.conductingEquipment.rdfId, equipment.sequenceNumber !== 1))
+                if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
+                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0))
+                    newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, component.sequenceNumber !== 1))
                 }
             }
-            if (isConnectivityNode(equipment)) {
-                const rdfId = equipment.rdfId
-                equipment.terminals.forEach(terminal => {
+            if (isConnectivityNode(component) || isConductingEquipment(component)) {
+                const rdfId = component.rdfId
+                component.terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
                         newNodes.push(createNode(terminal.rdfId, terminal, 0, 0))
                         newEdges.push(createEdge(terminal.rdfId, rdfId, false))
@@ -119,14 +126,16 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             setEdges([...edges, ...newEdges])
             setFocusNode(newNodes[newNodes.length - 1].id)
         }
+        setExpanded(true)
     }
     return (
         <div>
             <Handle type="target" position={Position.Left} className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
             {showContent ? <div className="relative">
-                <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
-                        onClick={handleExpand}><Expand/></Button>
-                <CimComponent equipment={data}/>
+                {!expanded && isExandableComponent &&
+                    <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
+                            onClick={handleExpand}><Expand/></Button>}
+                <CimComponent equipment={component || data}/>
             </div> : <Placeholder/>}
             <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
         </div>
