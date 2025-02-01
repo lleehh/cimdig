@@ -1,13 +1,13 @@
 import {CimNode} from "@/lib/store/store-flow";
 import {Edge, MarkerType} from "@xyflow/react";
-import {CIM, isConductingEquipment} from "@/lib/cim";
+import {CIM, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
 import Dagre from '@dagrejs/dagre';
+import {JsonData} from "@/lib/store/model-repository";
 
 
 export function doesEquipmentExistsInFlow(rdfId: string, nodes: CimNode[]): boolean {
     return nodes.some(node => node.data.rdfId === rdfId);
 }
-
 
 export const edgeTemplate = {
     //type: 'cimEdge',
@@ -23,7 +23,7 @@ export const edgeTemplate = {
         height: 10,
         color: '#07964a',
     },
-   // label: 'T',
+    // label: 'T',
     style: {
         strokeWidth: 3,
         stroke: '#07964a',
