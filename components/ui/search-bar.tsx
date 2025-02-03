@@ -38,6 +38,7 @@ export default function SearchBar() {
                 value={input}
                 onValueChange={(value) => setInput(value)}
                 onFocus={() => (setIsFocused(true))}
+                onBlur={() => (setIsFocused(false))}
                 placeholder="Search for components by name…" />
             <CommandList>
                 {isFocused ?
