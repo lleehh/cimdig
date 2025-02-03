@@ -1,17 +1,7 @@
-import {
-    addEdge,
-    applyEdgeChanges,
-    applyNodeChanges,
-    Edge, MarkerType,
-    Node,
-    OnConnect,
-    OnEdgesChange,
-    OnNodesChange
-} from "@xyflow/react";
+import {addEdge, applyEdgeChanges, applyNodeChanges, Edge, Node, OnConnect, OnEdgesChange, OnNodesChange} from "@xyflow/react";
 import {create} from "zustand";
-import {CIM, isConductingEquipment} from "@/lib/cim";
+import {CIM} from "@/lib/cim";
 import {edgeTemplate} from "@/lib/flow-utils";
-import {Connection} from "@xyflow/system/dist/esm/types/general";
 
 export type CimNode = Node<CIM, 'flowComponent'>
 
@@ -54,6 +44,7 @@ export const selector = (state: FlowState) => ({
 const useFlowStore = create<FlowState>((set, get) => ({
     nodes: [],
     edges: [],
+    focusNodeId: null, // Add this line to initialize focusNodeId
     onNodesChange: (changes) => {
         set({
             nodes: applyNodeChanges(changes, get().nodes),
