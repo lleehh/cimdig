@@ -29,7 +29,6 @@ export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
                         {equipment.name &&
                             <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
                                  title={equipment.name as string}>
-                                {equipment.name}
                             </div>}
                     </div>
                     <AdditionalCimLinks nameList={dropdownList}/>
