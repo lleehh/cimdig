@@ -13,7 +13,7 @@ import {CIM} from "@/lib/cim";
 import {useCallback, useEffect} from "react";
 import {createNodesAndEdges, getLayoutedElements} from "@/lib/flow-utils";
 
-const nodeTypes = {flowContainer: FlowComponent} as NodeTypes
+const nodeTypes = {flowComponent: FlowComponent} as NodeTypes
 
 interface DigProps {
     equipment?: CIM | null
