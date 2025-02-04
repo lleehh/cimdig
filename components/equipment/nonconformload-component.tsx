@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
+import { Factory } from "lucide-react";
 
 
 interface NonConformLoadProps {
@@ -29,7 +30,7 @@ export default function NonConformLoadComponent({equipment}: NonConformLoadProps
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
-                        <ComponentIcon icon="bryter"/>
+                        <Factory />
                         {equipment.rdfType}
                         <AdditionalCimLinks nameList={dropdownList}/>
                         
