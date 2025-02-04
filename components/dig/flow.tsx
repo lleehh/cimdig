@@ -1,104 +1,86 @@
 'use client';
 import {
     ReactFlow,
-    useNodesState,
-    useEdgesState,
-    addEdge, Viewport, Controls, MiniMap, Background, Panel, NodeTypes
+    Viewport, Controls, MiniMap, Background, Panel, NodeTypes, useReactFlow
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
-import {useCallback} from "react";
 import {Button} from "@/components/ui/button";
 import FlowComponent from "@/components/dig/flow-component";
+import useFlowStore, {selector} from "@/lib/store/store-flow";
+import {useShallow} from "zustand/react/shallow";
+import {CIM} from "@/lib/cim";
+import {useCallback, useEffect} from "react";
+import {createNodesAndEdges, getLayoutedElements} from "@/lib/flow-utils";
 
-const nodeTypes: NodeTypes = {flowContainer: FlowComponent}
+const nodeTypes = {flowComponent: FlowComponent} as NodeTypes
 
-const testACLineSegment = {
-    rdfId: 'f1769b90-9aeb-11e5-91da-b8763fd99c5f',
-    rdfType: 'cim:ACLineSegment',
-    mRID: 'f1769b90-9aeb-11e5-91da-b8763fd99c5f',
-    bch: 0.0003333333,
-    r: 22.5,
-    x: 180,
-    length: 0,
-    baseVoltage: {
-        rdfId: '2dd90169-bdfb-11e5-94fa-c8f73332c8f4',
-        rdfType: 'cim:BaseVoltage',
-        mRID: '2dd90169-bdfb-11e5-94fa-c8f73332c8f4',
-        nominalVoltage: 300,
-        name: '300kV'
-    },
-    aggregate: false,
-    normallyInService: true,
-    description: "3701 6700 '1 '",
-    name: '300AJAURE-MO',
-    equipmentContainer: {
-        rdfId: '5e7d0b4c-fa65-1d40-aef6-779298018c7e',
-        rdfType: 'cim:Line',
-        mRID: '5e7d0b4c-fa65-1d40-aef6-779298018c7e',
-        region: {
-            rdfId: 'f17695c3-9aeb-11e5-91da-b8763fd99c5f',
-            rdfType: undefined,
-            mRID: 'f17695c3-9aeb-11e5-91da-b8763fd99c5f'
-        },
-        name: 'LC 300AJAURE-MO'
-    },
-    items: [
-        {
-            rdfId: '2dd903ad-bdfb-11e5-94fa-c8f73332c8f4',
-            rdfType: 'cim:OperatingShare',
-            mRID: '2dd903ad-bdfb-11e5-94fa-c8f73332c8f4',
-            operatingParticipant: [Object],
-            powerSystemResource: [Object],
-            percentage: '100'
-        }
-    ],
-    terminals: [
-        {
-            rdfId: '2dd903ab-bdfb-11e5-94fa-c8f73332c8f4',
-            rdfType: 'cim:Terminal',
-            mRID: '2dd903ab-bdfb-11e5-94fa-c8f73332c8f4',
-            conductingEquipment: [Object],
-            connectivityNode: [Object],
-            name: 'T1',
-            description: "3701 6700 '1 '",
-            sequenceNumber: 1
-        },
-        {
-            rdfId: '2dd903ac-bdfb-11e5-94fa-c8f73332c8f4',
-            rdfType: 'cim:Terminal',
-            mRID: '2dd903ac-bdfb-11e5-94fa-c8f73332c8f4',
-            conductingEquipment: [Object],
-            connectivityNode: [Object],
-            name: 'T2',
-            description: "3701 6700 '1 '",
-            sequenceNumber: 2
-        }
-    ]
+interface DigProps {
+    equipment?: CIM | null
 }
 
-const initialNodes = [
-    {id: '1', type: 'flowContainer', position: {x: 0, y: 0}, data: testACLineSegment},
-    {id: '2', type: 'flowContainer', position: {x: 0, y: 100}, data: {rdfType: 'HeiHopp', name: 'HeiHopp'}},
-];
-const initialEdges = [{id: 'e1-2', source: '1', target: '2'}];
+export default function Dig({equipment}: DigProps) {
+    const {fitView, getNode, setCenter} = useReactFlow();
 
-export default function Dig() {
-
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [nodes, _, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-    const onConnect = useCallback(
-        // eslint-disable-next-line
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [setEdges],
+    const {
+        focusNodeId,
+        nodes,
+        edges,
+        onNodesChange,
+        onEdgesChange,
+        onConnect,
+        setNodes,
+        setEdges,
+    } = useFlowStore(
+        useShallow(selector),
     );
 
-    const onLayout = (layout: string) => {
-        console.log('layout', layout)
-    }
+    useEffect(() => {
+        console.log('equipment', equipment)
+        if (equipment) {
+            const {nodes, edges} = createNodesAndEdges(equipment)
+            setNodes(nodes)
+            setEdges(edges)
+        }
+    }, []);
+
+    useEffect(() => {
+        console.log("######FOCUS NODE IS SET TO", focusNodeId)
+        if (focusNodeId) {
+            focusNodeHandle(focusNodeId)
+        }
+    }, [focusNodeId]);
+
+    const onLayout = useCallback(
+        (direction: string) => {
+            const layouted = getLayoutedElements(nodes, edges, {direction});
+            setNodes([...layouted.nodes]);
+            setEdges([...layouted.edges]);
+
+            window.requestAnimationFrame(() => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                // fitView({ nodes: [node], duration: 500, padding: 0.2 });
+                fitView({duration: 500, padding: 0.2});
+            });
+        },
+        [nodes, edges, setNodes, setEdges, fitView],
+    )
+
+    const focusNodeHandle = (nodeId) => {
+        const layouted = getLayoutedElements(nodes, edges, {direction: 'LR'});
+        setNodes([...layouted.nodes]);
+        setEdges([...layouted.edges]);
+
+        const node = layouted.nodes.find(node => node.id === nodeId)
+        //const node = getNode(nodeId);
+        if (node) {
+            //fitView({duration: 500, padding: 0.2});
+            setCenter(node.position.x, node.position.y, {
+                zoom: 1.0, // Adjust zoom level if needed
+                duration: 500, // Smooth transition
+            });
+        }
+    };
 
     const defaultViewport: Viewport = {x: 100, y: 300, zoom: 0.8};
 
@@ -107,11 +89,12 @@ export default function Dig() {
             <ReactFlow style={{width: '100%', height: '100%'}}
                        nodes={nodes}
                        edges={edges}
+                       nodeTypes={nodeTypes}
                        onNodesChange={onNodesChange}
                        onEdgesChange={onEdgesChange}
-                       onConnect={onConnect}
                        defaultViewport={defaultViewport}
-                       nodeTypes={nodeTypes}
+                       onConnect={onConnect}
+                       connectionLineStyle={{stroke: '#ddd', strokeWidth: 2}}
             >
                 <Panel position="top-right">
                     <div
