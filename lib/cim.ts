@@ -94,6 +94,11 @@ export interface PowerTransformer extends ConductingEquipment {
     connectivityNodeContainer: EquipmentContainer;
 }
 
+export interface PowerTransformerEnd extends ConductingEquipment {
+    rdfType: "cim:PowerTransformerEnd";
+    transformer: PowerTransformer;
+}
+
 /*
 
  "rdfType": "cim:ACLineSegment",
