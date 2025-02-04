@@ -7,7 +7,9 @@ import {
     GeneratingUnit, isConductingEquipment,
     isConnectivityNode,
     isTerminal,
-    Terminal
+    NonConformLoad,
+    Terminal,
+    BusbarSection
 } from "@/lib/cim";
 import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
 import BreakerComponent from "@/components/equipment/breaker-component";
@@ -23,6 +25,8 @@ import {useEffect, useState} from "react";
 import {findById, getComponentById} from "@/lib/store/model-repository";
 import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
 import {isExandable} from "@/lib/services/cim-service";
+import NonConformLoadComponent from "../equipment/nonconformload-component";
+import BusbarComponent from "../equipment/busbarsection-component";
 
 
 const Placeholder = () => (
@@ -50,6 +54,10 @@ function CimComponent({equipment}: { equipment: CIM }) {
                 return <BreakerComponent equipment={equipment as Breaker}/>;
             case "cim:GeneratingUnit":
                 return <GeneratorComponent equipment={equipment as GeneratingUnit}/>;
+            case "cim:NonConformLoad":
+                return <NonConformLoadComponent equipment={equipment as NonConformLoad}/>;
+            case "cim:BusbarSection":
+                return <BusbarComponent equipment={equipment as BusbarSection}/>;
             default:
                 return <GenericComponent equipment={equipment}/>;
         }
