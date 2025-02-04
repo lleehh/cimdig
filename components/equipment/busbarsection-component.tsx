@@ -23,7 +23,7 @@ export default function BusbarComponent({equipment}: BusbarProps) {
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="samleskinne"/>
-                        Buss Bar
+                        Busbar
                     </div>
                     <AdditionalCimLinks nameList={dropdownList}/>
                 </CardTitle>
