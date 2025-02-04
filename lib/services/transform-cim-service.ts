@@ -1,5 +1,5 @@
-import {CIM, ConductingEquipment, IdentifiedObject, RdfValue} from "@/models/cim";
-import {JsonData} from "@/services/model-repository";
+import {CIM, ConductingEquipment, IdentifiedObject, RdfValue} from "@/lib/cim";
+import {JsonData} from "@/lib/store/model-repository";
 
 function setFirstCharToLowercase(str: string): string {
     if (!str) return str;
@@ -55,6 +55,3 @@ export function convertToCimObject<T extends IdentifiedObject>(rdfId: string, da
     return node as T;
 }
 
-export function isConductingEquipment(equipment: IdentifiedObject): equipment is ConductingEquipment {
-    return (equipment as ConductingEquipment).baseVoltage !== undefined;
-}

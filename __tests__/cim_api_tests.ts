@@ -1,4 +1,4 @@
-import {findById, findByName} from "@/services/model-repository"
+import {findById, findByName} from "@/lib/store/model-repository"
 
 jest.mock("fs/promises", () => ({
     readFile: jest.fn((filePath: string) => {

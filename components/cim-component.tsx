@@ -1,5 +1,5 @@
 'use client'
-import {ACLineSegment, IdentifiedObject} from "@/models/cim";
+import {ACLineSegment, IdentifiedObject} from "@/lib/cim";
 import EquipmentComponent from "@/components/equipment/equipment-component";
 import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
 

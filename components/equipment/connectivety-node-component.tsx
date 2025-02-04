@@ -1,5 +1,5 @@
 'use client'
-import {ConnectivityNode} from "@/models/cim";
+import {ConnectivityNode} from "@/lib/cim";
 import {
     Card,
     CardContent,
@@ -9,7 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import {Shell} from "lucide-react";
+import {FileTerminal, Shell} from "lucide-react";
 import AdditionalCimLinks from "../additional-cim-links-component";
 
 
@@ -24,16 +24,19 @@ const dropdownList = [
 export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
 
     return (
-        <Card className="w-[150px]">
-            <CardHeader>
-                <CardTitle>
+        <Card className="w-[160px]">
+            <CardHeader className="p-2">
+                <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <Shell/> CN
-                        <AdditionalCimLinks nameList={dropdownList}/>
                     </div>
+                    <AdditionalCimLinks nameList={dropdownList}/>
                 </CardTitle>
                 <CardDescription>
-                    {equipment.name}
+                    <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
+                         title={equipment.name}>
+                        {equipment.name}
+                    </div>
                 </CardDescription>
             </CardHeader>
         </Card>

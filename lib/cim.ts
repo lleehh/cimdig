@@ -1,4 +1,3 @@
-
 export type RdfValue = string | number | boolean | IdentifiedObject | IdentifiedObject[] | undefined;
 
 export interface CIM {
@@ -9,8 +8,9 @@ export interface CIM {
 }
 
 export interface IdentifiedObject extends CIM {
-    name: string;
-    description?: string;
+    mRID: string
+    name: string
+    description?: string
 }
 
 export interface Equipment extends IdentifiedObject {
@@ -24,6 +24,10 @@ export interface ConductingEquipment extends Equipment {
     terminals: Terminal[]
 }
 
+export function isConductingEquipment(equipment: CIM): equipment is ConductingEquipment {
+    return (equipment as ConductingEquipment).baseVoltage !== undefined
+        || (equipment as ConductingEquipment).terminals !== undefined;
+}
 
 export interface ACLineSegment extends ConductingEquipment {
     rdfType: "cim:ACLineSegment";
@@ -61,15 +65,25 @@ export interface GeneratingUnit extends Equipment {
 }
 
 export interface ConnectivityNode extends IdentifiedObject {
+    connectivityNodeContainer: EquipmentContainer;
+    terminals: Terminal[];
 }
+
+export function isConnectivityNode(equipment: CIM): equipment is ConnectivityNode {
+    return (equipment as ConnectivityNode).connectivityNodeContainer !== undefined;
+}
+
 
 export interface Terminal extends IdentifiedObject {
     rdfType: "cim:Terminal";
+    conductingEquipment: ConductingEquipment;
     connectivityNode: ConnectivityNode;
     sequenceNumber: number;
 }
 
-
+export function isTerminal(equipment: CIM): equipment is Terminal {
+    return (equipment as Terminal).rdfType === "cim:Terminal";
+}
 
 /*
 
