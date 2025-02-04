@@ -85,6 +85,10 @@ export function isTerminal(equipment: CIM): equipment is Terminal {
     return (equipment as Terminal).rdfType === "cim:Terminal";
 }
 
+export interface BusbarSection extends ConductingEquipment {
+    rdfType: "cim:BusbarSection";
+}
+
 /*
 
  "rdfType": "cim:ACLineSegment",
