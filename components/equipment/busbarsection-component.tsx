@@ -1,21 +1,17 @@
-import {BusbarSection} from "@/lib/cim";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {ComponentIcon} from "@/components/component-icon";
+import { ComponentIcon } from "@/components/component-icon";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BusbarSection } from "@/lib/cim";
+import { componentRefs } from "@/lib/services/cim-service";
 import AdditionalCimLinks from "../additional-cim-links-component";
-import { Shell } from "lucide-react";
+
 
 interface BusbarProps {
     equipment: BusbarSection
 }
 
-const dropdownList = [
-    "BaseVoltage",
-    "EquipmentContainer",
-    "ConductingEquipment",
-    "OperatingShare",
-]
-
 export default function BusbarComponent({equipment}: BusbarProps) {
+    
+    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
 
     return (
         <Card className="w-[230px] ">
