@@ -89,6 +89,11 @@ export interface BusbarSection extends ConductingEquipment {
     rdfType: "cim:BusbarSection";
 }
 
+export interface PowerTransformer extends ConductingEquipment {
+    rdfType: "cim:PowerTransformer";
+    connectivityNodeContainer: EquipmentContainer;
+}
+
 /*
 
  "rdfType": "cim:ACLineSegment",
