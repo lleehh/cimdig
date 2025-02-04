@@ -11,19 +11,16 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
 import { Factory } from "lucide-react";
+import {componentRefs} from "@/lib/services/cim-service";
 
 
 interface NonConformLoadProps {
     equipment: NonConformLoad
 }
 
-const dropdownList = [
-    "ConductingEquipment",
-    "ConnectivityNode",
-]
-
-
 export default function NonConformLoadComponent({equipment}: NonConformLoadProps) {
+    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
 
     return (
         <Card className="w-[350px]">
