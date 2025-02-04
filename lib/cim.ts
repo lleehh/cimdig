@@ -85,6 +85,11 @@ export function isTerminal(equipment: CIM): equipment is Terminal {
     return (equipment as Terminal).rdfType === "cim:Terminal";
 }
 
+export interface NonConformLoad extends ConductingEquipment {
+    pfixed: number;
+    qfixed: number;
+}
+
 export interface BusbarSection extends ConductingEquipment {
     rdfType: "cim:BusbarSection";
 }
@@ -101,7 +106,7 @@ export interface PowerTransformerEnd extends ConductingEquipment {
 
 /*
 
- "rdfType": "cim:ACLineSegment",
+"rdfType": "cim:ACLineSegment",
         "cim:ACLineSegment.bch": "0.0003333333",
         "cim:ACLineSegment.r": "22.5",
         "cim:ACLineSegment.x": "180",
