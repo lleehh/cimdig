@@ -41,7 +41,7 @@ export default function NonConformLoadComponent({equipment}: NonConformLoadProps
             <CardContent className="flex flex-col space-y-4">
                 <div className="text-gray-400">{equipment.description}</div>
                 <div>
-                    Voltage {(equipment.baseVoltage as BaseVoltage).name}
+                    Voltage {(equipment.baseVoltage as BaseVoltage)?.name}
                 </div>
             </CardContent>
         </Card>
