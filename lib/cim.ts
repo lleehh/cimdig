@@ -81,6 +81,10 @@ export interface Terminal extends IdentifiedObject {
     sequenceNumber: number;
 }
 
+export function isTerminal(equipment: CIM): equipment is Terminal {
+    return (equipment as Terminal).rdfType === "cim:Terminal";
+}
+
 export interface NonConformLoad extends ConductingEquipment {
     pfixed: number;
     qfixed: number;
