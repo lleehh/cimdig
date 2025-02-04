@@ -87,8 +87,6 @@ export function isTerminal(equipment: CIM): equipment is Terminal {
 
 export interface BusbarSection extends ConductingEquipment {
     rdfType: "cim:BusbarSection";
-    mRID: string;
-    equipmentContainer: EquipmentContainer;
 }
 
 /*
