@@ -1,39 +1,37 @@
 'use client'
-import { ComponentIcon } from "@/components/component-icon";
 import {
     Card,
     CardDescription,
     CardHeader,
-    CardTitle
+    CardTitle,
 } from "@/components/ui/card";
-import { PowerTransformer } from "@/lib/cim";
-import { componentRefs } from "@/lib/services/cim-service";
-import AdditionalCimLinks from "../additional-cim-links-component";
+import { PowerTransformerEnd } from "@/lib/cim";
+import { FileTerminal } from "lucide-react";
+import { ComponentIcon } from "../component-icon";
 
 
-interface PowerTransformerProps {
-    equipment: PowerTransformer
+interface PTEProps {
+    equipment: PowerTransformerEnd
 }
 
-export default function PowerTransformerComponent({equipment}: PowerTransformerProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+export default function PowerTransformerEndComponent({equipment}: PTEProps) {
 
     return (
-        <Card className="w-[230px]">
+        <Card className="w-max">
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="transformator"/>
-                        PT
+                        PTE
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                         title={equipment.name}>
+                         title= {equipment.name}>
                         {equipment.name}
                     </div>
+
                 </CardDescription>
             </CardHeader>
         </Card>
