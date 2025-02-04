@@ -6,8 +6,9 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { PowerTransformerEnd } from "@/lib/cim";
-import { FileTerminal } from "lucide-react";
 import { ComponentIcon } from "../component-icon";
+import {Circle} from "lucide-react";
+
 
 
 interface PTEProps {
@@ -22,7 +23,7 @@ export default function PowerTransformerEndComponent({equipment}: PTEProps) {
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
-                        <ComponentIcon icon="transformator"/>
+                        <Circle/>
                         PTE
                     </div>
                 </CardTitle>
