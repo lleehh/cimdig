@@ -10,19 +10,18 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
+import {componentRefs} from "@/lib/services/cim-service";
 
 
 interface BreakerProps {
     equipment: Breaker
 }
 
-const dropdownList = [
-    "ConductingEquipment",
-    "ConnectivityNode",
-]
-
-
 export default function BreakerComponent({equipment}: BreakerProps) {
+
+    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    
+
     return (
         <Card className="w-[350px]">
             <CardHeader>
