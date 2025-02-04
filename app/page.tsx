@@ -1,5 +1,5 @@
-import {getComponentById} from "@/services/model-repository";
-import {ACLineSegment, Breaker, ConnectivityNode, GeneratingUnit, Terminal} from "@/models/cim";
+import {getComponentById} from "@/lib/store/model-repository";
+import {ACLineSegment, Breaker, ConnectivityNode, GeneratingUnit, Terminal} from "@/lib/cim";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
 import {Separator} from "@/components/ui/separator";
