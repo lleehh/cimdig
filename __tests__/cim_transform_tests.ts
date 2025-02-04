@@ -1,6 +1,6 @@
-import {findById} from "@/services/model-repository"
-import {convertToCimObject} from "@/services/transform-cim-service";
-import {ACLineSegment} from "@/models/cim";
+import {findById} from "@/lib/store/model-repository"
+import {convertToCimObject} from "@/lib/services/transform-cim-service";
+import {ACLineSegment} from "@/lib/cim";
 
 jest.mock("fs/promises", () => ({
     readFile: jest.fn((filePath: string) => {

@@ -10,11 +10,10 @@ import {
     CommandShortcut,
 } from "@/components/ui/command"
 import React, {FormEvent, ReactEventHandler, useEffect, useState} from "react";
-import {searchByName, SearchResult} from "@/services/model-repository";
+import {searchByName, SearchResult} from "@/lib/store/model-repository";
 
 
 export default function SearchBar() {
-    const [isSelected, setIsSelected] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
     const [input, setInput] = useState("")
     const [response, setResponse] = useState<SearchResult>([])
@@ -46,13 +45,12 @@ export default function SearchBar() {
                         <CommandItem key={item.id}>{item.name}</CommandItem>
                     ))
                     : <></>}
-                <CommandGroup heading="Suggestions">
-                    {/*Maybe add recent searches here later:*/}
-
-                    {/*<CommandItem>{response[0].name}</CommandItem>*/}
-                    {/*<CommandItem>{response[1].name}</CommandItem>*/}
-                    {/*<CommandItem>{response[2].name}</CommandItem>*/}
-                </CommandGroup>
+                {/*<CommandGroup heading="Suggestions">*/}
+                {/*    /!*Maybe add recent searches here later:*!/*/}
+                {/*    /!*<CommandItem>{response[0].name}</CommandItem>*!/*/}
+                {/*    /!*<CommandItem>{response[1].name}</CommandItem>*!/*/}
+                {/*    /!*<CommandItem>{response[2].name}</CommandItem>*!/*/}
+                {/*</CommandGroup>*/}
             </CommandList>
         </Command>
         )

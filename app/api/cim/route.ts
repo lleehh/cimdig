@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-import {findById, findByName} from "@/services/model-repository";
+import {findById, findByName} from "@/lib/store/model-repository";
 
 // API handler
 export async function GET(request: Request) {
