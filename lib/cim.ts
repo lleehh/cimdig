@@ -90,6 +90,9 @@ export interface NonConformLoad extends ConductingEquipment {
     qfixed: number;
 }
 
+export interface BusbarSection extends ConductingEquipment {
+    rdfType: "cim:BusbarSection";
+}
 
 
 /*
