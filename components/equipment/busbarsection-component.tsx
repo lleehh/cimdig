@@ -4,13 +4,12 @@ import { BusbarSection } from "@/lib/cim";
 import { componentRefs } from "@/lib/services/cim-service";
 import AdditionalCimLinks from "../additional-cim-links-component";
 
-
 interface BusbarProps {
     equipment: BusbarSection
 }
 
 export default function BusbarComponent({equipment}: BusbarProps) {
-    
+
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
 
     return (
