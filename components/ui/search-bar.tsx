@@ -10,7 +10,9 @@ import {
     CommandShortcut,
 } from "@/components/ui/command"
 import React, {FormEvent, ReactEventHandler, useEffect, useState} from "react";
-import {searchByName, SearchResult} from "@/lib/store/model-repository";
+import {findById, getComponentById, searchByName, SearchResult} from "@/lib/store/model-repository";
+import useFlowStore from "@/lib/store/store-flow";
+import {createNode, createNodesAndEdges} from "@/lib/flow-utils";
 
 
 export default function SearchBar() {
@@ -18,9 +20,12 @@ export default function SearchBar() {
     const [input, setInput] = useState("")
     const [response, setResponse] = useState<SearchResult>([])
 
+    const {setNodes, setEdges} = useFlowStore()
+
     useEffect(() => {
         const fetchResults = async () => {
             try {
+                console.log("lksjdlfa " + input)
                 const result = await searchByName(input);
                 setResponse(result || []);
             } catch (error) {
@@ -29,8 +34,15 @@ export default function SearchBar() {
             }
         };
         fetchResults()
-    }, [input])
+    }, [])
 
+    const fetchComponent = async (id: string)=> {
+        let equipment = await getComponentById(id)
+        const {nodes, edges} = createNodesAndEdges(equipment)
+        setNodes(nodes)
+        setEdges(edges)
+        console.log(equipment)
+    }
     return (
         <Command className={'shadow-2xl'}>
             <CommandInput
@@ -42,7 +54,9 @@ export default function SearchBar() {
             <CommandList>
                 {isFocused ?
                     response.map((item) => (
-                        <CommandItem key={item.id}>{item.name}</CommandItem>
+                        <CommandItem key={item.id} onSelect={() => fetchComponent(item.id)} value={item.name}>
+                            {item.name}
+                        </CommandItem>
                     ))
                     : <></>}
                 {/*<CommandGroup heading="Suggestions">*/}
