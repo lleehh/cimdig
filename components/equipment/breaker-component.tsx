@@ -15,12 +15,20 @@ import {componentRefs} from "@/lib/services/cim-service";
 
 interface BreakerProps {
     equipment: Breaker
+    collapsed?: boolean
 }
 
-export default function BreakerComponent({equipment}: BreakerProps) {
+export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
     
+
+    if (collapsed)
+        return (
+            <div className="w-44 border border-gray-400 p-3">
+            <ComponentIcon icon="bryter"/>
+        </div> 
+        )
 
     return (
         <Card className="w-[350px]">

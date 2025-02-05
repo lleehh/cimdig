@@ -6,11 +6,20 @@ import AdditionalCimLinks from "../additional-cim-links-component";
 
 interface BusbarProps {
     equipment: BusbarSection
+    collapsed?: boolean
 }
 
-export default function BusbarComponent({equipment}: BusbarProps) {
+export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
+    if (collapsed)
+        return (
+            <div className="w-44 border border-gray-400 p-3">
+            <ComponentIcon icon="samleskinne"/>
+        </div> 
+        )
+
 
     return (
         <Card className="w-[230px] ">

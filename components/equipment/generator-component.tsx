@@ -15,11 +15,19 @@ import {componentRefs} from "@/lib/services/cim-service";
 
 interface GeneratorProps {
     equipment: GeneratingUnit
+    collapsed?: boolean
 }
 
-export default function GeneratorComponent({equipment}: GeneratorProps) {
+export default function GeneratorComponent({equipment, collapsed}: GeneratorProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
+    if (collapsed)
+        return (
+            <div className="w-44 border border-gray-400 p-3">
+            <ComponentIcon icon="generator"/>
+        </div> 
+        )
 
     return (
         <Card className="w-[350px]">
