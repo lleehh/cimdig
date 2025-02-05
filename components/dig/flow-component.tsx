@@ -1,4 +1,4 @@
-import CimComponent from "@/components/dig/Cim-Component";
+import CimComponent from "@/components/dig/cim-component";
 import Placeholder from "@/components/dig/placeholder";
 import { Button } from "@/components/ui/button";
 import {
