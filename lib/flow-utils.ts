@@ -3,6 +3,7 @@ import {Edge, MarkerType} from "@xyflow/react";
 import {CIM, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
 import Dagre from '@dagrejs/dagre';
 import {JsonData} from "@/lib/store/model-repository";
+import { getRandomValues } from "crypto";
 
 
 export function doesEquipmentExistsInFlow(rdfId: string, nodes: CimNode[]): boolean {
@@ -30,12 +31,12 @@ export const edgeTemplate = {
     }
 }
 
-export function createNode(id: string, data: CIM, x: number, y: number): CimNode {
+export function createNode(id: string, data: CIM, x: number, y: number, color: string): CimNode {
     return {
         id: id,
         type: 'flowComponent',
         position: {x: x, y: y},
-        data: data
+        data: {...data, color: color}
     } as CimNode
 }
 
@@ -51,14 +52,18 @@ export function createEdge(sourceId: string, targetId: string, fromSource: boole
 export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: Edge[] } => {
 
     console.log(component.rdfId, component.rdfType)
-    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0)]
+    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "red")]
     const edges: Edge[] = [];
+
+    const colors = ["red", "blue", "yellow"]
+
     if (isConductingEquipment(component)) {
         let firstTerminal = true
         component.terminals
             .sort((a, b) => a.sequenceNumber - b.sequenceNumber)
             .forEach((terminal) => {
-                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0))
+                
+                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, colors[Math.round((Math.random()*10000)%2)]))
                 edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal))
                 firstTerminal = false
             })
