@@ -76,7 +76,7 @@ export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: 
 export const getLayoutedElements = (nodes, edges, options) => {
     const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
     // The space between nodes is set by ranksep (vertical) and nodesep (horizontal)
-    g.setGraph({rankdir: options.direction, ranksep: 100, nodesep: 100});
+    g.setGraph({rankdir: options.direction, ranksep: 200, nodesep: 100, ranker: "tight-tree"});
 
     edges.forEach((edge) => g.setEdge(edge.source, edge.target));
     nodes.forEach((node) =>
@@ -94,8 +94,8 @@ export const getLayoutedElements = (nodes, edges, options) => {
             const position = g.node(node.id);
             // We are shifting the dagre node position (anchor=center center) to the top left
             // so it matches the React Flow node anchor point (top left).
-            const x = position.x - (node.measured?.width ?? 0) / 2;
-            const y = position.y - (node.measured?.height ?? 0) / 2;
+            const x = position.x //- (node.measured?.width ?? 0) / 2;
+            const y = position.y //- (node.measured?.height ?? 0) / 2;
             return {...node, position: {x, y}};
         }),
         edges,
