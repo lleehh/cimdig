@@ -15,18 +15,18 @@ export const edgeTemplate = {
         type: MarkerType.ArrowClosed,
         width: 10,
         height: 10,
-        color: '#07964a',
+        color: '#ff0000',
     },
     markerEnd: {
         type: MarkerType.ArrowClosed,
-        width: 10,
-        height: 10,
-        color: '#07964a',
+        width: 20,
+        height: 20,
+        color: '#0080ff',
     },
     // label: 'T',
     style: {
         strokeWidth: 3,
-        stroke: '#07964a',
+        stroke: '#7700ff',
     }
 }
 
@@ -49,7 +49,6 @@ export function createEdge(sourceId: string, targetId: string, fromSource: boole
 }
 
 export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: Edge[] } => {
-
     console.log(component.rdfId, component.rdfType)
     const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0)]
     const edges: Edge[] = [];
@@ -76,7 +75,11 @@ export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: 
 export const getLayoutedElements = (nodes, edges, options) => {
     const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
     // The space between nodes is set by ranksep (vertical) and nodesep (horizontal)
-    g.setGraph({rankdir: options.direction, ranksep: 100, nodesep: 100});
+    //console.log()
+
+    
+
+    g.setGraph({rankdir: options.direction, ranksep: 200, nodesep: 100, ranker: "tight-tree"});
 
     // @ts-expect-error dagre types are not up to date
     edges.forEach((edge) => g.setEdge(edge.source, edge.target));
@@ -86,19 +89,22 @@ export const getLayoutedElements = (nodes, edges, options) => {
             ...node,
             width: node.measured?.width ?? 0,
             height: node.measured?.height ?? 0,
+            
         }),
     );
 
+    
     Dagre.layout(g);
 
     return {
         // @ts-expect-error dagre types are not up to date
         nodes: nodes.map((node) => {
             const position = g.node(node.id);
+            
             // We are shifting the dagre node position (anchor=center center) to the top left
             // so it matches the React Flow node anchor point (top left).
-            const x = position.x - (node.measured?.width ?? 0) / 2;
-            const y = position.y - (node.measured?.height ?? 0) / 2;
+            const x = position.x //- (node.measured?.width ?? 0) / 2;
+            const y = position.y //- (node.measured?.height ?? 0) / 2;
             return {...node, position: {x, y}};
         }),
         edges,

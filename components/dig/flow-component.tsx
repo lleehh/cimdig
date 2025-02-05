@@ -102,13 +102,12 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
                     newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0))
-                    newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, component.sequenceNumber !== 1))
-
+                    newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, true))
                 }
 
                 if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
                     newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0))
-                    newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, component.sequenceNumber !== 1))
+                    newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, true))
                 }
             }
             if (isConnectivityNode(component) || isConductingEquipment(component)) {
@@ -128,16 +127,20 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         }
         setExpanded(true)
     }
+
+    //console.log(data.newComponent)
+
     return (
         <div>
-            <Handle type="target" position={Position.Left} className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
+
+            <Handle type="target" position={Position.Left} isConnectable={false} className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
             {showContent ? <div className="relative">
                 {!expanded && isExandableComponent &&
                     <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
                             onClick={handleExpand}><Expand/></Button>}
                 <CimComponent equipment={component || data}/>
             </div> : <Placeholder/>}
-            <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
+            <Handle type="source" position={Position.Right} isConnectable={false} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
         </div>
     )
 }

@@ -20,6 +20,7 @@ interface DigProps {
 }
 
 export default function Dig({equipment}: DigProps) {
+    //console.log("aaaaaa")
     const {fitView, getNode, setCenter} = useReactFlow();
 
     const {
@@ -50,6 +51,10 @@ export default function Dig({equipment}: DigProps) {
             focusNodeHandle(focusNodeId)
         }
     }, [focusNodeId]);
+
+    //console.log("Focusnode", focusNodeId)
+
+    
 
     const onLayout = useCallback(
         (direction: string) => {
@@ -82,9 +87,10 @@ export default function Dig({equipment}: DigProps) {
         }
     };
 
-    const defaultViewport: Viewport = {x: 100, y: 300, zoom: 0.8};
+    const defaultViewport: Viewport = {x: 100, y: 300, zoom: 1};
 
-    return (
+    //console.log(nodes)
+    return (    
         <div className="relative flex flex-col h-full flex-grow">
             <ReactFlow style={{width: '100%', height: '100%'}}
                        nodes={nodes}
@@ -95,6 +101,9 @@ export default function Dig({equipment}: DigProps) {
                        defaultViewport={defaultViewport}
                        onConnect={onConnect}
                        connectionLineStyle={{stroke: '#ddd', strokeWidth: 2}}
+
+                       nodesConnectable={false}
+                       nodesDraggable={false}
             >
                 <Panel position="top-right">
                     <div
