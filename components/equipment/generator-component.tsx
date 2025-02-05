@@ -10,18 +10,16 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
+import {componentRefs} from "@/lib/services/cim-service";
 
 
 interface GeneratorProps {
     equipment: GeneratingUnit
 }
 
-const dropdownList = [
-    "EquipmentContainer",
-    "scheduleResource",
-]
-
 export default function GeneratorComponent({equipment}: GeneratorProps) {
+
+    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
 
     return (
         <Card className="w-[350px]">
