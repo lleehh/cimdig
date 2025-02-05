@@ -1,71 +1,23 @@
-import {NodeProps, useStore, Handle, Position, Edge,} from "@xyflow/react";
+import CimComponent from "@/components/dig/Cim-Component";
+import Placeholder from "@/components/dig/placeholder";
+import { Button } from "@/components/ui/button";
 import {
-    ACLineSegment,
-    Breaker,
     CIM,
-    ConnectivityNode,
-    GeneratingUnit, isConductingEquipment,
+    isConductingEquipment,
     isConnectivityNode,
-    isTerminal,
-    NonConformLoad,
-    Terminal,
-    BusbarSection
+    isTerminal
 } from "@/lib/cim";
-import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
-import BreakerComponent from "@/components/equipment/breaker-component";
-import ConnectivityNodeComponent from "@/components/equipment/connectivety-node-component";
-import GenericComponent from "@/components/equipment/generic-component";
-import useFlowStore, {CimNode, selector} from "@/lib/store/store-flow";
-import TerminalComponent from "@/components/equipment/terminal-component";
-import GeneratorComponent from "@/components/equipment/generator-component";
-import {Button} from "@/components/ui/button";
-import {Expand} from "lucide-react";
-import {useShallow} from "zustand/react/shallow";
-import {useEffect, useState} from "react";
-import {findById, getComponentById} from "@/lib/store/model-repository";
-import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
-import {isExandable} from "@/lib/services/cim-service";
-import NonConformLoadComponent from "../equipment/nonconformload-component";
-import BusbarComponent from "../equipment/busbarsection-component";
+import { createEdge, createNode, doesEquipmentExistsInFlow } from "@/lib/flow-utils";
+import { isExandable } from "@/lib/services/cim-service";
+import { getComponentById } from "@/lib/store/model-repository";
+import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
+import { Edge, Handle, NodeProps, Position, useStore, } from "@xyflow/react";
+import { Expand } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
-
-const Placeholder = () => (
-    <div className="w-44 border border-gray-400 p-3">
-        <div role="form" className="w-full mb-1 bg-gray-200 dark:bg-gray-700 flex-grow h-4"/>
-        <div role="form" className="w-full mb-1 bg-gray-200 dark:bg-gray-700 flex-grow h-4"/>
-        <div role="form" className="w-full mb-1 bg-gray-200 dark:bg-gray-700 flex-grow h-4"/>
-    </div>
-);
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
-
-
-function CimComponent({equipment}: { equipment: CIM }) {
-
-    const renderComponent = () => {
-        switch (equipment.rdfType) {
-            case "cim:ACLineSegment":
-                return <ACLineSegmentComponent equipment={equipment as ACLineSegment}/>;
-            case "cim:Terminal":
-                return <TerminalComponent equipment={equipment as Terminal}/>;
-            case "cim:ConnectivityNode":
-                return <ConnectivityNodeComponent equipment={equipment as ConnectivityNode}/>;
-            case "cim:Breaker":
-                return <BreakerComponent equipment={equipment as Breaker}/>;
-            case "cim:GeneratingUnit":
-                return <GeneratorComponent equipment={equipment as GeneratingUnit}/>;
-            case "cim:NonConformLoad":
-                return <NonConformLoadComponent equipment={equipment as NonConformLoad}/>;
-            case "cim:BusbarSection":
-                return <BusbarComponent equipment={equipment as BusbarSection}/>;
-            default:
-                return <GenericComponent equipment={equipment}/>;
-        }
-    };
-    return (<>
-        {renderComponent()}
-    </>)
-}
 
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {

@@ -2,6 +2,7 @@
 import {ACLineSegment, IdentifiedObject} from "@/lib/cim";
 import EquipmentComponent from "@/components/equipment/equipment-component";
 import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
+import { Minimize } from "lucide-react";
 
 interface EquipmentProps {
     equipment: IdentifiedObject
