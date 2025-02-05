@@ -5,7 +5,7 @@ import {
     CIM,
     isConductingEquipment,
     isConnectivityNode,
-    isTerminal
+    isTerminal  
 } from "@/lib/cim";
 import { createEdge, createNode, doesEquipmentExistsInFlow } from "@/lib/flow-utils";
 import { isExandable } from "@/lib/services/cim-service";
