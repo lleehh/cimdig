@@ -12,12 +12,63 @@ import { isExandable } from "@/lib/services/cim-service";
 import { getComponentById } from "@/lib/store/model-repository";
 import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
 import { Edge, Handle, NodeProps, Position, useStore, } from "@xyflow/react";
-import { Expand } from "lucide-react";
+import { Expand, FileTerminal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { ComponentIcon } from '@/components/component-icon';
+import { Factory, Shell } from 'lucide-react';
 
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
+
+function selectPlaceholder(type: string) {
+    switch (type) {
+        case "cim:ACLineSegment": // if the type is ACLineSegment then show an icon of an AC Line segment
+            return   (
+                <div className="w-44 border border-gray-400 p-3">
+                        <ComponentIcon icon="overforing"/>
+                </div> )
+        case "cim:Terminal":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <FileTerminal/>
+                </div>
+            )
+        case "cim:ConnectivityNode":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <Shell/>
+                </div>
+            )
+        case "cim:Breaker":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <ComponentIcon icon="bryter"/>
+                </div>
+            )
+        case "cim:GeneratingUnit":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <ComponentIcon icon="generator"/>
+                </div>
+            ) 
+        case "cim:NonConformLoad":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <Factory/>
+                </div>
+            )    
+        case "cim:BusbarSection":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <ComponentIcon icon="samleskinne"/>
+                </div>
+            )
+
+        default:
+            return Placeholder()
+    }
+}
 
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {
@@ -96,7 +147,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                     <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
                             onClick={handleExpand}><Expand/></Button>}
                 <CimComponent equipment={component || data}/>
-            </div> : <Placeholder/>}
+            </div> : selectPlaceholder(data.rdfType)}
             <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
         </div>
     )
