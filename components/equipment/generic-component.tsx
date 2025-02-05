@@ -1,5 +1,5 @@
 'use client'
-import {CIM, ConnectivityNode, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
+import {CIM} from "@/lib/cim";
 import {
     Card,
     CardDescription,
@@ -7,7 +7,6 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {Triangle} from "lucide-react";
-import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
 

@@ -8,9 +8,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
-import {FileTerminal, Shell} from "lucide-react";
-import AdditionalCimLinks from "../additional-cim-links-component";
+import {Shell} from "lucide-react";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
 
 

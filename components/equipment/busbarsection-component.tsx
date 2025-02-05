@@ -2,7 +2,7 @@ import { ComponentIcon } from "@/components/component-icon";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BusbarSection } from "@/lib/cim";
 import { componentRefs } from "@/lib/services/cim-service";
-import AdditionalCimLinks from "../additional-cim-links-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface BusbarProps {
     equipment: BusbarSection

@@ -9,20 +9,22 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {Button} from "@/components/ui/button"
 import {List} from "lucide-react";
-import {CIM} from "@/lib/cim";
+import {CIM, IdentifiedObject} from "@/lib/cim";
 import useFlowStore, {selector} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {getComponentById} from "@/lib/store/model-repository";
-import {createEdge, createNode, createNodesAndEdges} from "@/lib/flow-utils";
+import {createEdge, createNode} from "@/lib/flow-utils";
+import {memo} from "react";
 
 interface CimLinksProps {
+    open: boolean
     component: CIM
     componentRefs: CIM[]
 }
 
-export default function AdditionalCimLinks({component, componentRefs}: CimLinksProps) {
+const AdditionalCimLinks = memo(({open, component, componentRefs}: CimLinksProps) => {
 
-
+    console.log("RENDER DROPDOWN")
     const {
         nodes,
         edges,
@@ -32,9 +34,10 @@ export default function AdditionalCimLinks({component, componentRefs}: CimLinksP
     } = useFlowStore(useShallow(selector));
 
 
+    //if(!open) return null
+
     const handleSelect = async (id: string) => {
 
-        console.log("###############################DROPDOWN")
         const refComponent = await getComponentById(id)
 
         if (refComponent != null && nodes.find(node => node.data.rdfId === refComponent.rdfId) === undefined) {
@@ -46,24 +49,37 @@ export default function AdditionalCimLinks({component, componentRefs}: CimLinksP
         }
 
     }
+    const filteredComponentRefs = componentRefs.filter(ref =>
+        !nodes.find(node => node.data.rdfId === ref.rdfId)
+    );
+    /*
+
+    return (
+        componentRefs.map((component) => (
+            <Button type="button" key={component.rdfId}
+                    onClick={() => handleSelect(component.rdfId)}>{component.rdfType}
+            </Button>
+        ))
+    )
+
+     */
 
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild={true} className="border-solid">
-                <Button variant="ghost" size="icon"><List/></Button>
-            </DropdownMenuTrigger>
+        <DropdownMenu open={true}>
+
             <DropdownMenuContent className="flex flex-col space-y-2">
                 <DropdownMenuLabel>Properties</DropdownMenuLabel>
                 <DropdownMenuSeparator/>
-                {componentRefs.map((component) => (
+                {filteredComponentRefs.map((component) => (
                     <DropdownMenuItem key={component.rdfId}
-                                      onSelect={() => handleSelect(component.rdfId)}>{component.rdfType}
+                                      onSelect={() => handleSelect(component.rdfId)}>{component.rdfType} {(component as IdentifiedObject)?.name}
                     </DropdownMenuItem>
                 ))}
             </DropdownMenuContent>
 
         </DropdownMenu>
     )
-}
+})
 
+export default AdditionalCimLinks;

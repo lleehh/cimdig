@@ -8,10 +8,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import { Factory } from "lucide-react";
 import {componentRefs} from "@/lib/services/cim-service";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 
 interface NonConformLoadProps {

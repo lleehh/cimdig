@@ -9,8 +9,8 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 
 interface BreakerProps {
