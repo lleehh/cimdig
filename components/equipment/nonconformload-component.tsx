@@ -19,7 +19,8 @@ interface NonConformLoadProps {
 }
 
 export default function NonConformLoadComponent({equipment}: NonConformLoadProps) {
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
+    const refs = componentRefs(equipment)
 
 
     return (
@@ -29,8 +30,7 @@ export default function NonConformLoadComponent({equipment}: NonConformLoadProps
                     <div className="flex flex-row items-center gap-2">
                         <Factory />
                         {equipment.rdfType}
-                        <AdditionalCimLinks nameList={dropdownList}/>
-                        
+                        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>

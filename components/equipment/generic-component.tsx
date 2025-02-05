@@ -18,7 +18,7 @@ interface ConnectivetyNodeProps {
 
 export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
 
     return (
         <Card className="w-[250px]">
@@ -31,7 +31,7 @@ export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
                                  title={equipment.name as string}>
                             </div>}
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>{equipment.rdfType}</CardDescription>
             </CardHeader>
