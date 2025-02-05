@@ -1,70 +1,73 @@
-import {NodeProps, useStore, Handle, Position, Edge,} from "@xyflow/react";
+import CimComponent from "@/components/dig/cim-component";
+import Placeholder from "@/components/dig/placeholder";
+import { Button } from "@/components/ui/button";
 import {
-    ACLineSegment,
-    Breaker,
     CIM,
-    ConnectivityNode,
-    GeneratingUnit, isConductingEquipment,
+    isConductingEquipment,
     isConnectivityNode,
-    isTerminal,
-    NonConformLoad,
-    Terminal,
-    BusbarSection
+    isTerminal  
 } from "@/lib/cim";
-import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
-import BreakerComponent from "@/components/equipment/breaker-component";
-import ConnectivityNodeComponent from "@/components/equipment/connectivety-node-component";
-import GenericComponent from "@/components/equipment/generic-component";
-import useFlowStore, {CimNode, selector} from "@/lib/store/store-flow";
-import TerminalComponent from "@/components/equipment/terminal-component";
-import GeneratorComponent from "@/components/equipment/generator-component";
-import {Button} from "@/components/ui/button";
-import {Expand} from "lucide-react";
-import {useShallow} from "zustand/react/shallow";
-import {useEffect, useState} from "react";
-import {findById, getComponentById} from "@/lib/store/model-repository";
-import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
-import {isExandable} from "@/lib/services/cim-service";
-import NonConformLoadComponent from "../equipment/nonconformload-component";
-import BusbarComponent from "../equipment/busbarsection-component";
+import { createEdge, createNode, doesEquipmentExistsInFlow } from "@/lib/flow-utils";
+import { isExandable } from "@/lib/services/cim-service";
+import { getComponentById } from "@/lib/store/model-repository";
+import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
+import { Edge, Handle, NodeProps, Position, useStore, } from "@xyflow/react";
+import { Expand, FileTerminal } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { ComponentIcon } from '@/components/component-icon';
+import { Factory, Shell } from 'lucide-react';
 
-
-const Placeholder = () => (
-    <div className="w-44 border border-gray-400 p-3">
-        <div role="form" className="w-full mb-1 bg-gray-200 dark:bg-gray-700 flex-grow h-4"/>
-        <div role="form" className="w-full mb-1 bg-gray-200 dark:bg-gray-700 flex-grow h-4"/>
-        <div role="form" className="w-full mb-1 bg-gray-200 dark:bg-gray-700 flex-grow h-4"/>
-    </div>
-);
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
+function selectPlaceholder(type: string) {
+    switch (type) {
+        case "cim:ACLineSegment": // if the type is ACLineSegment then show an icon of an AC Line segment
+            return   (
+                <div className="w-44 border border-gray-400 p-3">
+                        <ComponentIcon icon="overforing"/>
+                </div> )
+        case "cim:Terminal":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <FileTerminal/>
+                </div>
+            )
+        case "cim:ConnectivityNode":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <Shell/>
+                </div>
+            )
+        case "cim:Breaker":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <ComponentIcon icon="bryter"/>
+                </div>
+            )
+        case "cim:GeneratingUnit":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <ComponentIcon icon="generator"/>
+                </div>
+            ) 
+        case "cim:NonConformLoad":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <Factory/>
+                </div>
+            )    
+        case "cim:BusbarSection":
+            return (
+                <div className="w-44 border border-gray-400 p-3">
+                    <ComponentIcon icon="samleskinne"/>
+                </div>
+            )
 
-function CimComponent({equipment}: { equipment: CIM }) {
-
-    const renderComponent = () => {
-        switch (equipment.rdfType) {
-            case "cim:ACLineSegment":
-                return <ACLineSegmentComponent equipment={equipment as ACLineSegment}/>;
-            case "cim:Terminal":
-                return <TerminalComponent equipment={equipment as Terminal}/>;
-            case "cim:ConnectivityNode":
-                return <ConnectivityNodeComponent equipment={equipment as ConnectivityNode}/>;
-            case "cim:Breaker":
-                return <BreakerComponent equipment={equipment as Breaker}/>;
-            case "cim:GeneratingUnit":
-                return <GeneratorComponent equipment={equipment as GeneratingUnit}/>;
-            case "cim:NonConformLoad":
-                return <NonConformLoadComponent equipment={equipment as NonConformLoad}/>;
-            case "cim:BusbarSection":
-                return <BusbarComponent equipment={equipment as BusbarSection}/>;
-            default:
-                return <GenericComponent equipment={equipment}/>;
-        }
-    };
-    return (<>
-        {renderComponent()}
-    </>)
+        default:
+            return Placeholder()
+    }
 }
 
 
@@ -147,9 +150,8 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                     <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
                             onClick={handleExpand}><Expand/></Button>}
                 <CimComponent equipment={component || data}/>
-            </div> : <Placeholder/>}
-            <Handle type="source" isConnectable={false} position={Position.Right}
-                    className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
+            </div> : selectPlaceholder(data.rdfType)}
+            <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
         </div>
     )
 }
