@@ -9,7 +9,9 @@ import {
     isTerminal,
     NonConformLoad,
     Terminal,
-    BusbarSection
+    BusbarSection,
+    PowerTransformer,
+    PowerTransformerEnd
 } from "@/lib/cim";
 import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
 import BreakerComponent from "@/components/equipment/breaker-component";
@@ -19,7 +21,7 @@ import useFlowStore, {CimNode, selector} from "@/lib/store/store-flow";
 import TerminalComponent from "@/components/equipment/terminal-component";
 import GeneratorComponent from "@/components/equipment/generator-component";
 import {Button} from "@/components/ui/button";
-import {Expand} from "lucide-react";
+import {Expand, Power} from "lucide-react";
 import {useShallow} from "zustand/react/shallow";
 import {useEffect, useState} from "react";
 import {findById, getComponentById} from "@/lib/store/model-repository";
@@ -27,6 +29,8 @@ import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-util
 import {isExandable} from "@/lib/services/cim-service";
 import NonConformLoadComponent from "../equipment/nonconformload-component";
 import BusbarComponent from "../equipment/busbarsection-component";
+import PowerTransformerComponent from "../equipment/powertransformer-component";
+import PowerTransformerEndComponent from "../equipment/powertransformer-end-component";
 
 
 const Placeholder = () => (
@@ -58,6 +62,10 @@ function CimComponent({equipment}: { equipment: CIM }) {
                 return <NonConformLoadComponent equipment={equipment as NonConformLoad}/>;
             case "cim:BusbarSection":
                 return <BusbarComponent equipment={equipment as BusbarSection}/>;
+            case "cim:PowerTransformer":
+                return <PowerTransformerComponent equipment={equipment as PowerTransformer}/>;
+            case "cim:PowerTransformerEnd":
+                return <PowerTransformerEndComponent equipment={equipment as PowerTransformerEnd}/>;
             default:
                 return <GenericComponent equipment={equipment}/>;
         }

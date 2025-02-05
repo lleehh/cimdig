@@ -53,15 +53,15 @@ export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: 
     console.log(component.rdfId, component.rdfType)
     const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0)]
     const edges: Edge[] = [];
-    if (isConductingEquipment(component)) {
-        let firstTerminal = true
-        component.terminals
-            .sort((a, b) => a.sequenceNumber - b.sequenceNumber)
+    if (isConductingEquipment(component) && component.terminals?.length) {
+        let firstTerminal = true;
+        (component.terminals ?? [])
+            .sort((a, b) => (a.sequenceNumber ?? 0) - (b.sequenceNumber ?? 0))
             .forEach((terminal) => {
-                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0))
-                edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal))
-                firstTerminal = false
-            })
+                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0));
+                edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal));
+                firstTerminal = false;
+            });
     }
     return {nodes: nodes, edges: edges}
 }
