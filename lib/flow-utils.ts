@@ -81,9 +81,7 @@ export const getLayoutedElements = (nodes, edges, options) => {
 
     g.setGraph({rankdir: options.direction, ranksep: 200, nodesep: 100, ranker: "tight-tree"});
 
-    // @ts-expect-error dagre types are not up to date
     edges.forEach((edge) => g.setEdge(edge.source, edge.target));
-    // @ts-expect-error dagre types are not up to date
     nodes.forEach((node) =>
         g.setNode(node.id, {
             ...node,
@@ -97,7 +95,6 @@ export const getLayoutedElements = (nodes, edges, options) => {
     Dagre.layout(g);
 
     return {
-        // @ts-expect-error dagre types are not up to date
         nodes: nodes.map((node) => {
             const position = g.node(node.id);
             
