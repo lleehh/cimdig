@@ -18,9 +18,9 @@ interface TerminalProps {
 
 
 export default function TerminalComponent({equipment}: TerminalProps) {
-
+    //style={{backgroundColor: "red"}}
     return (
-        <Card className="w-[160px]">
+        <Card className="w-[160px]" >
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
@@ -28,6 +28,7 @@ export default function TerminalComponent({equipment}: TerminalProps) {
                     </div>
                 </CardTitle>
                 <CardDescription>
+                    
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
                          title= {equipment.name}>
                         {equipment.name}

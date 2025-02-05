@@ -109,17 +109,32 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         console.log("EQ", component?.rdfId, component?.rdfType)
         const newNodes: CimNode[] = []
         const newEdges: Edge[] = []
+
+        const colors = [
+            "#ff9e9e", 
+            "#9eadff", 
+            "#ea9eff",
+            "#c8ff9e",
+            "#ffdf9e",
+            "#9effdd",
+
+        ]
+        
+        
+        
+        
+
         if (node && component) {
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
-                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0))
+                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, "red"))
                     //newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, component.sequenceNumber !== 1))
                     newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, true))
 
                 }
 
                 if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
-                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0))
+                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, "red"))
                     //newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, component.sequenceNumber !== 1))
                     newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, true))
                 }
@@ -128,20 +143,41 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 const rdfId = component.rdfId
                 component.terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
-                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0))
+                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.color))
                         newEdges.push(createEdge(terminal.rdfId, rdfId, false))
                     }
                 })
             }
         }
         if (newNodes.length > 0) {
+            
+            
+
+            if(newNodes.length > 1) {
+                let usedColors = []
+                
+                console.log(newNodes.length)
+                for (let index = 0; index < newNodes.length; index++) {
+                    while(newNodes[index].data.color == data.color || usedColors.includes(newNodes[index].data.color)) {
+                        newNodes[index].data.color = colors[Math.round((Math.random()*10000)%(colors.length-1))]
+                    }
+                    usedColors.push(newNodes[index].data.color)                    
+                    
+                }
+                console.log(newNodes)
+                usedColors = []
+            }
             setNodes([...nodes, ...newNodes])
             setEdges([...edges, ...newEdges])
             setFocusNode(newNodes[newNodes.length - 1].id)
         }
         setExpanded(true)
     }
+    //console.log(data)
+    //console.log(component)
+    //nodes[0].position.x += 100
     return (
+        
         <div>
             <Handle type="target" isConnectable={false} position={Position.Left}
                     className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
