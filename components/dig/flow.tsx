@@ -101,8 +101,7 @@ export default function Dig({equipment}: DigProps) {
                 <Panel position="top-right">
                     <div
                         className={'flex space-x-2'}>
-                        <Button onClick={() => onLayout('TB')}>vertical layout</Button>
-                        <Button onClick={() => onLayout('LR')}>horizontal layout</Button>
+                        <Button onClick={() => onLayout('LR')}>Reset Layout</Button>
                     </div>
                 </Panel>
                 <Background/>
