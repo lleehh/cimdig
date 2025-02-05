@@ -12,7 +12,7 @@ interface EquipmentProps {
 
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
 
     return (
         <Card className="w-[250px]">
@@ -25,7 +25,7 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                             {equipment.name}
                         </div>
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

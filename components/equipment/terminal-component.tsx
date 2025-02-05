@@ -19,6 +19,8 @@ interface TerminalProps {
 
 export default function TerminalComponent({equipment}: TerminalProps) {
 
+    const refs = componentRefs(equipment)
+
     return (
         <Card className="w-[160px]">
             <CardHeader className="p-2">

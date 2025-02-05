@@ -19,7 +19,7 @@ interface BreakerProps {
 
 export default function BreakerComponent({equipment}: BreakerProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
     
 
     return (
@@ -33,7 +33,7 @@ export default function BreakerComponent({equipment}: BreakerProps) {
                             {equipment.name}
                         </div>
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

@@ -141,7 +141,9 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     return (
         <div>
             <Handle type="target" isConnectable={false} position={Position.Left}
-                    className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
+                    className="!w-3 !h-3 !rounded-none !bg-stone-400" id="leftHandle"/>
+            <Handle type="target" isConnectable={false} position={Position.Bottom}
+                    className="!w-3 !h-3 !rounded-none !bg-stone-400" id="bottomHandle"/>
             {showContent ? <div className="relative">
                 {!expanded && isExandableComponent &&
                     <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
@@ -149,7 +151,9 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 <CimComponent equipment={component || data}/>
             </div> : <Placeholder/>}
             <Handle type="source" isConnectable={false} position={Position.Right}
-                    className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
+                    className="!w-3 !h-3 !rounded-none !bg-stone-400" id="rightHandle"/>
+            <Handle type="source" isConnectable={false} position={Position.Top}
+                    className="!w-3 !h-3 !rounded-none !bg-stone-400" id="topHandle"/>
         </div>
     )
 }

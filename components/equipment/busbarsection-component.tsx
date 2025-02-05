@@ -10,7 +10,7 @@ interface BusbarProps {
 
 export default function BusbarComponent({equipment}: BusbarProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
 
     return (
         <Card className="w-[230px] ">
@@ -20,7 +20,7 @@ export default function BusbarComponent({equipment}: BusbarProps) {
                         <ComponentIcon icon="samleskinne"/>
                         Busbar
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
