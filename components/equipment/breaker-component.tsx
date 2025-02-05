@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 
 
 interface BreakerProps {
@@ -20,6 +20,8 @@ interface BreakerProps {
 export default function BreakerComponent({equipment}: BreakerProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const propertiyList = componentParameters(equipment)
+    console.log(propertiyList)
     
 
     return (
@@ -45,8 +47,28 @@ export default function BreakerComponent({equipment}: BreakerProps) {
                     </div>
                 </CardDescription>            </CardHeader>
             <CardContent className="flex flex-col space-y-4">
+                <DisplayProperty data={propertiyList}/>
 
             </CardContent>
         </Card>
     )
 }
+
+function DisplayProperty({ data }: { data: Record<string, String>}) {
+    return (
+  <div className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg">
+    <h2 className="text-l font-semibold text-gray-800">Properties</h2>
+    <ul className="space-y-2">
+        {Object.entries(data)
+        .filter(([key]) => key !== 'rdfId')
+        .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+        .map(([key, value]) => (
+            <li key={key} className="flex">
+                <span className="text-gray-600 font-medium w-20 pr-2 text-xs">{key}:</span>
+                <span className="text-gray-800 flex-1 text-xs">{value}</span>
+            </li>
+        ))}
+    </ul>
+  </div>
+    );
+  } 

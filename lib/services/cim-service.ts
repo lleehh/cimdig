@@ -30,11 +30,11 @@ export function componentRefs(component: CIM): CIM[] {
     return refs
 }
 
-export function componentParameters(component: CIM, onlyRefs: boolean): Record<string, unknown>[] {
-    const parameters: Record<string, unknown>[] = []
+export function componentParameters(component: CIM): Record<string, String> {
+    const parameters: Record<string, String> = {}
     Object.entries(component).forEach(([key, value]) => {
         if (typeof value !== "object") {
-            parameters.push({key, value})
+            parameters[key] = String(value)
         }
     });
     return parameters
