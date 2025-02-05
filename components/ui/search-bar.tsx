@@ -13,6 +13,8 @@ import React, {FormEvent, ReactEventHandler, useEffect, useState} from "react";
 import {findById, getComponentById, searchByName, SearchResult} from "@/lib/store/model-repository";
 import useFlowStore from "@/lib/store/store-flow";
 import {createNode, createNodesAndEdges} from "@/lib/flow-utils";
+import {ComponentIcon} from "@/components/component-icon";
+import {Shell, Triangle} from "lucide-react";
 
 
 export default function SearchBar() {
@@ -25,7 +27,6 @@ export default function SearchBar() {
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                console.log("lksjdlfa " + input)
                 const result = await searchByName(input);
                 setResponse(result || []);
             } catch (error) {
@@ -38,11 +39,12 @@ export default function SearchBar() {
 
     const fetchComponent = async (id: string)=> {
         let equipment = await getComponentById(id)
+        setIsFocused(false)
         const {nodes, edges} = createNodesAndEdges(equipment)
         setNodes(nodes)
         setEdges(edges)
-        console.log(equipment)
     }
+
     return (
         <Command className={'shadow-2xl'}>
             <CommandInput
@@ -54,7 +56,20 @@ export default function SearchBar() {
             <CommandList>
                 {isFocused ?
                     response.map((item) => (
-                        <CommandItem key={item.id} onSelect={() => fetchComponent(item.id)} value={item.name}>
+                        <CommandItem
+                            key={item.id}
+                            onSelect={() => fetchComponent(item.id)}
+                            value={item.name}>
+                            {(() => {
+                                switch (item.rdfType) {
+                                    case "cim:ACLineSegment":
+                                        return <ComponentIcon icon="overforing" />
+                                    case "cim:ConnectivityNode":
+                                        return <Shell />
+                                    default:
+                                        return <Triangle />
+                                }
+                            })()}
                             {item.name}
                         </CommandItem>
                     ))
