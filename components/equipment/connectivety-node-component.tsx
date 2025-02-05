@@ -11,17 +11,16 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import {FileTerminal, Shell} from "lucide-react";
 import AdditionalCimLinks from "../additional-cim-links-component";
+import {componentRefs} from "@/lib/services/cim-service";
 
 
 interface ConnectivetyNodeProps {
     equipment: ConnectivityNode
 }
 
-const dropdownList = [
-    "ConductivityNodeContainer",
-]
-
 export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
+
+    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
 
     return (
         <Card className="w-[160px]">
