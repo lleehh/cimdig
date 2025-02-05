@@ -14,10 +14,18 @@ import {componentRefs} from "@/lib/services/cim-service";
 
 interface TerminalProps {
     equipment: Terminal
+    collapsed?: boolean
 }
 
 
-export default function TerminalComponent({equipment}: TerminalProps) {
+export default function TerminalComponent({equipment, collapsed}: TerminalProps) {
+
+    if (collapsed)
+        return (
+            <div className="w-44 border border-gray-400 p-3">
+            <FileTerminal/>
+        </div> 
+        )
 
     return (
         <Card className="w-[160px]">

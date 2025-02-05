@@ -16,11 +16,19 @@ import {componentRefs} from "@/lib/services/cim-service";
 
 interface ConnectivetyNodeProps {
     equipment: ConnectivityNode
+    collapsed?: boolean
 }
 
-export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
+export default function ConnectivityNodeComponent({equipment, collapsed}: ConnectivetyNodeProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
+    if (collapsed)
+        return (
+            <div className="w-44 border border-gray-400 p-3">
+            <Shell/>
+        </div> 
+        )
 
     return (
         <Card className="w-[160px]">

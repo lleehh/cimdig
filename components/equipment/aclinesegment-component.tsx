@@ -6,13 +6,22 @@ import {componentRefs} from "@/lib/services/cim-service";
 
 interface EquipmentProps {
     equipment: ACLineSegment
+    collapsed?: boolean
 }
 
 
 
-export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
+
+export default function ACLineSegmentComponent({equipment, collapsed}: EquipmentProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
+    if (collapsed)
+        return (
+            <div className="w-44 border border-gray-400 p-3">
+            <ComponentIcon icon="overforing"/>
+        </div> 
+        )
 
     return (
         <Card className="w-[250px]">

@@ -16,10 +16,18 @@ import {componentRefs} from "@/lib/services/cim-service";
 
 interface NonConformLoadProps {
     equipment: NonConformLoad
+    collapsed?: boolean
 }
 
-export default function NonConformLoadComponent({equipment}: NonConformLoadProps) {
+export default function NonConformLoadComponent({equipment, collapsed}: NonConformLoadProps) {
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
+    if (collapsed)
+        return (
+            <div className="w-44 border border-gray-400 p-3">
+            <Factory/>
+        </div> 
+        )
 
 
     return (

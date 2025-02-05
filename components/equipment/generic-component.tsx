@@ -14,11 +14,19 @@ import {componentRefs} from "@/lib/services/cim-service";
 
 interface ConnectivetyNodeProps {
     equipment: CIM
+    collapsed?: boolean
 }
 
-export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
+export default function GenericComponent({equipment, collapsed}: ConnectivetyNodeProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
+    if (collapsed)
+        return (
+            <div className="w-44 border border-gray-400 p-3">
+            <Triangle/>
+        </div> 
+        )
 
     return (
         <Card className="w-[250px]">

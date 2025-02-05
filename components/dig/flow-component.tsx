@@ -1,5 +1,4 @@
 import CimComponent from "@/components/dig/cim-component";
-import Placeholder from "@/components/dig/placeholder";
 import { Button } from "@/components/ui/button";
 import {
     CIM,
@@ -21,54 +20,6 @@ import { Factory, Shell } from 'lucide-react';
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
-function selectPlaceholder(type: string) {
-    switch (type) {
-        case "cim:ACLineSegment": // if the type is ACLineSegment then show an icon of an AC Line segment
-            return   (
-                <div className="w-44 border border-gray-400 p-3">
-                        <ComponentIcon icon="overforing"/>
-                </div> )
-        case "cim:Terminal":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <FileTerminal/>
-                </div>
-            )
-        case "cim:ConnectivityNode":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <Shell/>
-                </div>
-            )
-        case "cim:Breaker":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <ComponentIcon icon="bryter"/>
-                </div>
-            )
-        case "cim:GeneratingUnit":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <ComponentIcon icon="generator"/>
-                </div>
-            ) 
-        case "cim:NonConformLoad":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <Factory/>
-                </div>
-            )    
-        case "cim:BusbarSection":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <ComponentIcon icon="samleskinne"/>
-                </div>
-            )
-
-        default:
-            return Placeholder()
-    }
-}
 
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {
@@ -142,12 +93,12 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     return (
         <div>
             <Handle type="target" position={Position.Left} className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
-            {showContent ? <div className="relative">
+            <div className="relative">
                 {!expanded && isExandableComponent &&
                     <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
                             onClick={handleExpand}><Expand/></Button>}
-                <CimComponent equipment={component || data}/>
-            </div> : selectPlaceholder(data.rdfType)}
+                <CimComponent equipment={component || data} collapsed={!showContent}/>
+            </div> 
             <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
         </div>
     )
