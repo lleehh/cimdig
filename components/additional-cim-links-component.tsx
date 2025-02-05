@@ -3,7 +3,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
+    DropdownMenuLabel, DropdownMenuPortal,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -14,17 +14,24 @@ import useFlowStore, {selector} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {getComponentById} from "@/lib/store/model-repository";
 import {createEdge, createNode} from "@/lib/flow-utils";
-import {memo} from "react";
+import {memo, useEffect, useRef, useState} from "react";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
 
 interface CimLinksProps {
-    open: boolean
     component: CIM
     componentRefs: CIM[]
 }
 
-const AdditionalCimLinks = memo(({open, component, componentRefs}: CimLinksProps) => {
+const AdditionalCimLinks = ({component, componentRefs}: CimLinksProps) => {
 
-    console.log("RENDER DROPDOWN")
     const {
         nodes,
         edges,
@@ -33,8 +40,6 @@ const AdditionalCimLinks = memo(({open, component, componentRefs}: CimLinksProps
         setFocusNode
     } = useFlowStore(useShallow(selector));
 
-
-    //if(!open) return null
 
     const handleSelect = async (id: string) => {
 
@@ -51,35 +56,26 @@ const AdditionalCimLinks = memo(({open, component, componentRefs}: CimLinksProps
     }
     const filteredComponentRefs = componentRefs.filter(ref =>
         !nodes.find(node => node.data.rdfId === ref.rdfId)
-    );
-    /*
+    ) || []
 
     return (
-        componentRefs.map((component) => (
-            <Button type="button" key={component.rdfId}
-                    onClick={() => handleSelect(component.rdfId)}>{component.rdfType}
-            </Button>
-        ))
-    )
-
-     */
-
-
-    return (
-        <DropdownMenu open={true}>
-
-            <DropdownMenuContent className="flex flex-col space-y-2">
-                <DropdownMenuLabel>Properties</DropdownMenuLabel>
-                <DropdownMenuSeparator/>
-                {filteredComponentRefs.map((component) => (
-                    <DropdownMenuItem key={component.rdfId}
-                                      onSelect={() => handleSelect(component.rdfId)}>{component.rdfType} {(component as IdentifiedObject)?.name}
-                    </DropdownMenuItem>
-                ))}
-            </DropdownMenuContent>
-
+        <DropdownMenu modal={false}>
+            <DropdownMenuTrigger><List/></DropdownMenuTrigger>
+            <DropdownMenuPortal>
+                <DropdownMenuContent className="flex flex-col space-y-2">
+                    <DropdownMenuLabel>Properties</DropdownMenuLabel>
+                    <DropdownMenuSeparator/>
+                    <>
+                        {filteredComponentRefs.map((component) => (
+                            <DropdownMenuItem key={component.rdfId}
+                                              onSelect={() => handleSelect(component.rdfId)}>{component.rdfType} {(component as IdentifiedObject)?.name}
+                            </DropdownMenuItem>
+                        ))}
+                    </>
+                </DropdownMenuContent>
+            </DropdownMenuPortal>
         </DropdownMenu>
     )
-})
+}
 
 export default AdditionalCimLinks;

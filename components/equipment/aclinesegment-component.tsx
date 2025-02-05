@@ -1,11 +1,9 @@
+'use client'
 import {ACLineSegment, BaseVoltage} from "@/lib/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs} from "@/lib/services/cim-service";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import {Button} from "@/components/ui/button";
-import {List} from "lucide-react";
-import {useState} from "react";
 
 interface EquipmentProps {
     equipment: ACLineSegment
@@ -14,7 +12,6 @@ interface EquipmentProps {
 
 
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
-const [openMenu, setOpenMenu] = useState(false)
 
     const refs = componentRefs(equipment)
 
@@ -29,9 +26,7 @@ const [openMenu, setOpenMenu] = useState(false)
                             {equipment.name}
                         </div>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => setOpenMenu(true)}><List/></Button>
-                    <AdditionalCimLinks componentRefs={refs} component={equipment} open={openMenu}/>
-
+                    <AdditionalCimLinks componentRefs={refs} component={equipment} />
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

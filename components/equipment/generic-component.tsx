@@ -25,14 +25,20 @@ export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <Triangle/>
-                        {equipment.name &&
-                            <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                                 title={equipment.name as string}>
-                            </div>}
+                        <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
+                             title={equipment.rdfType as string}>{equipment.rdfType}
+                        </div>
                     </div>
                     <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
-                <CardDescription>{equipment.rdfType}</CardDescription>
+                <CardDescription>
+                    <>
+                        {equipment.name &&
+                            <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
+                                 title={equipment.name as string}>{equipment.name}
+                            </div>}
+                    </>
+                </CardDescription>
             </CardHeader>
         </Card>
     )
