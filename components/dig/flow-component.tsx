@@ -1,3 +1,4 @@
+'use client'
 import CimComponent from "@/components/dig/cim-component";
 import { Button } from "@/components/ui/button";
 import {
