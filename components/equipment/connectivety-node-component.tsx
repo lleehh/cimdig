@@ -12,6 +12,7 @@ import {ComponentIcon} from "@/components/component-icon";
 import {FileTerminal, Shell} from "lucide-react";
 import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 
 
 interface ConnectivetyNodeProps {
@@ -25,7 +26,7 @@ export default function ConnectivityNodeComponent({equipment, collapsed}: Connec
 
     if (collapsed)
         return (
-            <div className="w-44 border border-gray-400 p-3">
+            <div className={CollapsedStyling()}>
             <Shell/>
         </div> 
         )

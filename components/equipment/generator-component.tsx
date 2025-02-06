@@ -11,6 +11,7 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 
 
 interface GeneratorProps {
@@ -24,7 +25,7 @@ export default function GeneratorComponent({equipment, collapsed}: GeneratorProp
 
     if (collapsed)
         return (
-            <div className="w-44 border border-gray-400 p-3">
+            <div className={CollapsedStyling()}>
             <ComponentIcon icon="generator"/>
         </div> 
         )
