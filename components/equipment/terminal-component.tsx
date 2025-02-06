@@ -8,14 +8,23 @@ import {
 } from "@/components/ui/card"
 import { FileTerminal } from "lucide-react";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 
 
 interface TerminalProps {
     equipment: Terminal
+    collapsed?: boolean
 }
 
 
-export default function TerminalComponent({equipment}: TerminalProps) {
+export default function TerminalComponent({equipment, collapsed}: TerminalProps) {
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <FileTerminal/>
+        </div> 
+        )
 
     const refs = componentRefs(equipment)
 

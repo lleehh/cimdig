@@ -10,17 +10,26 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 
 interface BreakerProps {
     equipment: Breaker
+    collapsed?: boolean
 }
 
-export default function BreakerComponent({equipment}: BreakerProps) {
+export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
 
     const refs = componentRefs(equipment)
     
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <ComponentIcon icon="bryter"/>
+        </div> 
+        )
 
     return (
         <Card className="w-[350px]">

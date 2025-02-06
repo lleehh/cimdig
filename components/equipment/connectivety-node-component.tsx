@@ -11,15 +11,24 @@ import {
 import {Shell} from "lucide-react";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 
 
 interface ConnectivetyNodeProps {
     equipment: ConnectivityNode
+    collapsed?: boolean
 }
 
-export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
+export default function ConnectivityNodeComponent({equipment, collapsed}: ConnectivetyNodeProps) {
 
     const refs = componentRefs(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <Shell/>
+        </div> 
+        )
 
     return (
         <Card className="w-[160px]">

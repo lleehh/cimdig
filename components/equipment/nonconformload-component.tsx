@@ -10,16 +10,25 @@ import {
 } from "@/components/ui/card"
 import { Factory } from "lucide-react";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 
 interface NonConformLoadProps {
     equipment: NonConformLoad
+    collapsed?: boolean
 }
 
-export default function NonConformLoadComponent({equipment}: NonConformLoadProps) {
-
+export default function NonConformLoadComponent({equipment, collapsed}: NonConformLoadProps) {
+    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
     const refs = componentRefs(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <Factory/>
+        </div> 
+        )
 
 
     return (

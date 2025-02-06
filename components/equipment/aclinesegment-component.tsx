@@ -3,17 +3,27 @@ import {ACLineSegment, BaseVoltage} from "@/lib/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
+    collapsed?: boolean
 }
 
 
 
-export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
+
+export default function ACLineSegmentComponent({equipment, collapsed}: EquipmentProps) {
 
     const refs = componentRefs(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <ComponentIcon icon="overforing"/>
+        </div> 
+        )
 
     return (
         <Card className="w-[250px]">
