@@ -104,8 +104,8 @@ export default function Dig({equipment}: DigProps) {
                         <Button onClick={() => onLayout('LR')}>Reset Layout</Button>
                     </div>
                 </Panel>
-                <Background/>
-                <MiniMap/>
+                <Background bgColor="#eeee"/>
+                <MiniMap pannable={true} zoomable={false}/>
                 <Controls/>
             </ReactFlow>
         </div>

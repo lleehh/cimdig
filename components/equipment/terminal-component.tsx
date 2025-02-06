@@ -6,7 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { FileTerminal } from "lucide-react";
+import { SquareTerminal } from "lucide-react";
 
 import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
@@ -28,7 +28,7 @@ export default function TerminalComponent({equipment, collapsed}: TerminalProps)
     if (collapsed)
         return (
             <div className={CollapsedStyling()}>
-            <FileTerminal/>
+            <SquareTerminal/>
         </div> 
         )
 
@@ -39,7 +39,7 @@ export default function TerminalComponent({equipment, collapsed}: TerminalProps)
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
-                        <FileTerminal/> T{equipment.sequenceNumber}
+                        <SquareTerminal/> T{equipment.sequenceNumber}
                         <DisplayProperty data={propertiyList}/>
                     </div>
                 </CardTitle>
