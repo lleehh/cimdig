@@ -24,7 +24,6 @@ const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 export function CollapsedStyling (){
     return (
         "w-44 border border-gray-400 p-3"
-        
     )
 }
 
