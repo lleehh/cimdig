@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
 
 
 interface GeneratorProps {
@@ -20,6 +21,7 @@ interface GeneratorProps {
 export default function GeneratorComponent({equipment}: GeneratorProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const propertiyList = componentParameters(equipment)
 
     return (
         <Card className="w-[350px]">
@@ -29,6 +31,7 @@ export default function GeneratorComponent({equipment}: GeneratorProps) {
                         <ComponentIcon icon="generator"/>
                         {equipment.rdfType}
                         <AdditionalCimLinks nameList={dropdownList}/>
+                        <DisplayProperty data={propertiyList}/>
                         
                     </div>
                 </CardTitle>

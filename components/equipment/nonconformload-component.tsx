@@ -11,7 +11,8 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
 import { Factory } from "lucide-react";
-import {componentRefs} from "@/lib/services/cim-service";
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
 
 
 interface NonConformLoadProps {
@@ -20,6 +21,7 @@ interface NonConformLoadProps {
 
 export default function NonConformLoadComponent({equipment}: NonConformLoadProps) {
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const propertiyList = componentParameters(equipment)
 
 
     return (
@@ -30,6 +32,7 @@ export default function NonConformLoadComponent({equipment}: NonConformLoadProps
                         <Factory />
                         {equipment.rdfType}
                         <AdditionalCimLinks nameList={dropdownList}/>
+                        <DisplayProperty data={propertiyList}/>
                         
                     </div>
                 </CardTitle>
