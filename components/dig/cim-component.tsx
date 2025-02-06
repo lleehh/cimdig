@@ -19,8 +19,6 @@ import NonConformLoadComponent from "../equipment/nonconformload-component";
 import BusbarComponent from "../equipment/busbarsection-component";
 
 
-
-
 export default function CimComponent({equipment, collapsed}: { equipment: CIM, collapsed?: boolean }) {
 
     const renderComponent = () => {
