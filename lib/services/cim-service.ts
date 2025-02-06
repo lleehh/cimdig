@@ -30,6 +30,7 @@ export function componentRefs(component: CIM): CIM[] {
     return refs
 }
 
+
 export function componentParameters(component: CIM): Record<string, String> {
     const parameters: Record<string, String> = {}
     Object.entries(component).forEach(([key, value]) => {

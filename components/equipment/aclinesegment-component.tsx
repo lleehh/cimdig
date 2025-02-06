@@ -1,20 +1,28 @@
+'use client'
 import {ACLineSegment, BaseVoltage} from "@/lib/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
+import { CollapsedStyling } from "../dig/flow-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
+    collapsed?: boolean
 }
 
+export default function ACLineSegmentComponent({equipment, collapsed}: EquipmentProps) {
 
-
-export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
-
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <ComponentIcon icon="overforing"/>
+        </div> 
+        )
+
 
     return (
         <Card className="w-[250px]">
@@ -27,8 +35,8 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                             {equipment.name}
                         </div>
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
                     <DisplayProperty data={propertiyList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment} />
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
