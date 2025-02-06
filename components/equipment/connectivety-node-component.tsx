@@ -2,19 +2,15 @@
 import {ConnectivityNode} from "@/lib/cim";
 import {
     Card,
-    CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
-import {FileTerminal, Shell} from "lucide-react";
+import {Shell} from "lucide-react";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
-import {Shell} from "lucide-react";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import { CollapsedStyling } from "../dig/flow-component";
+import {CollapsedStyling} from "../dig/flow-component";
 
 
 interface ConnectivetyNodeProps {
@@ -30,8 +26,8 @@ export default function ConnectivityNodeComponent({equipment, collapsed}: Connec
     if (collapsed)
         return (
             <div className={CollapsedStyling()}>
-            <Shell/>
-        </div> 
+                <Shell/>
+            </div>
         )
 
     return (
@@ -41,8 +37,8 @@ export default function ConnectivityNodeComponent({equipment, collapsed}: Connec
                     <div className="flex flex-row items-center gap-2">
                         <Shell/> CN
                     </div>
-                            <DisplayProperty data={propertiyList}/>
-        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
+                    <DisplayProperty data={propertiyList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

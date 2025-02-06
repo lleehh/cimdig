@@ -4,7 +4,6 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -12,8 +11,7 @@ import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
-import { CollapsedStyling } from "../dig/flow-component";
+import {CollapsedStyling} from "../dig/flow-component";
 
 interface GeneratorProps {
     equipment: GeneratingUnit
@@ -28,8 +26,8 @@ export default function GeneratorComponent({equipment, collapsed}: GeneratorProp
     if (collapsed)
         return (
             <div className={CollapsedStyling()}>
-            <ComponentIcon icon="generator"/>
-        </div> 
+                <ComponentIcon icon="generator"/>
+            </div>
         )
 
     return (
@@ -39,9 +37,9 @@ export default function GeneratorComponent({equipment, collapsed}: GeneratorProp
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="generator"/>
                         {equipment.rdfType}
-                        <AdditionalCimLinks nameList={dropdownList}/>
+
                         <DisplayProperty data={propertiyList}/>
-                                <DisplayProperty data={propertiyList}/>
+                        <DisplayProperty data={propertiyList}/>
                         <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>

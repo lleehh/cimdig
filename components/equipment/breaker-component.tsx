@@ -10,7 +10,7 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
-import { CollapsedStyling } from "../dig/flow-component";
+import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface BreakerProps {
@@ -26,8 +26,8 @@ export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
     if (collapsed)
         return (
             <div className={CollapsedStyling()}>
-            <ComponentIcon icon="bryter"/>
-        </div> 
+                <ComponentIcon icon="bryter"/>
+            </div>
         )
 
     return (
@@ -43,7 +43,7 @@ export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
                     </div>
                     <DisplayProperty data={propertiyList}/>
 
-        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
@@ -53,7 +53,7 @@ export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
                     <div>
                         Voltage {(equipment.baseVoltage as BaseVoltage).name}
                     </div>
-                </CardDescription>            
+                </CardDescription>
             </CardHeader>
         </Card>
     )
