@@ -9,9 +9,9 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
 import { CollapsedStyling } from "../dig/flow-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 
 interface BreakerProps {
@@ -21,7 +21,7 @@ interface BreakerProps {
 
 export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
     
 
     if (collapsed)
@@ -42,7 +42,7 @@ export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
                             {equipment.name}
                         </div>
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

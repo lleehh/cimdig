@@ -39,11 +39,13 @@ export function createNode(id: string, data: CIM, x: number, y: number): CimNode
     } as CimNode
 }
 
-export function createEdge(sourceId: string, targetId: string, fromSource: boolean): Edge {
+export function createEdge(sourceId: string, targetId: string, fromSource: boolean, sourceHandle?: string, targetHandle?: string): Edge {
     return {
         id: `e${sourceId}-${targetId}`,
         source: fromSource ? sourceId : targetId,
         target: fromSource ? targetId : sourceId,
+        sourceHandle: sourceHandle,
+        targetHandle: targetHandle,
         ...edgeTemplate,
     } as Edge
 }

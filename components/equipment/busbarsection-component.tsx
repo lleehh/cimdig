@@ -2,8 +2,8 @@ import { ComponentIcon } from "@/components/component-icon";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BusbarSection } from "@/lib/cim";
 import { componentRefs } from "@/lib/services/cim-service";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import { CollapsedStyling } from "../dig/flow-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface BusbarProps {
     equipment: BusbarSection
@@ -12,7 +12,7 @@ interface BusbarProps {
 
 export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
 
     if (collapsed)
         return (
@@ -30,7 +30,7 @@ export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
                         <ComponentIcon icon="samleskinne"/>
                         Busbar
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

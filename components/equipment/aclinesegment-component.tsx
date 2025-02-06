@@ -1,9 +1,10 @@
+'use client'
 import {ACLineSegment, BaseVoltage} from "@/lib/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
 import { CollapsedStyling } from "../dig/flow-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
@@ -15,7 +16,7 @@ interface EquipmentProps {
 
 export default function ACLineSegmentComponent({equipment, collapsed}: EquipmentProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
 
     if (collapsed)
         return (
@@ -35,7 +36,7 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
                             {equipment.name}
                         </div>
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment} />
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
