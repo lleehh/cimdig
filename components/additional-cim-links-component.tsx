@@ -7,23 +7,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {Button} from "@/components/ui/button"
 import {List} from "lucide-react";
 import {CIM, IdentifiedObject} from "@/lib/cim";
 import useFlowStore, {selector} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {getComponentById} from "@/lib/store/model-repository";
 import {createEdge, createNode} from "@/lib/flow-utils";
-import {memo, useEffect, useRef, useState} from "react";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select";
 
 interface CimLinksProps {
     component: CIM
