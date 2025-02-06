@@ -51,7 +51,7 @@ const AdditionalCimLinks = ({component, componentRefs}: CimLinksProps) => {
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger><List/></DropdownMenuTrigger>
             <DropdownMenuPortal>
-                <DropdownMenuContent className="flex flex-col space-y-2">
+                <DropdownMenuContent className="flex flex-col space-y-2 max-h-64 overflow-y-auto">
                     <DropdownMenuLabel>Properties</DropdownMenuLabel>
                     <DropdownMenuSeparator/>
                     <>
