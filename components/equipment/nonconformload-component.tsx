@@ -9,10 +9,10 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Factory } from "lucide-react";
-import {componentRefs} from "@/lib/services/cim-service";
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
 import { CollapsedStyling } from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
-
 
 interface NonConformLoadProps {
     equipment: NonConformLoad
@@ -20,7 +20,7 @@ interface NonConformLoadProps {
 }
 
 export default function NonConformLoadComponent({equipment, collapsed}: NonConformLoadProps) {
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
 
     if (collapsed)
@@ -38,6 +38,7 @@ export default function NonConformLoadComponent({equipment, collapsed}: NonConfo
                     <div className="flex flex-row items-center gap-2">
                         <Factory />
                         {equipment.rdfType}
+                                <DisplayProperty data={propertiyList}/>
                         <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>

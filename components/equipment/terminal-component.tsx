@@ -7,8 +7,12 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { FileTerminal } from "lucide-react";
-import {componentRefs} from "@/lib/services/cim-service";
+
+import AdditionalCimLinks from "../additional-cim-links-component";
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
 import { CollapsedStyling } from "../dig/flow-component";
+
 
 
 interface TerminalProps {
@@ -17,7 +21,9 @@ interface TerminalProps {
 }
 
 
+
 export default function TerminalComponent({equipment, collapsed}: TerminalProps) {
+    const propertiyList = componentParameters(equipment)
 
     if (collapsed)
         return (
@@ -34,6 +40,7 @@ export default function TerminalComponent({equipment, collapsed}: TerminalProps)
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <FileTerminal/> T{equipment.sequenceNumber}
+                        <DisplayProperty data={propertiyList}/>
                     </div>
                 </CardTitle>
                 <CardDescription>
