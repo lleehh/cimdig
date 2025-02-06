@@ -1,5 +1,5 @@
 'use client'
-import {CIM, ConnectivityNode, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
+import {CIM} from "@/lib/cim";
 import {
     Card,
     CardDescription,
@@ -7,7 +7,6 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {Triangle} from "lucide-react";
-import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
 
@@ -18,7 +17,7 @@ interface ConnectivetyNodeProps {
 
 export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
 
     return (
         <Card className="w-[250px]">
@@ -26,14 +25,20 @@ export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <Triangle/>
+                        <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
+                             title={equipment.rdfType as string}>{equipment.rdfType}
+                        </div>
+                    </div>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
+                </CardTitle>
+                <CardDescription>
+                    <>
                         {equipment.name &&
                             <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                                 title={equipment.name as string}>
+                                 title={equipment.name as string}>{equipment.name}
                             </div>}
-                    </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
-                </CardTitle>
-                <CardDescription>{equipment.rdfType}</CardDescription>
+                    </>
+                </CardDescription>
             </CardHeader>
         </Card>
     )
