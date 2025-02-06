@@ -12,18 +12,16 @@ import { isExandable } from "@/lib/services/cim-service";
 import { getComponentById } from "@/lib/store/model-repository";
 import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
 import { Edge, Handle, NodeProps, Position, useStore, } from "@xyflow/react";
-import { Expand, FileTerminal } from "lucide-react";
+import { Expand  } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { ComponentIcon } from '@/components/component-icon';
-import { Factory, Shell } from 'lucide-react';
 
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
 export function CollapsedStyling (){
     return (
-        "w-44 border border-gray-400 p-3"
+        "w-44 border border-gray-400 p-3 bg-white"
     )
 }
 
