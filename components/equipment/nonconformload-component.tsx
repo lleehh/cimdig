@@ -12,6 +12,7 @@ import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
 import { Factory } from "lucide-react";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 
 
 interface NonConformLoadProps {
@@ -24,7 +25,7 @@ export default function NonConformLoadComponent({equipment, collapsed}: NonConfo
 
     if (collapsed)
         return (
-            <div className="w-44 border border-gray-400 p-3">
+            <div className={CollapsedStyling()}>
             <Factory/>
         </div> 
         )

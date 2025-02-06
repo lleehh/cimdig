@@ -3,6 +3,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
@@ -18,7 +19,7 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
 
     if (collapsed)
         return (
-            <div className="w-44 border border-gray-400 p-3">
+            <div className={CollapsedStyling()}>
             <ComponentIcon icon="overforing"/>
         </div> 
         )
