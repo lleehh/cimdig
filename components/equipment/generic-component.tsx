@@ -19,6 +19,7 @@ export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
 
     const refs = componentRefs(equipment)
 
+
     return (
         <Card className="w-[250px]">
             <CardHeader>
@@ -35,7 +36,7 @@ export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
                     <>
                         {equipment.name &&
                             <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                                 title={equipment.name as string}>{equipment.name}
+                                 title={equipment.name as string}>{equipment.name as string}
                             </div>}
                     </>
                 </CardDescription>
