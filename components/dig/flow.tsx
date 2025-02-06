@@ -82,6 +82,7 @@ export default function Dig({equipment}: DigProps) {
         }
     };
 
+    //const defaultViewport: Viewport = {x: 100, y: 300, zoom: 1};
     const defaultViewport: Viewport = {x: 100, y: 300, zoom: 0.8};
 
     return (

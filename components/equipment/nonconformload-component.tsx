@@ -8,10 +8,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import { Factory } from "lucide-react";
 import {componentRefs} from "@/lib/services/cim-service";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 
 interface NonConformLoadProps {
@@ -19,7 +18,8 @@ interface NonConformLoadProps {
 }
 
 export default function NonConformLoadComponent({equipment}: NonConformLoadProps) {
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+
+    const refs = componentRefs(equipment)
 
 
     return (
@@ -29,8 +29,7 @@ export default function NonConformLoadComponent({equipment}: NonConformLoadProps
                     <div className="flex flex-row items-center gap-2">
                         <Factory />
                         {equipment.rdfType}
-                        <AdditionalCimLinks nameList={dropdownList}/>
-                        
+                        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
