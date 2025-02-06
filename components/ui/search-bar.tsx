@@ -40,13 +40,15 @@ export default function SearchBar() {
     const fetchComponent = async (id: string)=> {
         let equipment = await getComponentById(id)
         setIsFocused(false)
-        const {nodes, edges} = createNodesAndEdges(equipment)
-        setNodes(nodes)
-        setEdges(edges)
+        if (equipment) {
+            const {nodes, edges} = createNodesAndEdges(equipment)
+            setNodes(nodes)
+            setEdges(edges)
+        }
     }
 
     return (
-        <Command className={'shadow-2xl'}>
+        <Command className="shadow-2xl">
             <CommandInput
                 value={input}
                 onValueChange={(value) => setInput(value)}
