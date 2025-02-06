@@ -110,7 +110,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         const newNodes: CimNode[] = []
         const newEdges: Edge[] = []
 
-        const colors = [
+        let colors  : string[] = [
             "#ff9e9e", 
             "#9eadff", 
             "#ea9eff",
@@ -118,23 +118,25 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             "#ffdf9e",
             "#9effdd",
 
+
         ]
         
         
         
         
+        data.color = data.color?.toString()!
 
         if (node && component) {
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
-                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.color))
+                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.color?.toString()!))
                     //newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, component.sequenceNumber !== 1))
                     newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, true))
 
                 }
 
                 if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
-                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.color))
+                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.color?.toString()!))
                     //newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, component.sequenceNumber !== 1))
                     newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, true))
                 }
@@ -143,7 +145,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 const rdfId = component.rdfId
                 component.terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
-                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.color))
+                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.color?.toString()!))
                         newEdges.push(createEdge(terminal.rdfId, rdfId, false))
                     }
                 })
@@ -154,24 +156,38 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             
 
             if(newNodes.length > 1) {
-                let usedColors = []
-                let whileLoop = 0
-                console.log(newNodes.length)
-                for (let index = 0; index < newNodes.length; index++) {
+                let usedColors  : number[] = [];
+                let whileLoop   : number = 0
+                let randomColor : number = 0
+
+                usedColors = []
+                newNodes.forEach(element => {
                     whileLoop = 0
-                    while(newNodes[index].data.color == data.color || usedColors.includes(newNodes[index].data.color) || whileLoop < 50) {
-                        newNodes[index].data.color = colors[Math.round((Math.random()*10000)%(colors.length-1))]
-                        if(usedColors.length >= colors.length) {usedColors = []}
+                    console.log("node")
+                    randomColor = 0
+                    while(colors[randomColor] === element.data.color?.toString()! ||         usedColors.includes(randomColor) ||         whileLoop > 500) {
+                        console.log(colors[randomColor] === element.data.color?.toString()!)
+                        console.log(usedColors.includes(randomColor))
+                        console.log(whileLoop < 800)
+
+                        console.log(colors[randomColor], element.data.color?.toString()!)
+                        randomColor = Math.floor((Math.random()*colors.length))
+                        //console.log(randomColor)
+                        if(usedColors.length >= colors.length) {usedColors = []; console.log("A")}
                         whileLoop++
                     }
 
-                    if(whileLoop>50) {
-                        console.log("WHILE LOOP ERROR!!!!!!!!!!!", usedColors)
+                    if(whileLoop>500) {
+                        console.log("WHILE LOOP ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", usedColors)
                     }
-                    usedColors.push(newNodes[index].data.color)                    
+                    usedColors.push(randomColor)
+                    element.data.color = colors[randomColor]    
+                });
+                for (let index = 0; index < newNodes.length; index++) {
+                                    
                     
                 }
-                console.log(newNodes)
+                console.log(usedColors)
                 usedColors = []
             }
             setNodes([...nodes, ...newNodes])
@@ -180,13 +196,14 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         }
         setExpanded(true)
     }
-    //console.log(data)
-    //console.log(component)
-    //nodes[0].position.x += 100
+
+    if(component !== null) {
+        component.color = data.color
+    }
+
+    
     return (
         <div>
-
-            <p style={{backgroundColor: data.color}}> color {data.color}</p>
 
             <Handle type="target" isConnectable={false} position={Position.Left}
                     className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
