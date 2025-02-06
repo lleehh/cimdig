@@ -2,17 +2,28 @@ import { ComponentIcon } from "@/components/component-icon";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BusbarSection } from "@/lib/cim";
 import { componentRefs, componentParameters } from "@/lib/services/cim-service";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import DisplayProperty from "./display-property-component";
+import { CollapsedStyling } from "../dig/flow-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface BusbarProps {
     equipment: BusbarSection
+    collapsed?: boolean
 }
 
-export default function BusbarComponent({equipment}: BusbarProps) {
+export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <ComponentIcon icon="samleskinne"/>
+        </div> 
+        )
+
+
 
     return (
         <Card className="w-[230px] relative">
@@ -23,7 +34,9 @@ export default function BusbarComponent({equipment}: BusbarProps) {
                         Busbar
                     </div>
                     <AdditionalCimLinks nameList={dropdownList}/>
-                    <DisplayProperty data={propertiyList}/>
+                            <DisplayProperty data={propertiyList}/>
+          
+        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

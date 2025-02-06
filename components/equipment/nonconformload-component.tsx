@@ -8,20 +8,27 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import { Factory } from "lucide-react";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
-
+import { CollapsedStyling } from "../dig/flow-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface NonConformLoadProps {
     equipment: NonConformLoad
+    collapsed?: boolean
 }
 
-export default function NonConformLoadComponent({equipment}: NonConformLoadProps) {
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+export default function NonConformLoadComponent({equipment, collapsed}: NonConformLoadProps) {
     const propertiyList = componentParameters(equipment)
+    const refs = componentRefs(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <Factory/>
+        </div> 
+        )
 
 
     return (
@@ -31,9 +38,8 @@ export default function NonConformLoadComponent({equipment}: NonConformLoadProps
                     <div className="flex flex-row items-center gap-2">
                         <Factory />
                         {equipment.rdfType}
-                        <AdditionalCimLinks nameList={dropdownList}/>
-                        <DisplayProperty data={propertiyList}/>
-                        
+                                <DisplayProperty data={propertiyList}/>
+                        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>

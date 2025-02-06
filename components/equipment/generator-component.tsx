@@ -9,19 +9,28 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
-
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 
 interface GeneratorProps {
     equipment: GeneratingUnit
+    collapsed?: boolean
 }
 
-export default function GeneratorComponent({equipment}: GeneratorProps) {
+export default function GeneratorComponent({equipment, collapsed}: GeneratorProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <ComponentIcon icon="generator"/>
+        </div> 
+        )
 
     return (
         <Card className="w-[350px]">
@@ -32,7 +41,8 @@ export default function GeneratorComponent({equipment}: GeneratorProps) {
                         {equipment.rdfType}
                         <AdditionalCimLinks nameList={dropdownList}/>
                         <DisplayProperty data={propertiyList}/>
-                        
+                                <DisplayProperty data={propertiyList}/>
+                        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>

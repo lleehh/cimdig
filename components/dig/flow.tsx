@@ -82,6 +82,7 @@ export default function Dig({equipment}: DigProps) {
         }
     };
 
+    //const defaultViewport: Viewport = {x: 100, y: 300, zoom: 1};
     const defaultViewport: Viewport = {x: 100, y: 300, zoom: 0.8};
 
     return (
@@ -95,12 +96,12 @@ export default function Dig({equipment}: DigProps) {
                        defaultViewport={defaultViewport}
                        onConnect={onConnect}
                        connectionLineStyle={{stroke: '#ddd', strokeWidth: 2}}
+                       nodesConnectable={false}
             >
                 <Panel position="top-right">
                     <div
                         className={'flex space-x-2'}>
-                        <Button onClick={() => onLayout('TB')}>vertical layout</Button>
-                        <Button onClick={() => onLayout('LR')}>horizontal layout</Button>
+                        <Button onClick={() => onLayout('LR')}>Reset Layout</Button>
                     </div>
                 </Panel>
                 <Background/>
