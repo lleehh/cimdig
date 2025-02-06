@@ -4,7 +4,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
-import { CollapsedStyling } from "../dig/flow-component";
+import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface EquipmentProps {
@@ -16,11 +16,12 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
 
     const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
+
     if (collapsed)
         return (
             <div className={CollapsedStyling()}>
-            <ComponentIcon icon="overforing"/>
-        </div> 
+                <ComponentIcon icon="overforing"/>
+            </div>
         )
 
 
@@ -36,7 +37,7 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
                         </div>
                     </div>
                     <DisplayProperty data={propertiyList}/>
-                    <AdditionalCimLinks componentRefs={refs} component={equipment} />
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

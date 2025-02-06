@@ -8,8 +8,9 @@ import {
 } from "@/components/ui/card"
 import {Triangle} from "lucide-react";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
+import {componentParameters, componentRefs} from "@/lib/services/cim-service";
 import { CollapsedStyling } from "../dig/flow-component";
+import DisplayProperty from "@/components/equipment/display-property-component";
 
 interface ConnectivetyNodeProps {
     equipment: CIM
@@ -20,6 +21,7 @@ interface ConnectivetyNodeProps {
 export default function GenericComponent({equipment, collapsed}: ConnectivetyNodeProps) {
 
     const refs = componentRefs(equipment)
+    const propertiyList = componentParameters(equipment)
 
     if (collapsed)
         return (
@@ -38,6 +40,7 @@ export default function GenericComponent({equipment, collapsed}: ConnectivetyNod
                              title={equipment.rdfType as string}>{equipment.rdfType}
                         </div>
                     </div>
+                    <DisplayProperty data={propertiyList}/>
                     <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
