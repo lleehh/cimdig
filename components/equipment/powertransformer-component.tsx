@@ -17,7 +17,7 @@ interface PowerTransformerProps {
 
 export default function PowerTransformerComponent({equipment}: PowerTransformerProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
 
     return (
         <Card className="w-[230px]">
@@ -27,12 +27,12 @@ export default function PowerTransformerComponent({equipment}: PowerTransformerP
                         <ComponentIcon icon="transformator"/>
                         PT
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                         title={equipment.name}>
-                        {equipment.name}
+                         title={equipment.name as string}>
+                        {equipment.name as string}
                     </div>
                 </CardDescription>
             </CardHeader>
