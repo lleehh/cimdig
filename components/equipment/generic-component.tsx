@@ -1,5 +1,5 @@
 'use client'
-import {CIM, IdentifiedObject} from "@/lib/cim";
+import {CIM} from "@/lib/cim";
 import {
     Card,
     CardDescription,
@@ -7,15 +7,15 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {Triangle} from "lucide-react";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
 import { CollapsedStyling } from "../dig/flow-component";
-import AdditionalCimLinks from "@/components/additional-cim-links-component";
-
 
 interface ConnectivetyNodeProps {
     equipment: CIM
     collapsed?: boolean
 }
+
 
 export default function GenericComponent({equipment, collapsed}: ConnectivetyNodeProps) {
 
@@ -35,7 +35,7 @@ export default function GenericComponent({equipment, collapsed}: ConnectivetyNod
                     <div className="flex flex-row items-center gap-2">
                         <Triangle/>
                         <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                                title={equipment.rdfType as string}>{equipment.rdfType}
+                             title={equipment.rdfType as string}>{equipment.rdfType}
                         </div>
                     </div>
                     <AdditionalCimLinks componentRefs={refs} component={equipment}/>
@@ -44,7 +44,7 @@ export default function GenericComponent({equipment, collapsed}: ConnectivetyNod
                     <>
                         {equipment.name &&
                             <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                                    title={equipment.name as string}>{equipment.name}
+                                 title={equipment.name as string}>{equipment.name as string}
                             </div>}
                     </>
                 </CardDescription>
@@ -52,3 +52,6 @@ export default function GenericComponent({equipment, collapsed}: ConnectivetyNod
         </Card>
     )
 }
+
+
+
