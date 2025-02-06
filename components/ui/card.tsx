@@ -6,14 +6,35 @@ const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-xl border bg-card text-card-foreground shadow",
-      className
-    )}
-    {...props}
-  />
+  <div ref={ref}>
+      
+      <div
+      ref={ref}
+      //style={{borderColor: "red", strokeWidth: "10px"}}
+      className={cn(
+        "rounded-xl border bg-card text-card-foreground shadow",
+        className
+      )}
+      style={{height: "30px", position: "absolute", zIndex: "-999", backgroundColor: props.color}}
+      />
+      
+      <div style={{height: "10px"}}> </div>
+      
+      <div
+      //style={{borderColor: "red", strokeWidth: "10px"}}
+      className={cn(
+        "rounded-xl border bg-card text-card-foreground shadow",
+        className
+      )}
+      style={{}}
+      {...props}
+      />
+ 
+      
+      
+ 
+ 
+  </div>
 ))
 Card.displayName = "Card"
 

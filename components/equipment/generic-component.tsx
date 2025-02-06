@@ -21,7 +21,7 @@ export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
 
     return (
-        <Card className="w-[250px]">
+        <Card className="w-[250px]" color={equipment.color?.toString()!}>
             <CardHeader>
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
