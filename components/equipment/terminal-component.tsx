@@ -6,9 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
 import { FileTerminal } from "lucide-react";
-import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
 import { CollapsedStyling } from "../dig/flow-component";
 
@@ -27,6 +25,8 @@ export default function TerminalComponent({equipment, collapsed}: TerminalProps)
             <FileTerminal/>
         </div> 
         )
+
+    const refs = componentRefs(equipment)
 
     return (
         <Card className="w-[160px]">
