@@ -11,15 +11,24 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 
 
 interface GeneratorProps {
     equipment: GeneratingUnit
+    collapsed?: boolean
 }
 
-export default function GeneratorComponent({equipment}: GeneratorProps) {
+export default function GeneratorComponent({equipment, collapsed}: GeneratorProps) {
 
     const refs = componentRefs(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <ComponentIcon icon="generator"/>
+        </div> 
+        )
 
     return (
         <Card className="w-[350px]">

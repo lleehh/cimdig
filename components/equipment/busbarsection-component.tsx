@@ -2,15 +2,25 @@ import { ComponentIcon } from "@/components/component-icon";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BusbarSection } from "@/lib/cim";
 import { componentRefs } from "@/lib/services/cim-service";
+import { CollapsedStyling } from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface BusbarProps {
     equipment: BusbarSection
+    collapsed?: boolean
 }
 
-export default function BusbarComponent({equipment}: BusbarProps) {
+export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
 
     const refs = componentRefs(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <ComponentIcon icon="samleskinne"/>
+        </div> 
+        )
+
 
     return (
         <Card className="w-[230px] ">

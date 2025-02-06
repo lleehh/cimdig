@@ -9,16 +9,24 @@ import {
 import {Triangle} from "lucide-react";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentRefs} from "@/lib/services/cim-service";
-
+import { CollapsedStyling } from "../dig/flow-component";
 
 interface ConnectivetyNodeProps {
     equipment: CIM
+    collapsed?: boolean
 }
 
-export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
+
+export default function GenericComponent({equipment, collapsed}: ConnectivetyNodeProps) {
 
     const refs = componentRefs(equipment)
 
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+            <Triangle/>
+        </div> 
+        )
 
     return (
         <Card className="w-[250px]">
@@ -44,3 +52,6 @@ export default function GenericComponent({equipment}: ConnectivetyNodeProps) {
         </Card>
     )
 }
+
+
+

@@ -19,31 +19,29 @@ import NonConformLoadComponent from "../equipment/nonconformload-component";
 import BusbarComponent from "../equipment/busbarsection-component";
 
 
-
-
-export default function CimComponent({equipment}: { equipment: CIM }) {
+export default function CimComponent({equipment, collapsed}: { equipment: CIM, collapsed?: boolean }) {
 
     const renderComponent = () => {
         switch (equipment.rdfType) {
             case "cim:ACLineSegment":
-                return <ACLineSegmentComponent equipment={equipment as ACLineSegment}/>;
+                return <ACLineSegmentComponent equipment={equipment as ACLineSegment} collapsed={collapsed}/>;
             case "cim:Terminal":
-                return <TerminalComponent equipment={equipment as Terminal}/>;
+                return <TerminalComponent equipment={equipment as Terminal} collapsed={collapsed}/>;
             case "cim:ConnectivityNode":
-                return <ConnectivityNodeComponent equipment={equipment as ConnectivityNode}/>;
+                return <ConnectivityNodeComponent equipment={equipment as ConnectivityNode} collapsed={collapsed}/>;
             case "cim:Breaker":
-                return <BreakerComponent equipment={equipment as Breaker}/>;
+                return <BreakerComponent equipment={equipment as Breaker} collapsed={collapsed}/>;
             case "cim:GeneratingUnit":
-                return <GeneratorComponent equipment={equipment as GeneratingUnit}/>;
+                return <GeneratorComponent equipment={equipment as GeneratingUnit} collapsed={collapsed}/>;
             case "cim:NonConformLoad":
-                return <NonConformLoadComponent equipment={equipment as NonConformLoad}/>;
+                return <NonConformLoadComponent equipment={equipment as NonConformLoad} collapsed={collapsed}/>;
             case "cim:BusbarSection":
-                return <BusbarComponent equipment={equipment as BusbarSection}/>;
+                return <BusbarComponent equipment={equipment as BusbarSection} collapsed={collapsed}/>;
             default:
-                return <GenericComponent equipment={equipment}/>;
+                return <GenericComponent equipment={equipment} collapsed={collapsed}/>;
         }
     };
     return (<>
         {renderComponent()}
     </>)
-}
+} 
