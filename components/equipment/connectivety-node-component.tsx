@@ -11,7 +11,9 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import {FileTerminal, Shell} from "lucide-react";
 import AdditionalCimLinks from "../additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
+
 
 
 interface ConnectivetyNodeProps {
@@ -21,6 +23,7 @@ interface ConnectivetyNodeProps {
 export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const propertiyList = componentParameters(equipment)
 
     return (
         <Card className="w-[160px]">
@@ -30,6 +33,7 @@ export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeP
                         <Shell/> CN
                     </div>
                     <AdditionalCimLinks nameList={dropdownList}/>
+                    <DisplayProperty data={propertiyList}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"

@@ -9,7 +9,8 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import { FileTerminal } from "lucide-react";
 import AdditionalCimLinks from "../additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
+import {componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
 
 
 interface TerminalProps {
@@ -18,6 +19,7 @@ interface TerminalProps {
 
 
 export default function TerminalComponent({equipment}: TerminalProps) {
+    const propertiyList = componentParameters(equipment)
 
     return (
         <Card className="w-[160px]">
@@ -25,6 +27,7 @@ export default function TerminalComponent({equipment}: TerminalProps) {
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <FileTerminal/> T{equipment.sequenceNumber}
+                        <DisplayProperty data={propertiyList}/>
                     </div>
                 </CardTitle>
                 <CardDescription>

@@ -2,7 +2,8 @@ import {ACLineSegment, BaseVoltage} from "@/lib/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
 import AdditionalCimLinks from "../additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
@@ -13,6 +14,7 @@ interface EquipmentProps {
 export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
 
     const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const propertiyList = componentParameters(equipment)
 
     return (
         <Card className="w-[250px]">
@@ -26,6 +28,7 @@ export default function ACLineSegmentComponent({equipment}: EquipmentProps) {
                         </div>
                     </div>
                     <AdditionalCimLinks nameList={dropdownList}/>
+                    <DisplayProperty data={propertiyList}/>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
