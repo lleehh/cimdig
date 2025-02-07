@@ -39,11 +39,13 @@ export function createNode(id: string, data: CIM, x: number, y: number): CimNode
     } as CimNode
 }
 
-export function createEdge(sourceId: string, targetId: string, fromSource: boolean): Edge {
+export function createEdge(sourceId: string, targetId: string, fromSource: boolean, sourceHandle?: string, targetHandle?: string): Edge {
     return {
         id: `e${sourceId}-${targetId}`,
         source: fromSource ? sourceId : targetId,
         target: fromSource ? targetId : sourceId,
+        sourceHandle: sourceHandle,
+        targetHandle: targetHandle,
         ...edgeTemplate,
     } as Edge
 }
@@ -53,15 +55,15 @@ export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: 
     console.log(component.rdfId, component.rdfType)
     const nodes: CimNode[] = [createNode(component.mRID, component, 350, 0)]
     const edges: Edge[] = [];
-    if (isConductingEquipment(component)) {
-        let firstTerminal = true
-        component.terminals
-            .sort((a, b) => a.sequenceNumber - b.sequenceNumber)
+    if (isConductingEquipment(component) && component.terminals?.length) {
+        let firstTerminal = true;
+        (component.terminals ?? [])
+            .sort((a, b) => (a.sequenceNumber ?? 0) - (b.sequenceNumber ?? 0))
             .forEach((terminal) => {
-                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0))
-                edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal))
-                firstTerminal = false
-            })
+                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0));
+                edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal));
+                firstTerminal = false;
+            });
     }
     return {nodes: nodes, edges: edges}
 }
@@ -76,7 +78,7 @@ export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: 
 export const getLayoutedElements = (nodes, edges, options) => {
     const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
     // The space between nodes is set by ranksep (vertical) and nodesep (horizontal)
-    g.setGraph({rankdir: options.direction, ranksep: 100, nodesep: 100});
+    g.setGraph({rankdir: options.direction, ranksep: 200, nodesep: 100, ranker: "tight-tree"});
 
     edges.forEach((edge) => g.setEdge(edge.source, edge.target));
     nodes.forEach((node) =>
@@ -94,8 +96,8 @@ export const getLayoutedElements = (nodes, edges, options) => {
             const position = g.node(node.id);
             // We are shifting the dagre node position (anchor=center center) to the top left
             // so it matches the React Flow node anchor point (top left).
-            const x = position.x - (node.measured?.width ?? 0) / 2;
-            const y = position.y - (node.measured?.height ?? 0) / 2;
+            const x = position.x //- (node.measured?.width ?? 0) / 2;
+            const y = position.y //- (node.measured?.height ?? 0) / 2;
             return {...node, position: {x, y}};
         }),
         edges,

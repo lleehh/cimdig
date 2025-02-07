@@ -1,40 +1,33 @@
-'use client'
-import {ConnectivityNode} from "@/lib/cim";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {Shell} from "lucide-react";
+import { ComponentIcon } from "@/components/component-icon";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BusbarSection } from "@/lib/cim";
+import { componentRefs } from "@/lib/services/cim-service";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
 
-
-interface ConnectivetyNodeProps {
-    equipment: ConnectivityNode
+interface BusbarProps {
+    equipment: BusbarSection
 }
 
-export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
+export default function BusbarComponent({equipment}: BusbarProps) {
 
     const refs = componentRefs(equipment)
 
     return (
-        <Card className="w-[160px]">
-            <CardHeader className="p-2">
+        <Card className="w-[230px] ">
+            <CardHeader>
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
-                        <Shell/> CN
+                        <ComponentIcon icon="samleskinne"/>
+                        Busbar
                     </div>
                     <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                         title={equipment.name}>
+                         title= {equipment.name}>
                         {equipment.name}
                     </div>
+
                 </CardDescription>
             </CardHeader>
         </Card>
