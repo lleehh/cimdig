@@ -7,17 +7,31 @@ import {
     CardTitle
 } from "@/components/ui/card";
 import { PowerTransformer } from "@/lib/cim";
-import { componentRefs } from "@/lib/services/cim-service";
+import {componentParameters, componentRefs} from "@/lib/services/cim-service";
 import AdditionalCimLinks from "../additional-cim-links-component";
+import DisplayProperty from "@/components/equipment/display-property-component";
+import {CollapsedStyling} from "@/components/dig/flow-component";
 
 
 interface PowerTransformerProps {
     equipment: PowerTransformer
+    collapsed?: boolean
 }
 
-export default function PowerTransformerComponent({equipment}: PowerTransformerProps) {
-
+export default function PowerTransformerComponent({equipment, collapsed}: PowerTransformerProps) {
+    const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
+
+    if (collapsed)
+        return (
+            <>
+            <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+            <div className={`${CollapsedStyling()} flex items-center`}>
+                <ComponentIcon icon="transformator" className="w-16 h-16"/>
+                <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>
+            </div>
+            </>
+        )
 
     return (
         <Card className="w-[230px]">
@@ -27,6 +41,7 @@ export default function PowerTransformerComponent({equipment}: PowerTransformerP
                         <ComponentIcon icon="transformator"/>
                         PT
                     </div>
+                    <DisplayProperty data={propertiyList}/>
                     <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>

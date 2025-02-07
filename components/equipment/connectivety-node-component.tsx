@@ -2,32 +2,47 @@
 import {ConnectivityNode} from "@/lib/cim";
 import {
     Card,
-    CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import {Shell} from "lucide-react";
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
+import {CollapsedStyling} from "../dig/flow-component";
 
 
 interface ConnectivetyNodeProps {
     equipment: ConnectivityNode
+    collapsed?: boolean
 }
 
-export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
+export default function ConnectivityNodeComponent({equipment, collapsed}: ConnectivetyNodeProps) {
 
+    const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
 
+
+        if (collapsed)
+            return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <Shell className="w-8 h-8"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                </div>
+                </>
+            )
+
     return (
-        <Card className="w-[160px]">
+        <Card className="w-[160px]" color={equipment.color?.toString()!}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <Shell/> CN
                     </div>
+                    <DisplayProperty data={propertiyList}/>
                     <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>

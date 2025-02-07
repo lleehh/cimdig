@@ -5,18 +5,26 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { PowerTransformerEnd } from "@/lib/cim";
-import { ComponentIcon } from "../component-icon";
+import {PowerTransformerEnd} from "@/lib/cim";
+import {ComponentIcon} from "../component-icon";
 import {Circle} from "lucide-react";
-
+import {CollapsedStyling} from "@/components/dig/flow-component";
 
 
 interface PTEProps {
     equipment: PowerTransformerEnd
+    collapsed?: boolean
 }
 
 
-export default function PowerTransformerEndComponent({equipment}: PTEProps) {
+export default function PowerTransformerEndComponent({equipment, collapsed}: PTEProps) {
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+                <Circle/> PTE
+            </div>
+        )
 
     return (
         <Card className="w-max">
@@ -29,7 +37,7 @@ export default function PowerTransformerEndComponent({equipment}: PTEProps) {
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                         title= {equipment.name}>
+                         title={equipment.name}>
                         {equipment.name}
                     </div>
 
