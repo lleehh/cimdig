@@ -41,7 +41,10 @@ export default function CimComponent({equipment, collapsed}: { equipment: CIM, c
                 return <GenericComponent equipment={equipment} collapsed={collapsed}/>;
         }
     };
-    return (<>
+    
+    return (
+    <>
+        
         {renderComponent()}
     </>)
 } 

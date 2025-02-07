@@ -31,7 +31,7 @@ export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
         )
 
     return (
-        <Card className="w-[350px] relative">
+        <Card className="w-[350px]" color={equipment.color?.toString()!}>
             <CardHeader>
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">

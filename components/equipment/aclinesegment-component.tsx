@@ -26,7 +26,7 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
 
 
     return (
-        <Card className="w-[250px]">
+        <Card className="w-[250px]" color={equipment.color?.toString()!}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">

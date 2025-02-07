@@ -31,7 +31,7 @@ export default function ConnectivityNodeComponent({equipment, collapsed}: Connec
         )
 
     return (
-        <Card className="w-[160px]">
+        <Card className="w-[160px]" color={equipment.color?.toString()!}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
