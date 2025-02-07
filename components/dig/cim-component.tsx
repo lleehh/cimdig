@@ -7,7 +7,9 @@ import {
     GeneratingUnit,
     NonConformLoad,
     Terminal,
-    BusbarSection
+    BusbarSection,
+    Bay,
+    Substation
 } from "@/lib/cim";
 import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
 import BreakerComponent from "@/components/equipment/breaker-component";
@@ -17,6 +19,8 @@ import TerminalComponent from "@/components/equipment/terminal-component";
 import GeneratorComponent from "@/components/equipment/generator-component";
 import NonConformLoadComponent from "../equipment/nonconformload-component";
 import BusbarComponent from "../equipment/busbarsection-component";
+import Baycomponent from "../equipment/bay-component";
+import Substationcomponent from "../equipment/substation-component";
 
 
 export default function CimComponent({equipment, collapsed}: { equipment: CIM, collapsed?: boolean }) {
@@ -37,6 +41,10 @@ export default function CimComponent({equipment, collapsed}: { equipment: CIM, c
                 return <NonConformLoadComponent equipment={equipment as NonConformLoad} collapsed={collapsed}/>;
             case "cim:BusbarSection":
                 return <BusbarComponent equipment={equipment as BusbarSection} collapsed={collapsed}/>;
+            case "cim:Bay":
+                return <Baycomponent equipment={equipment as Bay} collapsed={collapsed}/>;
+            case "cim:Substation":
+                return <Substationcomponent equipment={equipment as Substation} collapsed={collapsed}/>;
             default:
                 return <GenericComponent equipment={equipment} collapsed={collapsed}/>;
         }
