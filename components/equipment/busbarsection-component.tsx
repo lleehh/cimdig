@@ -16,12 +16,15 @@ export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
     const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
 
-    if (collapsed)
-        return (
-            <div className={CollapsedStyling()}>
-                <ComponentIcon icon="samleskinne"/>
-            </div>
-        )
+    
+        if (collapsed)
+            return (
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <ComponentIcon icon="samleskinne" className="w-10 h-10"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                </div>
+            )
+    
 
 
     return (

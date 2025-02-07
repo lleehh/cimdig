@@ -23,12 +23,13 @@ export default function GeneratorComponent({equipment, collapsed}: GeneratorProp
     const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
 
-    if (collapsed)
-        return (
-            <div className={CollapsedStyling()}>
-                <ComponentIcon icon="generator"/>
-            </div>
-        )
+        if (collapsed)
+            return (
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <ComponentIcon icon="generator" className="w-8 h-8"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                </div>
+            )
 
     return (
         <Card className="w-[350px]" color={equipment.color?.toString()!}>
