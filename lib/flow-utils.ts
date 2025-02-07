@@ -30,7 +30,7 @@ export const edgeTemplate = {
     }
 }
 
-export function createNode(id: string, data: CIM, x: number, y: number, color: string): CimNode {
+export function createNode(id: string, data: CIM, x: number, y: number, color?: string): CimNode {
     return {
         id: id,
         type: 'flowComponent',
