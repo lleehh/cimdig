@@ -73,15 +73,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             "#c8ff9e",
             "#ffdf9e",
             "#9effdd",
-            "yellow",
-            "red",
-            "green",
-            "blue",
-            "purple",
-            "orange",
-            "pink",
-            "brown",
-            "grey"
+        
             
 
 
