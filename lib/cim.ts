@@ -48,10 +48,6 @@ export interface VoltageLevel extends EquipmentContainer {
     rdfType: "cim:VoltageLevel";
 }
 
-export interface Bay extends EquipmentContainer {
-    rdfType: "cim:Bay";
-}
-
 export interface BaseVoltage extends IdentifiedObject {
     rdfType: "cim:BaseVoltage";
     nominalVoltage: number;
@@ -102,6 +98,14 @@ export interface PowerTransformer extends ConductingEquipment {
 export interface PowerTransformerEnd extends ConductingEquipment {
     rdfType: "cim:PowerTransformerEnd";
     transformer: PowerTransformer;
+}
+
+export interface Bay extends EquipmentContainer {
+    rdfType: "cim:Bay";
+}
+
+export interface Substation extends EquipmentContainer {
+    rdfType: "cim:Substation";
 }
 
 /*
