@@ -18,7 +18,6 @@ interface TerminalProps {
 
 
 export default function TerminalComponent({equipment}: TerminalProps) {
-    //style={{backgroundColor: "red"}}
     return (
         
         <Card className="w-[160px]" color={equipment.color?.toString()!}>
