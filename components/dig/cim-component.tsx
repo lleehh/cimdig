@@ -9,7 +9,7 @@ import {
     Terminal,
     BusbarSection,
     Bay,
-    Substation
+    Substation, PowerTransformer, PowerTransformerEnd
 } from "@/lib/cim";
 import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
 import BreakerComponent from "@/components/equipment/breaker-component";
@@ -21,6 +21,8 @@ import NonConformLoadComponent from "../equipment/nonconformload-component";
 import BusbarComponent from "../equipment/busbarsection-component";
 import Baycomponent from "../equipment/bay-component";
 import Substationcomponent from "../equipment/substation-component";
+import PowerTransformerComponent from "@/components/equipment/powertransformer-component";
+import PowerTransformerEndComponent from "@/components/equipment/powertransformer-end-component";
 
 
 export default function CimComponent({equipment, collapsed}: { equipment: CIM, collapsed?: boolean }) {
@@ -45,6 +47,10 @@ export default function CimComponent({equipment, collapsed}: { equipment: CIM, c
                 return <Baycomponent equipment={equipment as Bay} collapsed={collapsed}/>;
             case "cim:Substation":
                 return <Substationcomponent equipment={equipment as Substation} collapsed={collapsed}/>;
+            case "cim:PowerTransformer":
+                return <PowerTransformerComponent equipment={equipment as PowerTransformer} collapsed={collapsed}/>;
+            case "cim:PowerTransformerEnd":
+                return <PowerTransformerEndComponent equipment={equipment as PowerTransformerEnd} collapsed={collapsed}/>;
             default:
                 return <GenericComponent equipment={equipment} collapsed={collapsed}/>;
         }
