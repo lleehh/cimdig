@@ -40,9 +40,9 @@ export default function SearchBar() {
         }
     }
     return (
-        <div ref={animationParent} className="shadow-2xl rounded-b-2xl bg-white">
+        <div ref={animationParent} className="shadow-2xl rounded-md bg-white">
             <input
-                className="w-full h-12 p-4 focus:outline-none rounded focus:rounded-t-2xl"
+                className="w-full h-12 p-4 focus:outline-none rounded-2xl"
                 onChange={(e) => setInput(e.target.value)}
                 value={input}
                 onFocus={() => (setIsFocused(true))}
@@ -50,7 +50,7 @@ export default function SearchBar() {
                 placeholder="Search for components by name…"
             />
                 {isFocused ?
-                    <ul className="p-2 max-h-96 overflow-y-scroll rounded-b-2xl border-none shadow-2xl">
+                    <ul className="p-2 max-h-96 overflow-y-scroll rounded-b-md border-none shadow-2xl">
                         {response.map((item) => (
                             <article className="w-full h-10 gap-3 bg-white flex flex-row hover:bg-neutral-100 hover:cursor-pointer hover: p-2 rounded-lg"
                                      key={item.id}
