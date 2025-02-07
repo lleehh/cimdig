@@ -4,22 +4,31 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
-
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import {CollapsedStyling} from "../dig/flow-component";
 
 interface GeneratorProps {
     equipment: GeneratingUnit
+    collapsed?: boolean
 }
 
-export default function GeneratorComponent({equipment}: GeneratorProps) {
+export default function GeneratorComponent({equipment, collapsed}: GeneratorProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
+    const refs = componentRefs(equipment)
+    const propertiyList = componentParameters(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+                <ComponentIcon icon="generator"/>
+            </div>
+        )
 
     return (
         <Card className="w-[350px]" color={equipment.color?.toString()!}>
@@ -28,8 +37,10 @@ export default function GeneratorComponent({equipment}: GeneratorProps) {
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="generator"/>
                         {equipment.rdfType}
-                        <AdditionalCimLinks nameList={dropdownList}/>
-                        
+
+                        <DisplayProperty data={propertiyList}/>
+                        <DisplayProperty data={propertiyList}/>
+                        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
