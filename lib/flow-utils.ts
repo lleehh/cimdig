@@ -2,8 +2,7 @@ import {CimNode} from "@/lib/store/store-flow";
 import {Edge, MarkerType} from "@xyflow/react";
 import {CIM, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
 import Dagre from '@dagrejs/dagre';
-import {JsonData} from "@/lib/store/model-repository";
-import { getRandomValues } from "crypto";
+
 
 
 export function doesEquipmentExistsInFlow(rdfId: string, nodes: CimNode[]): boolean {
@@ -40,11 +39,13 @@ export function createNode(id: string, data: CIM, x: number, y: number, color: s
     } as CimNode
 }
 
-export function createEdge(sourceId: string, targetId: string, fromSource: boolean): Edge {
+export function createEdge(sourceId: string, targetId: string, fromSource: boolean, sourceHandle?: string, targetHandle?: string): Edge {
     return {
         id: `e${sourceId}-${targetId}`,
         source: fromSource ? sourceId : targetId,
         target: fromSource ? targetId : sourceId,
+        sourceHandle: sourceHandle,
+        targetHandle: targetHandle,
         ...edgeTemplate,
     } as Edge
 }
@@ -54,23 +55,16 @@ export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: 
     console.log(component.rdfId, component.rdfType)
     const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "#ff9e9e")]
     const edges: Edge[] = [];
-
-    // Denne koden gjør at nettsiden automatisk åpner 2 terminaler fra den første noden. Jeg fjernet det fordi da måtte jeg skrive hele fargekoden igjen.
-  
-    /*
-    if (isConductingEquipment(component)) {
-        let firstTerminal = true
-        component.terminals
-            .sort((a, b) => a.sequenceNumber - b.sequenceNumber)
+    if (isConductingEquipment(component) && component.terminals?.length) {
+        let firstTerminal = true;
+        (component.terminals ?? [])
+            .sort((a, b) => (a.sequenceNumber ?? 0) - (b.sequenceNumber ?? 0))
             .forEach((terminal) => {
-                
-                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, "nocolor"))
-                edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal))
-                firstTerminal = false
-            })
+                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0));
+                edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal));
+                firstTerminal = false;
+            });
     }
-    */
-
     return {nodes: nodes, edges: edges}
 }
 
