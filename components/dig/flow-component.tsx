@@ -1,5 +1,5 @@
+'use client'
 import CimComponent from "@/components/dig/cim-component";
-import Placeholder from "@/components/dig/placeholder";
 import { Button } from "@/components/ui/button";
 import {
     CIM,
@@ -12,63 +12,19 @@ import { isExandable } from "@/lib/services/cim-service";
 import { getComponentById } from "@/lib/store/model-repository";
 import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
 import { Edge, Handle, NodeProps, Position, useStore, } from "@xyflow/react";
-import { Expand, FileTerminal } from "lucide-react";
+import { Expand  } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { ComponentIcon } from '@/components/component-icon';
-import { Factory, Shell } from 'lucide-react';
 
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
-function selectPlaceholder(type: string) {
-    switch (type) {
-        case "cim:ACLineSegment": // if the type is ACLineSegment then show an icon of an AC Line segment
-            return   (
-                <div className="w-44 border border-gray-400 p-3">
-                        <ComponentIcon icon="overforing"/>
-                </div> )
-        case "cim:Terminal":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <FileTerminal/>
-                </div>
-            )
-        case "cim:ConnectivityNode":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <Shell/>
-                </div>
-            )
-        case "cim:Breaker":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <ComponentIcon icon="bryter"/>
-                </div>
-            )
-        case "cim:GeneratingUnit":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <ComponentIcon icon="generator"/>
-                </div>
-            ) 
-        case "cim:NonConformLoad":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <Factory/>
-                </div>
-            )    
-        case "cim:BusbarSection":
-            return (
-                <div className="w-44 border border-gray-400 p-3">
-                    <ComponentIcon icon="samleskinne"/>
-                </div>
-            )
-
-        default:
-            return Placeholder()
-    }
+export function CollapsedStyling (){
+    return (
+        "w-44 border border-gray-400 p-3 bg-white"
+    )
 }
+
 
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {
@@ -109,18 +65,35 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         console.log("EQ", component?.rdfId, component?.rdfType)
         const newNodes: CimNode[] = []
         const newEdges: Edge[] = []
+
+        let colors  : string[] = [
+            "#ff9e9e", 
+            "#9eadff", 
+            "#ea9eff",
+            "#c8ff9e",
+            "#ffdf9e",
+            "#9effdd",
+        
+            
+
+
+        ]
+        
+        
+        
+        
+        data.color = data.color?.toString()!
+
         if (node && component) {
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
-                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0))
-                    //newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, component.sequenceNumber !== 1))
+                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.color?.toString()!))
                     newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, true))
 
                 }
 
                 if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
-                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0))
-                    //newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, component.sequenceNumber !== 1))
+                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.color?.toString()!))
                     newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, true))
                 }
             }
@@ -128,36 +101,69 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 const rdfId = component.rdfId
                 component.terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
-                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0))
+                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.color?.toString()!))
                         newEdges.push(createEdge(terminal.rdfId, rdfId, false))
                     }
                 })
             }
         }
         if (newNodes.length > 0) {
+            
+            
+
+            if(newNodes.length > 1) {
+                let usedColors  : number[] = [];
+                let whileLoop   : number = 0
+                let randomColor : number = 0
+
+                usedColors = []
+                newNodes.forEach(element => {
+                    whileLoop = 0
+                    console.log("node")
+                    randomColor = 0
+                    while(colors[randomColor] === element.data.color?.toString()! ||         usedColors.includes(randomColor) ||         whileLoop > 500) {
+                        randomColor = Math.floor((Math.random()*colors.length))
+
+                        if(usedColors.length >= colors.length) {usedColors = []; console.log("For få farger.")}
+                        whileLoop++
+                    }
+
+                    if(whileLoop>500) {console.log("While loop error.", usedColors)}
+                    usedColors.push(randomColor)
+                    element.data.color = colors[randomColor]    
+                });
+
+                usedColors = []
+            }
             setNodes([...nodes, ...newNodes])
             setEdges([...edges, ...newEdges])
             setFocusNode(newNodes[newNodes.length - 1].id)
         }
         setExpanded(true)
     }
+
+    if(component !== null) {
+        component.color = data.color
+    }
+
+    
     return (
         <div>
+
             <Handle type="target" isConnectable={false} position={Position.Left}
-                    className="!w-3 !h-3 !rounded-none !bg-stone-400" id="leftHandle"/>
+                    className="!w-3 !h-3 !rounded-none !bg-stone-400"/>
             <Handle type="target" isConnectable={false} position={Position.Left}
                     className="!w-3 !h-3 !rounded-none !bg-stone-400" id="bottomHandle"/>
-            {showContent ? <div className="relative">
+            <div className="relative">
                 {!expanded && isExandableComponent &&
                     <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
                             onClick={handleExpand}><Expand/></Button>}
-                <CimComponent equipment={component || data}/>
-            </div> : <Placeholder/>}
-            <Handle type="source" isConnectable={false} position={Position.Right}
-                    className="!w-3 !h-3 !rounded-none !bg-stone-400" id="rightHandle"/>
+                <CimComponent equipment={component || data} collapsed={!showContent}/>
+            </div> 
+            <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
             <Handle type="source" isConnectable={false} position={Position.Right}
                     className="!w-3 !h-3 !rounded-none !bg-stone-400" id="topHandle"/>
-
         </div>
     )
 }
+
