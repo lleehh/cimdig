@@ -52,6 +52,10 @@ export interface Bay extends EquipmentContainer {
     rdfType: "cim:Bay";
 }
 
+export interface Substation extends EquipmentContainer {
+    rdfType: "cim:Substation";
+}
+
 export interface BaseVoltage extends IdentifiedObject {
     rdfType: "cim:BaseVoltage";
     nominalVoltage: number;
