@@ -71,10 +71,9 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             "#9eadff", 
             "#ea9eff",
             "#c8ff9e",
-            "#ffdf9e",
+            "#ffe380",
             "#9effdd",
-
-
+            "#ffa270",
         ]
         
         
@@ -119,14 +118,14 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                     whileLoop = 0
                     console.log("node")
                     randomColor = 0
-                    while(colors[randomColor] === element.data.color?.toString()! ||         usedColors.includes(randomColor) ||         whileLoop > 500) {
+                    while((colors[randomColor] === element.data.color?.toString()! ||         usedColors.includes(randomColor)) &&      whileLoop < 100*nodes.length) {
                         randomColor = Math.floor((Math.random()*colors.length))
 
-                        if(usedColors.length >= colors.length) {usedColors = []; console.log("For få farger.")}
+                        if(usedColors.length >= colors.length) {usedColors = []; console.log("For få farger.", usedColors.length)}
                         whileLoop++
                     }
 
-                    if(whileLoop>500) {console.log("While loop error.", usedColors)}
+                    if(whileLoop>=100*nodes.length) {console.log("While loop error.", usedColors)}
                     usedColors.push(randomColor)
                     element.data.color = colors[randomColor]    
                 });

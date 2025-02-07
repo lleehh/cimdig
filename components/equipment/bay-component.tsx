@@ -34,7 +34,7 @@ export default function Baycomponent({equipment, collapsed}: BayProps) {
         )
 
         return (
-            <Card className="w-[350px]">
+            <Card className="w-[350px]" color={equipment.color?.toString()!}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">

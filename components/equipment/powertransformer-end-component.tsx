@@ -27,7 +27,7 @@ export default function PowerTransformerEndComponent({equipment, collapsed}: PTE
         )
 
     return (
-        <Card className="w-max">
+        <Card className="w-max"  color={equipment.color?.toString()!}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">

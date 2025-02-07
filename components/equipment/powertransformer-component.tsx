@@ -30,7 +30,7 @@ export default function PowerTransformerComponent({equipment, collapsed}: PowerT
         )
 
     return (
-        <Card className="w-[230px]">
+        <Card className="w-[230px]" color={equipment.color?.toString()!}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
