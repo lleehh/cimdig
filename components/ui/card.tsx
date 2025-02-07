@@ -10,7 +10,6 @@ const Card = React.forwardRef<
       
       <div
       ref={ref}
-      //style={{borderColor: "red", strokeWidth: "10px"}}
       className={cn(
         "rounded-xl border bg-card text-card-foreground shadow",
         className
@@ -21,7 +20,6 @@ const Card = React.forwardRef<
       <div style={{height: "10px"}}> </div>
       
       <div
-      //style={{borderColor: "red", strokeWidth: "10px"}}
       className={cn(
         "rounded-xl border bg-card text-card-foreground shadow",
         className

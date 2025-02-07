@@ -130,14 +130,12 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
                     newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.color?.toString()!))
-                    //newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, component.sequenceNumber !== 1))
                     newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, true))
 
                 }
 
                 if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
                     newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.color?.toString()!))
-                    //newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, component.sequenceNumber !== 1))
                     newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, true))
                 }
             }
@@ -166,28 +164,17 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                     console.log("node")
                     randomColor = 0
                     while(colors[randomColor] === element.data.color?.toString()! ||         usedColors.includes(randomColor) ||         whileLoop > 500) {
-                        console.log(colors[randomColor] === element.data.color?.toString()!)
-                        console.log(usedColors.includes(randomColor))
-                        console.log(whileLoop < 800)
-
-                        console.log(colors[randomColor], element.data.color?.toString()!)
                         randomColor = Math.floor((Math.random()*colors.length))
-                        //console.log(randomColor)
-                        if(usedColors.length >= colors.length) {usedColors = []; console.log("A")}
+
+                        if(usedColors.length >= colors.length) {usedColors = []; console.log("For få farger.")}
                         whileLoop++
                     }
 
-                    if(whileLoop>500) {
-                        console.log("WHILE LOOP ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", usedColors)
-                    }
+                    if(whileLoop>500) {console.log("While loop error.", usedColors)}
                     usedColors.push(randomColor)
                     element.data.color = colors[randomColor]    
                 });
-                for (let index = 0; index < newNodes.length; index++) {
-                                    
-                    
-                }
-                console.log(usedColors)
+
                 usedColors = []
             }
             setNodes([...nodes, ...newNodes])

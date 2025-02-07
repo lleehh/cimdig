@@ -43,9 +43,8 @@ export default function CimComponent({equipment}: { equipment: CIM }) {
                 return <GenericComponent equipment={equipment}/>;
         }
     };
-    //console.log(equipment.color)
+    
     return (
-    //<p style={{backgroundColor: equipment.color}}> hallo {equipment.color}</p>
     <>
         
         {renderComponent()}

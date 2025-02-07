@@ -52,22 +52,25 @@ export function createEdge(sourceId: string, targetId: string, fromSource: boole
 export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: Edge[] } => {
 
     console.log(component.rdfId, component.rdfType)
-    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "red")]
+    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "#ff9e9e")]
     const edges: Edge[] = [];
 
-    const colors = ["red", "blue", "yellow"]
-
+    // Denne koden gjør at nettsiden automatisk åpner 2 terminaler fra den første noden. Jeg fjernet det fordi da måtte jeg skrive hele fargekoden igjen.
+  
+    /*
     if (isConductingEquipment(component)) {
         let firstTerminal = true
         component.terminals
             .sort((a, b) => a.sequenceNumber - b.sequenceNumber)
             .forEach((terminal) => {
                 
-                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, colors[Math.round((Math.random()*10000)%2)]))
+                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, "nocolor"))
                 edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal))
                 firstTerminal = false
             })
     }
+    */
+
     return {nodes: nodes, edges: edges}
 }
 
