@@ -25,7 +25,7 @@ export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
 
 
     return (
-        <Card className="w-[230px] relative">
+        <Card className="w-[230px] relative" color={equipment.color?.toString()!}>
             <CardHeader>
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
