@@ -1,5 +1,5 @@
 import {getComponentById} from "@/lib/store/model-repository";
-import {ACLineSegment, Breaker, ConnectivityNode, GeneratingUnit, Terminal} from "@/lib/cim";
+import {ACLineSegment, Breaker, ConnectivityNode, GeneratingUnit, Terminal, BusbarSection, NonConformLoad, PowerTransformer, PowerTransformerEnd} from "@/lib/cim";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
 import {Separator} from "@/components/ui/separator";
@@ -15,6 +15,10 @@ import GeneratorComponent from "@/components/equipment/generator-component";
 import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
 import ConnectivityNodeComponent from "@/components/equipment/connectivety-node-component";
 import TerminalComponent from "@/components/equipment/terminal-component";
+import BusbarComponent from "@/components/equipment/busbarsection-component";
+import PowerTransformerComponent from "@/components/equipment/powertransformer-component";
+import PowerTransformerEndComponent from "@/components/equipment/powertransformer-end-component";
+import NonConformLoadComponent from "@/components/equipment/nonconformload-component";
 
 export default async function Home() {
 
@@ -27,6 +31,10 @@ export default async function Home() {
     const generator = await getComponentById<GeneratingUnit>("f1769915-9aeb-11e5-91da-b8763fd99c5f")
     const cn = await getComponentById<ConnectivityNode>("f176969d-9aeb-11e5-91da-b8763fd99c5f")
     const terminal = await getComponentById<Terminal>("2dd903ab-bdfb-11e5-94fa-c8f73332c8f4")
+    const busbarSection = await getComponentById<BusbarSection>("2dd90172-bdfb-11e5-94fa-c8f73332c8f4")
+    const powerTransformer = await getComponentById<PowerTransformer>("f1769da0-9aeb-11e5-91da-b8763fd99c5f")
+    const PowerTransformerEnd = await getComponentById<PowerTransformerEnd>("2dd9044c-bdfb-11e5-94fa-c8f73332c8f4")
+    const loadProp = await getComponentById<NonConformLoad>("f17697f4-9aeb-11e5-91da-b8763fd99c5f")
 
     return (
         <SidebarProvider>
@@ -59,10 +67,14 @@ export default async function Home() {
                         {generator && <GeneratorComponent equipment={generator}/>}
                         {cn && <ConnectivityNodeComponent equipment={cn}/>}
                         {terminal && <TerminalComponent equipment={terminal}/>}
+                        {busbarSection && <BusbarComponent equipment={busbarSection}/>}
+                        {powerTransformer && <PowerTransformerComponent equipment={powerTransformer}/>}
+                        {PowerTransformerEnd && <PowerTransformerEndComponent equipment={PowerTransformerEnd}/>}
+                        {loadProp && <NonConformLoadComponent equipment={loadProp}/>}
                     </main>
                 </div>
             </SidebarInset>
 
         </SidebarProvider>
-    );
+    );  
 }

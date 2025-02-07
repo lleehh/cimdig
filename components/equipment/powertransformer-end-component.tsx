@@ -1,30 +1,30 @@
 'use client'
-import {GeneratingUnit, Terminal} from "@/lib/cim";
 import {
     Card,
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-import { FileTerminal } from "lucide-react";
-import {componentRefs} from "@/lib/services/cim-service";
+} from "@/components/ui/card";
+import { PowerTransformerEnd } from "@/lib/cim";
+import { ComponentIcon } from "../component-icon";
+import {Circle} from "lucide-react";
 
 
-interface TerminalProps {
-    equipment: Terminal
+
+interface PTEProps {
+    equipment: PowerTransformerEnd
 }
 
 
-export default function TerminalComponent({equipment}: TerminalProps) {
-
-    const refs = componentRefs(equipment)
+export default function PowerTransformerEndComponent({equipment}: PTEProps) {
 
     return (
-        <Card className="w-[160px]">
+        <Card className="w-max">
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
-                        <FileTerminal/> T{equipment.sequenceNumber}
+                        <Circle/>
+                        PTE
                     </div>
                 </CardTitle>
                 <CardDescription>

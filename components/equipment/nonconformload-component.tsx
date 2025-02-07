@@ -1,5 +1,5 @@
 'use client'
-import {GeneratingUnit} from "@/lib/cim";
+import {BaseVoltage, Breaker, NonConformLoad} from "@/lib/cim";
 import {
     Card,
     CardContent,
@@ -8,25 +8,26 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import { Factory } from "lucide-react";
 import {componentRefs} from "@/lib/services/cim-service";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 
-interface GeneratorProps {
-    equipment: GeneratingUnit
+interface NonConformLoadProps {
+    equipment: NonConformLoad
 }
 
-export default function GeneratorComponent({equipment}: GeneratorProps) {
+export default function NonConformLoadComponent({equipment}: NonConformLoadProps) {
 
     const refs = componentRefs(equipment)
+
 
     return (
         <Card className="w-[350px]">
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
-                        <ComponentIcon icon="generator"/>
+                        <Factory />
                         {equipment.rdfType}
                         <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
@@ -36,7 +37,7 @@ export default function GeneratorComponent({equipment}: GeneratorProps) {
             <CardContent className="flex flex-col space-y-4">
                 <div className="text-gray-400">{equipment.description}</div>
                 <div>
-                    Max operating power limit {(equipment.maxOperatingP)}
+                    Voltage {(equipment.baseVoltage as BaseVoltage)?.name}
                 </div>
             </CardContent>
         </Card>

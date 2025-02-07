@@ -1,39 +1,38 @@
 'use client'
-import {ConnectivityNode} from "@/lib/cim";
+import { ComponentIcon } from "@/components/component-icon";
 import {
     Card,
-    CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {Shell} from "lucide-react";
-import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
+    CardTitle
+} from "@/components/ui/card";
+import { PowerTransformer } from "@/lib/cim";
+import { componentRefs } from "@/lib/services/cim-service";
+import AdditionalCimLinks from "../additional-cim-links-component";
 
 
-interface ConnectivetyNodeProps {
-    equipment: ConnectivityNode
+interface PowerTransformerProps {
+    equipment: PowerTransformer
 }
 
-export default function ConnectivityNodeComponent({equipment}: ConnectivetyNodeProps) {
+export default function PowerTransformerComponent({equipment}: PowerTransformerProps) {
 
     const refs = componentRefs(equipment)
 
     return (
-        <Card className="w-[160px]">
+        <Card className="w-[230px]">
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
-                        <Shell/> CN
+                        <ComponentIcon icon="transformator"/>
+                        PT
                     </div>
                     <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                         title={equipment.name}>
-                        {equipment.name}
+                         title={equipment.name as string}>
+                        {equipment.name as string}
                     </div>
                 </CardDescription>
             </CardHeader>
