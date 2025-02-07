@@ -29,10 +29,14 @@ export default function Baycomponent({equipment, collapsed}: BayProps) {
     
         if (collapsed)
             return (
+            <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
                 <div className={`${CollapsedStyling()} flex items-center`}>
-                    <LandPlot className="w-10 h-10"/>
-                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
-                </div>
+                        <LandPlot className="w-10 h-10"/>
+                        <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                    </div>
+                </>
+                
             )
 
         return (

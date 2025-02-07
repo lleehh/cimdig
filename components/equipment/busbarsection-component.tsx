@@ -18,12 +18,19 @@ export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
 
     
         if (collapsed)
+            
             return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="samleskinne" className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
                 </div>
+
+                </>
             )
+
+
     
 
 

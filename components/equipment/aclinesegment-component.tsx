@@ -19,10 +19,14 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
 
     if (collapsed)
         return (
+            <>
+            <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
             <div className={`${CollapsedStyling()} flex items-center`}>
-                <ComponentIcon icon="overforing" className="w-16 h-16"/>
-                <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                    <ComponentIcon icon="overforing" className="w-16 h-16"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                
             </div>
+            </>
         )
 
 

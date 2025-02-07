@@ -26,10 +26,13 @@ export default function GenericComponent({equipment, collapsed}: ConnectivetyNod
     
         if (collapsed)
             return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Triangle className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>
                 </div>
+                </>
             )
 
     return (

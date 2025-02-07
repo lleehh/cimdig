@@ -27,10 +27,13 @@ export default function TerminalComponent({equipment, collapsed}: TerminalProps)
 
         if (collapsed)
             return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <SquareTerminal className="w-10 h-10"/>
                     <div className="overflow-hidden text-sm ml-2">{equipment.name}</div>
                 </div>
+                </>
             )
 
     const refs = componentRefs(equipment)
