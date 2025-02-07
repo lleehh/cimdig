@@ -97,7 +97,7 @@ export default function Dig({equipment}: DigProps) {
                        onConnect={onConnect}
                        connectionLineStyle={{stroke: '#ddd', strokeWidth: 2}}
             >
-                <Panel position="top-center" className={'w-1/2'}>
+                <Panel position="top-center" className="w-1/2">
                     <SearchBar />
                 </Panel>
                 <Panel position="top-right">

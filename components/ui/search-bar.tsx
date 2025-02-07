@@ -1,33 +1,26 @@
-import {
-    Command,
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
-} from "@/components/ui/command"
 import React, {FormEvent, ReactEventHandler, useEffect, useState} from "react";
 import {findById, getComponentById, searchByName, SearchResult} from "@/lib/store/model-repository";
 import useFlowStore from "@/lib/store/store-flow";
 import {createNode, createNodesAndEdges} from "@/lib/flow-utils";
 import {ComponentIcon} from "@/components/component-icon";
 import {Shell, Triangle} from "lucide-react";
+import {useDebounce} from "use-debounce";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
 
 
 export default function SearchBar() {
     const [isFocused, setIsFocused] = useState(false)
     const [input, setInput] = useState("")
     const [response, setResponse] = useState<SearchResult>([])
+    const [debouncedInput] = useDebounce(input, 400)
+    const [animationParent] = useAutoAnimate()
 
     const {setNodes, setEdges} = useFlowStore()
 
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                const result = await searchByName(input);
+                const result = await searchByName(debouncedInput.toString().toLowerCase());
                 setResponse(result || []);
             } catch (error) {
                 console.error("Error fetching search results:", error);
@@ -35,7 +28,7 @@ export default function SearchBar() {
             }
         };
         fetchResults()
-    }, [])
+    }, [debouncedInput])
 
     const fetchComponent = async (id: string)=> {
         let equipment = await getComponentById(id)
@@ -46,43 +39,38 @@ export default function SearchBar() {
             setEdges(edges)
         }
     }
-
     return (
-        <Command className="shadow-2xl">
-            <CommandInput
+        <div ref={animationParent} className="shadow-2xl rounded-b-2xl bg-white">
+            <input
+                className="w-full h-12 p-4 focus:outline-none rounded focus:rounded-t-2xl"
+                onChange={(e) => setInput(e.target.value)}
                 value={input}
-                onValueChange={(value) => setInput(value)}
                 onFocus={() => (setIsFocused(true))}
-                onBlur={() => (setIsFocused(false))}
-                placeholder="Search for components by name…" />
-            <CommandList>
+                onBlur={() => setTimeout(() => setIsFocused(false), 250)}
+                placeholder="Search for components by name…"
+            />
                 {isFocused ?
-                    response.map((item) => (
-                        <CommandItem
-                            key={item.id}
-                            onSelect={() => fetchComponent(item.id)}
-                            value={item.name}>
-                            {(() => {
-                                switch (item.rdfType) {
-                                    case "cim:ACLineSegment":
-                                        return <ComponentIcon icon="overforing" />
-                                    case "cim:ConnectivityNode":
-                                        return <Shell />
-                                    default:
-                                        return <Triangle />
-                                }
-                            })()}
-                            {item.name}
-                        </CommandItem>
-                    ))
+                    <ul className="p-2 max-h-96 overflow-y-scroll rounded-b-2xl border-none shadow-2xl">
+                        {response.map((item) => (
+                            <article className="w-full h-10 gap-3 bg-white flex flex-row hover:bg-neutral-100 hover:cursor-pointer hover: p-2 rounded-lg"
+                                     key={item.id}
+                                     onClick={() => fetchComponent(item.id)}
+                            >
+                                {(() => {
+                                    switch (item.rdfType) {
+                                        case "cim:ACLineSegment":
+                                            return <ComponentIcon icon="overforing"/>
+                                        case "cim:ConnectivityNode":
+                                            return <Shell/>
+                                        default:
+                                            return <Triangle/>
+                                    }
+                                })()}
+                                {item.name}
+                            </article>
+                        ))}
+                    </ul>
                     : <></>}
-                {/*<CommandGroup heading="Suggestions">*/}
-                {/*    /!*Maybe add recent searches here later:*!/*/}
-                {/*    /!*<CommandItem>{response[0].name}</CommandItem>*!/*/}
-                {/*    /!*<CommandItem>{response[1].name}</CommandItem>*!/*/}
-                {/*    /!*<CommandItem>{response[2].name}</CommandItem>*!/*/}
-                {/*</CommandGroup>*/}
-            </CommandList>
-        </Command>
+        </div>
         )
 }
