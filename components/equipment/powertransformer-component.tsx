@@ -24,9 +24,13 @@ export default function PowerTransformerComponent({equipment, collapsed}: PowerT
 
     if (collapsed)
         return (
-            <div className={CollapsedStyling()}>
-                <ComponentIcon icon="transformator"/>
+            <>
+            <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+            <div className={`${CollapsedStyling()} flex items-center`}>
+                <ComponentIcon icon="transformator" className="w-16 h-16"/>
+                <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>
             </div>
+            </>
         )
 
     return (

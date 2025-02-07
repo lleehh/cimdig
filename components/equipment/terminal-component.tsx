@@ -25,12 +25,16 @@ interface TerminalProps {
 export default function TerminalComponent({equipment, collapsed}: TerminalProps) {
     const propertiyList = componentParameters(equipment)
 
-    if (collapsed)
-        return (
-            <div className={CollapsedStyling()}>
-            <SquareTerminal/>
-        </div>
-        )
+        if (collapsed)
+            return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <SquareTerminal className="w-10 h-10"/>
+                    <div className="overflow-hidden text-sm ml-2">{equipment.name}</div>
+                </div>
+                </>
+            )
 
     const refs = componentRefs(equipment)
 

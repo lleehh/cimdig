@@ -26,12 +26,18 @@ export default function Baycomponent({equipment, collapsed}: BayProps) {
     const refs = componentRefs(equipment)
     
 
-    if (collapsed)
-        return (
-            <div className={CollapsedStyling()}>
-            <LandPlot/>
-        </div> 
-        )
+    
+        if (collapsed)
+            return (
+            <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                        <LandPlot className="w-10 h-10"/>
+                        <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                    </div>
+                </>
+                
+            )
 
         return (
             <Card className="w-[350px]">

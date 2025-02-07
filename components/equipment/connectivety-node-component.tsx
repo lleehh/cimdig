@@ -23,12 +23,17 @@ export default function ConnectivityNodeComponent({equipment, collapsed}: Connec
     const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
 
-    if (collapsed)
-        return (
-            <div className={CollapsedStyling()}>
-                <Shell/>
-            </div>
-        )
+
+        if (collapsed)
+            return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <Shell className="w-8 h-8"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                </div>
+                </>
+            )
 
     return (
         <Card className="w-[160px]" color={equipment.color?.toString()!}>
