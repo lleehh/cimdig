@@ -20,6 +20,7 @@ export default function PowerTransformerComponent({equipment}: PowerTransformerP
     const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
 
+
     return (
         <Card className="w-[230px]">
             <CardHeader className="p-2">
@@ -33,7 +34,7 @@ export default function PowerTransformerComponent({equipment}: PowerTransformerP
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                         title={equipment.name as string}>
+                            title={equipment.name as string}>
                         {equipment.name as string}
                     </div>
                 </CardDescription>

@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import Dig from "@/components/dig/flow";
 import FlowRoot from "@/components/dig/flow_root";
+import Baycomponent from "@/components/equipment/bay-component";
+import { Sub } from "@radix-ui/react-dropdown-menu";
+
 
 export default async function Home() {
 
@@ -23,6 +26,7 @@ export default async function Home() {
 
     const acLineSegment = await getComponentById<ACLineSegment>(acLineSegmentId)
     const breaker = await getComponentById<Breaker>(breakerId)
+    
 
     return (
         <SidebarProvider>

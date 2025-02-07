@@ -23,12 +23,13 @@ export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
     const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
 
-    if (collapsed)
-        return (
-            <div className={CollapsedStyling()}>
-                <ComponentIcon icon="bryter"/>
-            </div>
-        )
+        if (collapsed)
+            return (
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <ComponentIcon className="w-12 h-12" icon="bryter" />
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                </div>
+            )
 
     return (
         <Card className="w-[350px]" color={equipment.color?.toString()!}>
