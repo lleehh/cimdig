@@ -24,12 +24,16 @@ export default function Substationcomponent({equipment, collapsed}: SubstationPr
     const refs = componentRefs(equipment)
     
 
-    if (collapsed)
-        return (
-            <div className={CollapsedStyling()}>
-            <ComponentIcon icon="stasjon"/>
-        </div> 
-        )
+        if (collapsed)
+            return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <ComponentIcon icon="stasjon" className="w-8 h-8"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.rdfType}</div>
+                </div>
+                </>
+            )
 
         return (
             <Card className="w-[350px]">

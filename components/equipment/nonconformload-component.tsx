@@ -23,12 +23,16 @@ export default function NonConformLoadComponent({equipment, collapsed}: NonConfo
     const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
 
-    if (collapsed)
-        return (
-            <div className={CollapsedStyling()}>
-                <Factory/>
-            </div>
-        )
+        if (collapsed)
+            return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <Factory className="w-10 h-10"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                </div>
+                </>
+            )
 
 
     return (

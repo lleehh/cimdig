@@ -13,6 +13,10 @@ import {
 } from "@/components/ui/breadcrumb";
 import Dig from "@/components/dig/flow";
 import FlowRoot from "@/components/dig/flow_root";
+import Baycomponent from "@/components/equipment/bay-component";
+import { Sub } from "@radix-ui/react-dropdown-menu";
+import { Power } from "lucide-react";
+
 
 export default async function Home() {
 
