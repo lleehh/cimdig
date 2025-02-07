@@ -4,26 +4,34 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import AdditionalCimLinks from "../additional-cim-links-component";
-import {componentRefs} from "@/lib/services/cim-service";
-
+import {componentRefs, componentParameters} from "@/lib/services/cim-service";
+import DisplayProperty from "./display-property-component";
+import {CollapsedStyling} from "../dig/flow-component";
+import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface BreakerProps {
     equipment: Breaker
+    collapsed?: boolean
 }
 
-export default function BreakerComponent({equipment}: BreakerProps) {
+export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
 
-    const dropdownList = componentRefs(equipment).map((ref) => ref.rdfType)
-    
+    const refs = componentRefs(equipment)
+    const propertiyList = componentParameters(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+                <ComponentIcon icon="bryter"/>
+            </div>
+        )
 
     return (
-        <Card className="w-[350px]" color={equipment.color?.toString()!}>
+        <Card className="w-[350px] relative">
             <CardHeader>
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
@@ -33,7 +41,9 @@ export default function BreakerComponent({equipment}: BreakerProps) {
                             {equipment.name}
                         </div>
                     </div>
-                    <AdditionalCimLinks nameList={dropdownList}/>
+                    <DisplayProperty data={propertiyList}/>
+
+                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
@@ -43,10 +53,8 @@ export default function BreakerComponent({equipment}: BreakerProps) {
                     <div>
                         Voltage {(equipment.baseVoltage as BaseVoltage).name}
                     </div>
-                </CardDescription>            </CardHeader>
-            <CardContent className="flex flex-col space-y-4">
-
-            </CardContent>
+                </CardDescription>
+            </CardHeader>
         </Card>
     )
 }
