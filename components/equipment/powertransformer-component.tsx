@@ -10,15 +10,24 @@ import { PowerTransformer } from "@/lib/cim";
 import {componentParameters, componentRefs} from "@/lib/services/cim-service";
 import AdditionalCimLinks from "../additional-cim-links-component";
 import DisplayProperty from "@/components/equipment/display-property-component";
+import {CollapsedStyling} from "@/components/dig/flow-component";
 
 
 interface PowerTransformerProps {
     equipment: PowerTransformer
+    collapsed?: boolean
 }
 
-export default function PowerTransformerComponent({equipment}: PowerTransformerProps) {
+export default function PowerTransformerComponent({equipment, collapsed}: PowerTransformerProps) {
     const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
+
+    if (collapsed)
+        return (
+            <div className={CollapsedStyling()}>
+                <ComponentIcon icon="transformator"/>
+            </div>
+        )
 
     return (
         <Card className="w-[230px]">
