@@ -25,10 +25,13 @@ export default function GeneratorComponent({equipment, collapsed}: GeneratorProp
 
         if (collapsed)
             return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="generator" className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
                 </div>
+                </>
             )
 
     return (

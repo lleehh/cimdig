@@ -26,10 +26,13 @@ export default function Substationcomponent({equipment, collapsed}: SubstationPr
 
         if (collapsed)
             return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="stasjon" className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.rdfType}</div>
                 </div>
+                </>
             )
 
         return (

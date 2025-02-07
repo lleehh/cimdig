@@ -26,10 +26,13 @@ export default function ConnectivityNodeComponent({equipment, collapsed}: Connec
 
         if (collapsed)
             return (
+                <>
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Shell className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
                 </div>
+                </>
             )
 
     return (
