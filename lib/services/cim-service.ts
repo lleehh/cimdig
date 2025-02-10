@@ -1,4 +1,4 @@
-import {CIM, ConductingEquipment, isConductingEquipment} from "@/lib/cim";
+import {CIM, ConductingEquipment, isConductingEquipment, PowerTransformerEnd} from "@/lib/cim";
 
 export function isExandable(component: CIM): boolean {
     return component.rdfType === 'cim:ConnectivityNode'
@@ -41,9 +41,11 @@ export function componentParameters(component: CIM): Record<string, String> {
     return parameters
 }
 
-export function isEquipmentExpandable(equipment: CIM){
+export function isEquipmentExpandable(equipment: CIM) {
+    const hasTerminal = (equipment as PowerTransformerEnd).terminal !== undefined;
     const terminals = (equipment as ConductingEquipment).terminals || []
     return equipment.rdfType === 'cim:ConnectivityNode'
         || equipment.rdfType === 'cim:Terminal'
-        || terminals.length > 0;
+        || terminals.length > 0
+        || hasTerminal
 }
