@@ -6,7 +6,6 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import {PowerTransformerEnd} from "@/lib/cim";
-import {ComponentIcon} from "../component-icon";
 import {Circle} from "lucide-react";
 import {CollapsedStyling} from "@/components/dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";

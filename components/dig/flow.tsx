@@ -37,7 +37,6 @@ export default function Dig({equipment}: DigProps) {
     );
 
     useEffect(() => {
-        console.log('equipment', equipment)
         if (equipment) {
             const {nodes, edges} = createNodesAndEdges(equipment)
             setNodes(nodes)
