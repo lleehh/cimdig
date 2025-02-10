@@ -38,7 +38,7 @@ export const searchByName = async (query: string): Promise<SearchResult> => {
     }
     const result: SearchResult = []
     for (const key in byNameData) {
-        if (key.toLowerCase().startsWith(query)) {
+        if (key.toLowerCase().startsWith(query.toLowerCase())) {
             const data = byNameData[key]
             const mRID = data["mRID"]
             const rdfType = data["rdfType"]
