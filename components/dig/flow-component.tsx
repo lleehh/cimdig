@@ -62,7 +62,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             We have a set of different types that we will automatically render:
             terminals, connectivity nodes
          */
-        console.log("EQ", component?.rdfId, component?.rdfType)
         const newNodes: CimNode[] = []
         const newEdges: Edge[] = []
 
@@ -116,7 +115,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 usedColors = []
                 newNodes.forEach(element => {
                     whileLoop = 0
-                    console.log("node")
                     randomColor = 0
                     while((colors[randomColor] === element.data.color?.toString()! ||         usedColors.includes(randomColor)) &&      whileLoop < 100*nodes.length) {
                         randomColor = Math.floor((Math.random()*colors.length))
