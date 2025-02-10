@@ -53,7 +53,7 @@ export function createEdge(sourceId: string, targetId: string, fromSource: boole
 export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: Edge[] } => {
 
     console.log(component.rdfId, component.rdfType)
-    const nodes: CimNode[] = [createNode(component.mRID, component, 350, 0)]
+    const nodes: CimNode[] = [createNode(component.mRID as string, component, 350, 0)]
     const edges: Edge[] = [];
     if (isConductingEquipment(component) && component.terminals?.length) {
         let firstTerminal = true;
