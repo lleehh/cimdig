@@ -72,11 +72,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             "#ea9eff",
             "#c8ff9e",
             "#ffdf9e",
-            "#9effdd",
-        
-            
-
-
+            "#9effdd",             
         ]
         
         
