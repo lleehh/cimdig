@@ -1,6 +1,5 @@
 import {getComponentById} from "@/lib/store/model-repository";
 import {ACLineSegment, Breaker} from "@/lib/cim";
-import CimComponent from "@/components/cim-component";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
 import {Separator} from "@/components/ui/separator";
