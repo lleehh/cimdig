@@ -13,6 +13,7 @@ import useFlowStore, {selector} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {getComponentById} from "@/lib/store/model-repository";
 import {createEdge, createNode} from "@/lib/flow-utils";
+import {Button} from "@/components/ui/button";
 
 interface CimLinksProps {
     component: CIM
@@ -49,7 +50,11 @@ const AdditionalCimLinks = ({component, componentRefs}: CimLinksProps) => {
 
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger><List/></DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild={true}>
+                <Button variant="ghost" size="icon">
+                    <List/>
+                </Button>
+            </DropdownMenuTrigger>
             <DropdownMenuPortal>
                 <DropdownMenuContent className="flex flex-col space-y-2 max-h-64 overflow-y-auto">
                     <DropdownMenuLabel>Properties</DropdownMenuLabel>

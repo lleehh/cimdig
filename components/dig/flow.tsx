@@ -7,6 +7,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import {Button} from "@/components/ui/button";
 import FlowComponent from "@/components/dig/flow-component";
+import SearchBar from "@/components/ui/search-bar";
 import useFlowStore, {selector} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {CIM} from "@/lib/cim";
@@ -98,6 +99,9 @@ export default function Dig({equipment}: DigProps) {
                        connectionLineStyle={{stroke: '#ddd', strokeWidth: 2}}
                        nodesConnectable={false}
             >
+                <Panel position="top-center" className="w-1/2">
+                    <SearchBar />
+                </Panel>
                 <Panel position="top-right">
                     <div
                         className={'flex space-x-2'}>

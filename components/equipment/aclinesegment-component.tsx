@@ -3,41 +3,48 @@ import {ACLineSegment, BaseVoltage} from "@/lib/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import DisplayProperty from "./display-property-component";
+import DisplayProperty from "../display-property-component";
 import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import BtnGroupComponent from "../btn-group-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
     collapsed?: boolean
+    handleExpand: () => void 
 }
 
-export default function ACLineSegmentComponent({equipment, collapsed}: EquipmentProps) {
+export default function ACLineSegmentComponent({equipment, collapsed, handleExpand}: EquipmentProps) {
 
     const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
 
     if (collapsed)
         return (
-            <div className={CollapsedStyling()}>
-                <ComponentIcon icon="overforing"/>
+            <>
+            <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+            <div className={`${CollapsedStyling()} flex items-center`}>
+                    <ComponentIcon icon="overforing" className="w-16 h-16"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                
             </div>
+            </>
         )
 
 
     return (
-        <Card className="w-[250px]" color={equipment.color?.toString()!}>
+        <div>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <Card className="w-[250px]" color={equipment.color?.toString()!}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="overforing"/>
                         <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                             title={equipment.name || ""}>
+                                title={equipment.name || ""}>
                             {equipment.name}
                         </div>
                     </div>
-                    <DisplayProperty data={propertiyList}/>
-                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription className="flex flex-col space-y-4">
                     <div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
@@ -45,7 +52,7 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
                         Description: {equipment.description}
                     </div>
                     <div>
-                        Voltage {(equipment.baseVoltage as BaseVoltage).name}
+                        {/*Voltage {(equipment?.baseVoltage as BaseVoltage).name}*/}
                     </div>
                 </CardDescription>
             </CardHeader>
@@ -53,5 +60,6 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
 
             </CardContent>
         </Card>
+        </div>
     )
 }

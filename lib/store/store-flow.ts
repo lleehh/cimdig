@@ -1,4 +1,4 @@
-import {addEdge, applyEdgeChanges, applyNodeChanges, Edge, Node, OnConnect, OnEdgesChange, OnNodesChange} from "@xyflow/react";
+ import {addEdge, applyEdgeChanges, applyNodeChanges, Edge, Node, OnConnect, OnEdgesChange, OnNodesChange} from "@xyflow/react";
 import {create} from "zustand";
 import {CIM} from "@/lib/cim";
 import {edgeTemplate} from "@/lib/flow-utils";
