@@ -10,7 +10,7 @@ import {Triangle} from "lucide-react";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentParameters, componentRefs} from "@/lib/services/cim-service";
 import { CollapsedStyling } from "../dig/flow-component";
-import DisplayProperty from "@/components/equipment/display-property-component";
+import DisplayProperty from "@/components/display-property-component";
 
 interface ConnectivetyNodeProps {
     equipment: CIM

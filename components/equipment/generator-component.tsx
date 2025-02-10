@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import DisplayProperty from "./display-property-component";
+import DisplayProperty from "../display-property-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {CollapsedStyling} from "../dig/flow-component";
 

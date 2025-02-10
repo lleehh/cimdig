@@ -9,7 +9,7 @@ import {
 import { PowerTransformer } from "@/lib/cim";
 import {componentParameters, componentRefs} from "@/lib/services/cim-service";
 import AdditionalCimLinks from "../additional-cim-links-component";
-import DisplayProperty from "@/components/equipment/display-property-component";
+import DisplayProperty from "@/components/display-property-component";
 import {CollapsedStyling} from "@/components/dig/flow-component";
 
 

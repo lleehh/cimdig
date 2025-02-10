@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card"
 import {Factory} from "lucide-react";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import DisplayProperty from "./display-property-component";
+import DisplayProperty from "../display-property-component";
 import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
