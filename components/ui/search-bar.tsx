@@ -31,6 +31,9 @@ export default function SearchBar() {
     }, [debouncedInput])
 
     const fetchComponent = async (id: string)=> {
+        if (!id) {
+            console.error("No id found")
+        }
         let equipment = await getComponentById(id)
         setIsFocused(false)
         if (equipment) {
