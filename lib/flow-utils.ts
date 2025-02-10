@@ -60,7 +60,7 @@ export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: 
         (component.terminals ?? [])
             .sort((a, b) => (a.sequenceNumber ?? 0) - (b.sequenceNumber ?? 0))
             .forEach((terminal) => {
-                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, "green"));
+                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, "#c8ff9e"));
                 edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal));
                 firstTerminal = false;
             });
