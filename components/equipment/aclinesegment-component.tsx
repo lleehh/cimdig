@@ -52,7 +52,7 @@ export default function ACLineSegmentComponent({equipment, collapsed, handleExpa
                         Description: {equipment.description}
                     </div>
                     <div>
-                        Voltage {(equipment.baseVoltage as BaseVoltage).name}
+                        {/*Voltage {(equipment?.baseVoltage as BaseVoltage).name}*/}
                     </div>
                 </CardDescription>
             </CardHeader>
