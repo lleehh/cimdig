@@ -108,6 +108,10 @@ export interface Substation extends EquipmentContainer {
     rdfType: "cim:Substation";
 }
 
+export interface Line extends EquipmentContainer {
+    
+}
+
 /*
 
 "rdfType": "cim:ACLineSegment",
