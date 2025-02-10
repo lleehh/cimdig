@@ -50,7 +50,7 @@ const AdditionalCimLinks = ({component, componentRefs}: CimLinksProps) => {
 
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild={true}>
                 <Button variant="ghost" size="icon">
                     <List/>
                 </Button>
