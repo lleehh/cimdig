@@ -31,7 +31,7 @@ export default function PowerTransformerEndComponent({equipment, collapsed, hand
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-max">
+            <Card className="w-[160px]">
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
