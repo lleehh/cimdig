@@ -1,6 +1,5 @@
 import {getComponentById} from "@/lib/store/model-repository";
 import {ACLineSegment, Breaker} from "@/lib/cim";
-import CimComponent from "@/components/cim-component";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
 import {Separator} from "@/components/ui/separator";
@@ -13,6 +12,10 @@ import {
 } from "@/components/ui/breadcrumb";
 import Dig from "@/components/dig/flow";
 import FlowRoot from "@/components/dig/flow_root";
+import Baycomponent from "@/components/equipment/bay-component";
+import { Sub } from "@radix-ui/react-dropdown-menu";
+import { Power } from "lucide-react";
+
 
 export default async function Home() {
 

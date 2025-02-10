@@ -9,27 +9,35 @@ import {
 import { PowerTransformer } from "@/lib/cim";
 import {componentParameters, componentRefs} from "@/lib/services/cim-service";
 import AdditionalCimLinks from "../additional-cim-links-component";
-import DisplayProperty from "@/components/equipment/display-property-component";
+import DisplayProperty from "@/components/display-property-component";
 import {CollapsedStyling} from "@/components/dig/flow-component";
+import BtnGroupComponent from "../btn-group-component";
 
 
 interface PowerTransformerProps {
     equipment: PowerTransformer
     collapsed?: boolean
+    handleExpand: () => void 
 }
 
-export default function PowerTransformerComponent({equipment, collapsed}: PowerTransformerProps) {
+export default function PowerTransformerComponent({equipment, collapsed, handleExpand}: PowerTransformerProps) {
     const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
 
     if (collapsed)
         return (
-            <div className={CollapsedStyling()}>
-                <ComponentIcon icon="transformator"/>
+            <>
+            <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+            <div className={`${CollapsedStyling()} flex items-center`}>
+                <ComponentIcon icon="transformator" className="w-16 h-16"/>
+                <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>
             </div>
+            </>
         )
 
     return (
+        <div>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
         <Card className="w-[230px]" color={equipment.color?.toString()!}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
@@ -37,8 +45,6 @@ export default function PowerTransformerComponent({equipment, collapsed}: PowerT
                         <ComponentIcon icon="transformator"/>
                         PT
                     </div>
-                    <DisplayProperty data={propertiyList}/>
-                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
@@ -48,5 +54,6 @@ export default function PowerTransformerComponent({equipment, collapsed}: PowerT
                 </CardDescription>
             </CardHeader>
         </Card>
+        </div>
     )
 }
