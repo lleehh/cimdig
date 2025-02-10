@@ -99,7 +99,6 @@ export default function Dig({equipment}: DigProps) {
                        nodesConnectable={false}
                        minZoom={0.2}
                        maxZoom={2}
-                       zoomOnScrollSpeed={2}
             >
                 <Panel position="top-center" className="w-1/2">
                     <SearchBar />
