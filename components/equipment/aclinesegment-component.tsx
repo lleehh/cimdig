@@ -4,7 +4,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
-import {CollapsedStyling} from "../dig/flow-component";
+import {coloredZoomOut} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 
 interface EquipmentProps {
@@ -20,8 +20,7 @@ export default function ACLineSegmentComponent({equipment, collapsed}: Equipment
     if (collapsed)
         return (
             <>
-            <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
-            <div className={`${CollapsedStyling()} flex items-center`}>
+            <div>{coloredZoomOut(equipment)}
                     <ComponentIcon icon="overforing" className="w-16 h-16"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
                 
