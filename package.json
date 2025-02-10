@@ -12,7 +12,7 @@
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",
     "@formkit/auto-animate": "^0.8.2",
-    "@radix-ui/react-dialog": "^1.1.5",
+    "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-dropdown-menu": "^2.1.5",
     "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.1",
