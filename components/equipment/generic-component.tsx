@@ -11,14 +11,16 @@ import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {componentParameters, componentRefs} from "@/lib/services/cim-service";
 import { CollapsedStyling } from "../dig/flow-component";
 import DisplayProperty from "@/components/display-property-component";
+import BtnGroupComponent from "../btn-group-component";
 
 interface ConnectivetyNodeProps {
     equipment: CIM
     collapsed?: boolean
+    handleExpand: () => void 
 }
 
 
-export default function GenericComponent({equipment, collapsed}: ConnectivetyNodeProps) {
+export default function GenericComponent({equipment, collapsed, handleExpand}: ConnectivetyNodeProps) {
 
     const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
@@ -31,7 +33,9 @@ export default function GenericComponent({equipment, collapsed}: ConnectivetyNod
         )
 
     return (
-        <Card className="w-[250px]" color={equipment.color?.toString()!}>
+        <div>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <Card className="w-[250px]" color={equipment.color?.toString()!}>
             <CardHeader>
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
@@ -40,8 +44,6 @@ export default function GenericComponent({equipment, collapsed}: ConnectivetyNod
                              title={equipment.rdfType as string}>{equipment.rdfType}
                         </div>
                     </div>
-                    <DisplayProperty data={propertiyList}/>
-                    <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                 </CardTitle>
                 <CardDescription>
                     <>
@@ -53,6 +55,7 @@ export default function GenericComponent({equipment, collapsed}: ConnectivetyNod
                 </CardDescription>
             </CardHeader>
         </Card>
+        </div>
     )
 }
 

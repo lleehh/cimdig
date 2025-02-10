@@ -13,13 +13,15 @@ import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "../display-property-component";
 import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import BtnGroupComponent from "../btn-group-component";
 
 interface NonConformLoadProps {
     equipment: NonConformLoad
     collapsed?: boolean
+    handleExpand: () => void
 }
 
-export default function NonConformLoadComponent({equipment, collapsed}: NonConformLoadProps) {
+export default function NonConformLoadComponent({equipment, collapsed, handleExpand}: NonConformLoadProps) {
     const propertiyList = componentParameters(equipment)
     const refs = componentRefs(equipment)
 
@@ -32,14 +34,14 @@ export default function NonConformLoadComponent({equipment, collapsed}: NonConfo
 
 
     return (
-        <Card className="w-[350px]" color={equipment.color?.toString()!}>
+        <div>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <Card className="w-[350px]" color={equipment.color?.toString()!}>
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
                         <Factory/>
                         {equipment.rdfType}
-                        <DisplayProperty data={propertiyList}/>
-                        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
@@ -51,5 +53,6 @@ export default function NonConformLoadComponent({equipment, collapsed}: NonConfo
                 </div>
             </CardContent>
         </Card>
+        </div>
     )
 }

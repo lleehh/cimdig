@@ -14,15 +14,15 @@ import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {Expand} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import ButtonBarComponent from "@/components/interactive-button-menu-component";
+import BtnGroupComponent from "../btn-group-component";
 
 interface BreakerProps {
     equipment: Breaker
     collapsed?: boolean
-    expanded: boolean
+    handleExpand: () => void 
 }
 
-export default function BreakerComponent({equipment, collapsed, expanded}: BreakerProps) {
+export default function BreakerComponent({equipment, collapsed, handleExpand}: BreakerProps) {
 
     const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
@@ -36,7 +36,7 @@ export default function BreakerComponent({equipment, collapsed, expanded}: Break
 
     return (
         <div>
-            <ButtonBarComponent equipment={equipment}/>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
 
             <Card className="w-[350px]" color={equipment.color?.toString()!}>
                 <CardHeader>
