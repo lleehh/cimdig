@@ -18,7 +18,7 @@ export default function EquipmentComponent({equipment}: EquipmentProps) {
     
 
     return (
-        <Card className="w-[350px]">
+        <Card className="w-[350px]" color={equipment.color?.toString()!}>
             <CardHeader>
                 <CardTitle>{equipment.rdfType}</CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
