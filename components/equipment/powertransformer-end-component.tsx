@@ -9,15 +9,17 @@ import {PowerTransformerEnd} from "@/lib/cim";
 import {ComponentIcon} from "../component-icon";
 import {Circle} from "lucide-react";
 import {CollapsedStyling} from "@/components/dig/flow-component";
+import BtnGroupComponent from "../btn-group-component";
 
 
 interface PTEProps {
     equipment: PowerTransformerEnd
     collapsed?: boolean
+    handleExpand: () => void 
 }
 
 
-export default function PowerTransformerEndComponent({equipment, collapsed}: PTEProps) {
+export default function PowerTransformerEndComponent({equipment, collapsed, handleExpand}: PTEProps) {
 
     if (collapsed)
         return (
@@ -27,7 +29,9 @@ export default function PowerTransformerEndComponent({equipment, collapsed}: PTE
         )
 
     return (
-        <Card className="w-max">
+        <div>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <Card className="w-max">
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
@@ -44,5 +48,6 @@ export default function PowerTransformerEndComponent({equipment, collapsed}: PTE
                 </CardDescription>
             </CardHeader>
         </Card>
+        </div>
     )
 }

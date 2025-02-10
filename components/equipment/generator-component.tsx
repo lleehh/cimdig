@@ -9,16 +9,18 @@ import {
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import DisplayProperty from "./display-property-component";
+import DisplayProperty from "../display-property-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {CollapsedStyling} from "../dig/flow-component";
+import BtnGroupComponent from "../btn-group-component";
 
 interface GeneratorProps {
     equipment: GeneratingUnit
     collapsed?: boolean
+    handleExpand: () => void
 }
 
-export default function GeneratorComponent({equipment, collapsed}: GeneratorProps) {
+export default function GeneratorComponent({equipment, collapsed, handleExpand}: GeneratorProps) {
 
     const refs = componentRefs(equipment)
     const propertiyList = componentParameters(equipment)
@@ -35,16 +37,15 @@ export default function GeneratorComponent({equipment, collapsed}: GeneratorProp
             )
 
     return (
-        <Card className="w-[350px]" color={equipment.color?.toString()!}>
+        <div>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <Card className="w-[350px]" color={equipment.color?.toString()!}>
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-row items-center gap-2">
                         <ComponentIcon icon="generator"/>
                         {equipment.rdfType}
 
-                        <DisplayProperty data={propertiyList}/>
-                        <DisplayProperty data={propertiyList}/>
-                        <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                     </div>
                 </CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>
@@ -56,5 +57,6 @@ export default function GeneratorComponent({equipment, collapsed}: GeneratorProp
                 </div>
             </CardContent>
         </Card>
+        </div>
     )
 }
