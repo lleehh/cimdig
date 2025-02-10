@@ -39,6 +39,20 @@ export default function SearchBar() {
             setEdges(edges)
         }
     }
+    function iconLogic(item) {
+        return (
+            (() => {
+                switch (item.rdfType) {
+                    case "cim:ACLineSegment":
+                        return <ComponentIcon icon="overforing"/>
+                    case "cim:ConnectivityNode":
+                        return <Shell/>
+                    default:
+                        return <Triangle/>
+                }
+            })()
+        )
+    }
     return (
         <div ref={animationParent} className="shadow-2xl rounded-md bg-white">
             <input
@@ -56,16 +70,7 @@ export default function SearchBar() {
                                      key={item.id}
                                      onClick={() => fetchComponent(item.id)}
                             >
-                                {(() => {
-                                    switch (item.rdfType) {
-                                        case "cim:ACLineSegment":
-                                            return <ComponentIcon icon="overforing"/>
-                                        case "cim:ConnectivityNode":
-                                            return <Shell/>
-                                        default:
-                                            return <Triangle/>
-                                    }
-                                })()}
+                                {iconLogic(item)}
                                 {item.name}
                             </article>
                         ))}
