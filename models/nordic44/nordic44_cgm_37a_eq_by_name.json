@@ -1,15 +1,4 @@
 {
-    "null": {
-        "rdfType": "cim:OperatingShare",
-        "mRID": "2dd90485-bdfb-11e5-94fa-c8f73332c8f4",
-        "cim:OperatingShare.OperatingParticipant": {
-            "mRID": "f17696de-9aeb-11e5-91da-b8763fd99c5f"
-        },
-        "cim:OperatingShare.PowerSystemResource": {
-            "mRID": "f1769e42-9aeb-11e5-91da-b8763fd99c5f"
-        },
-        "cim:OperatingShare.percentage": "100"
-    },
     "300AJAURE-MO": {
         "rdfType": "cim:ACLineSegment",
         "mRID": "f1769b90-9aeb-11e5-91da-b8763fd99c5f",
