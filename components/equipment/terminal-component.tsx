@@ -12,6 +12,7 @@ import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
 import { CollapsedStyling } from "../dig/flow-component";
+import { colorStyling } from "../dig/flow-component";
 
 
 
@@ -28,7 +29,7 @@ export default function TerminalComponent({equipment, collapsed}: TerminalProps)
         if (collapsed)
             return (
                 <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <SquareTerminal className="w-10 h-10"/>
                     <div className="overflow-hidden text-sm ml-2">{equipment.name}</div>

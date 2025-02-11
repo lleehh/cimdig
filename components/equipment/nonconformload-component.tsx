@@ -13,7 +13,7 @@ import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
 import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
-
+import { colorStyling } from "../dig/flow-component";
 interface NonConformLoadProps {
     equipment: NonConformLoad
     collapsed?: boolean
@@ -26,7 +26,7 @@ export default function NonConformLoadComponent({equipment, collapsed}: NonConfo
         if (collapsed)
             return (
                 <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Factory className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

@@ -25,6 +25,12 @@ export function CollapsedStyling (){
     )
 }
 
+export function colorStyling(CIM: CIM) {
+    return (
+        <div style={{backgroundColor: CIM.color?.toString()!, height: "10px"}}> </div>
+    )
+}
+
 
 
 

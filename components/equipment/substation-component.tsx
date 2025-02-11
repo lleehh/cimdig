@@ -13,6 +13,7 @@ import DisplayProperty from "./display-property-component";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import { CollapsedStyling } from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import { colorStyling } from "../dig/flow-component";
 
 interface SubstationProps {
     equipment: Substation
@@ -27,7 +28,7 @@ export default function Substationcomponent({equipment, collapsed}: SubstationPr
         if (collapsed)
             return (
                 <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="stasjon" className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.rdfType}</div>

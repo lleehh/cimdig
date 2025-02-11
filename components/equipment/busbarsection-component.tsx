@@ -5,6 +5,7 @@ import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
 import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import { colorStyling } from "../dig/flow-component";
 
 interface BusbarProps {
     equipment: BusbarSection
@@ -21,7 +22,7 @@ export default function BusbarComponent({equipment, collapsed}: BusbarProps) {
             
             return (
                 <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="samleskinne" className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

@@ -11,6 +11,7 @@ import {componentParameters, componentRefs} from "@/lib/services/cim-service";
 import AdditionalCimLinks from "../additional-cim-links-component";
 import DisplayProperty from "@/components/equipment/display-property-component";
 import {CollapsedStyling} from "@/components/dig/flow-component";
+import { colorStyling } from "../dig/flow-component";
 
 
 interface PowerTransformerProps {
@@ -25,7 +26,7 @@ export default function PowerTransformerComponent({equipment, collapsed}: PowerT
     if (collapsed)
         return (
             <>
-            <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+            {colorStyling(equipment)}
             <div className={`${CollapsedStyling()} flex items-center`}>
                 <ComponentIcon icon="transformator" className="w-16 h-16"/>
                 <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>

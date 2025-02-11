@@ -14,6 +14,7 @@ import DisplayProperty from "./display-property-component";
 import { CollapsedStyling } from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import { LandPlot } from 'lucide-react';
+import { colorStyling } from "../dig/flow-component";
 
 
 interface BayProps {
@@ -30,7 +31,7 @@ export default function Baycomponent({equipment, collapsed}: BayProps) {
         if (collapsed)
             return (
             <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                         <LandPlot className="w-10 h-10"/>
                         <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
