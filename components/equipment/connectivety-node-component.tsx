@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card"
 import {Shell} from "lucide-react";
 import {CollapsedStyling} from "../dig/flow-component";
+import { colorStyling } from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 
 
@@ -18,11 +19,10 @@ interface ConnectivetyNodeProps {
 }
 
 export default function ConnectivityNodeComponent({equipment, collapsed, handleExpand}: ConnectivetyNodeProps) {
-
     if (collapsed)
         return (
             <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}></div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Shell className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

@@ -9,6 +9,7 @@ import {
 import {Triangle} from "lucide-react";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
+import { colorStyling } from "../dig/flow-component";
 
 interface ConnectivetyNodeProps {
     equipment: CIM
@@ -22,7 +23,7 @@ export default function GenericComponent({equipment, collapsed, handleExpand}: C
     if (collapsed)
         return (
             <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}></div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Triangle className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>

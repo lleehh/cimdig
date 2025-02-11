@@ -3,6 +3,7 @@ import {ACLineSegment, BaseVoltage} from "@/lib/cim";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
 import {CollapsedStyling} from "../dig/flow-component";
+import { colorStyling } from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 
 interface EquipmentProps {
@@ -16,8 +17,7 @@ export default function ACLineSegmentComponent({equipment, collapsed, handleExpa
     if (collapsed)
         return (
             <>
-
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}></div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="ledningssegment" className="w-16 h-16"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

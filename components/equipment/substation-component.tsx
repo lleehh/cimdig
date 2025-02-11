@@ -10,6 +10,7 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
+import { colorStyling } from "../dig/flow-component";
 
 interface SubstationProps {
     equipment: Substation
@@ -21,7 +22,7 @@ export default function Substationcomponent({equipment, collapsed, handleExpand}
     if (collapsed)
         return (
             <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}></div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="stasjon" className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.rdfType}</div>

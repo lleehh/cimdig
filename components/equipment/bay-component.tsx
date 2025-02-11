@@ -8,6 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { colorStyling } from "../dig/flow-component";
 import {CollapsedStyling} from "../dig/flow-component";
 import {LandPlot} from 'lucide-react';
 import BtnGroupComponent from "../btn-group-component";
@@ -24,7 +25,7 @@ export default function Baycomponent({equipment, collapsed, handleExpand}: BayPr
     if (collapsed)
         return (
             <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}></div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <LandPlot className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

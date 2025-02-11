@@ -25,6 +25,13 @@ export function CollapsedStyling() {
     )
 }
 
+export function colorStyling(CIM: CIM) {
+    return (
+        <div style={{backgroundColor: CIM.color?.toString()!, height: "10px"}}> </div>
+    )
+}
+
+
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {
     // The fully loaded component from the database
