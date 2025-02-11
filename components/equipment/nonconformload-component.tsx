@@ -11,6 +11,7 @@ import {
 import {Factory} from "lucide-react";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
+import { colorStyling } from "../dig/flow-component";
 
 interface NonConformLoadProps {
     equipment: NonConformLoad
@@ -23,7 +24,7 @@ export default function NonConformLoadComponent({equipment, collapsed, handleExp
     if (collapsed)
         return (
             <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}></div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Factory className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

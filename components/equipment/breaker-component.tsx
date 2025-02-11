@@ -9,6 +9,7 @@ import {
 import {ComponentIcon} from "@/components/component-icon";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
+import { colorStyling } from "../dig/flow-component";
 
 interface BreakerProps {
     equipment: Breaker
@@ -21,7 +22,7 @@ export default function BreakerComponent({equipment, collapsed, handleExpand}: B
     if (collapsed)
         return (
             <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}></div>
+               {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon className="w-12 h-12" icon="bryter"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
