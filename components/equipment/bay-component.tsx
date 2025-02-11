@@ -8,47 +8,41 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
-import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import DisplayProperty from "./display-property-component";
-import { CollapsedStyling } from "../dig/flow-component";
-import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import { LandPlot } from 'lucide-react';
 import { colorStyling } from "../dig/flow-component";
+import {CollapsedStyling} from "../dig/flow-component";
+import {LandPlot} from 'lucide-react';
+import BtnGroupComponent from "../btn-group-component";
 
 
 interface BayProps {
     equipment: Bay
     collapsed?: boolean
+    handleExpand: () => void
 }
 
-export default function Baycomponent({equipment, collapsed}: BayProps) {
-    const propertiyList = componentParameters(equipment)
-    const refs = componentRefs(equipment)
-    
+export default function Baycomponent({equipment, collapsed, handleExpand}: BayProps) {
 
-    
-        if (collapsed)
-            return (
+    if (collapsed)
+        return (
             <>
                 {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
-                        <LandPlot className="w-10 h-10"/>
-                        <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
-                    </div>
-                </>
-                
-            )
+                    <LandPlot className="w-10 h-10"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                </div>
+            </>
 
-        return (
-            <Card className="w-[350px]">
+        )
+
+    return (
+        <div>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <Card className="w-[350px]" color={equipment.color?.toString()!}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">
                             <LandPlot/>
                             {equipment.rdfType}
-                            <DisplayProperty data={propertiyList}/>
-                            <AdditionalCimLinks componentRefs={refs} component={equipment}/>
                         </div>
                     </CardTitle>
                     <CardDescription>{equipment.name}</CardDescription>
@@ -57,5 +51,6 @@ export default function Baycomponent({equipment, collapsed}: BayProps) {
                     <div className="text-gray-400">{equipment.description}</div>
                 </CardContent>
             </Card>
-        )
-    }
+        </div>
+    )
+}
