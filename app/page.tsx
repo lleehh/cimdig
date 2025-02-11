@@ -1,5 +1,5 @@
 import {getComponentById} from "@/lib/store/model-repository";
-import {ACLineSegment, Breaker, ConnectivityNode, GeneratingUnit, Terminal, BusbarSection, NonConformLoad, PowerTransformer, PowerTransformerEnd, Bay, Substation} from "@/lib/cim";
+import {ACLineSegment, Breaker, ConnectivityNode, GeneratingUnit, Terminal, BusbarSection, NonConformLoad, PowerTransformer, PowerTransformerEnd, Bay, Substation, Line} from "@/lib/cim";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
 import {Separator} from "@/components/ui/separator";
@@ -21,6 +21,7 @@ import PowerTransformerEndComponent from "@/components/equipment/powertransforme
 import NonConformLoadComponent from "@/components/equipment/nonconformload-component";
 import Substationcomponent from "@/components/equipment/substation-component";
 import Baycomponent from "@/components/equipment/bay-component";
+import LineComponent from "@/components/equipment/line-component";
 
 export default async function Home() {
 
@@ -39,6 +40,7 @@ export default async function Home() {
     const loadProp = await getComponentById<NonConformLoad>("f17697f4-9aeb-11e5-91da-b8763fd99c5f")
     const Substation = await getComponentById<Substation>("f1769604-9aeb-11e5-91da-b8763fd99c5f")
     const Bay = await getComponentById<Bay>("f72994d8-9857-b349-a4ae-2e3c9652d5bc")
+    const Line = await getComponentById<Line>("5e7d0b4c-fa65-1d40-aef6-779298018c7e")
     const handleExpand = async()=>{'use server'}
 
     return (
@@ -78,6 +80,7 @@ export default async function Home() {
                         {loadProp && <NonConformLoadComponent equipment={loadProp} handleExpand={handleExpand}/>}
                         {Substation && <Substationcomponent equipment={Substation} handleExpand={handleExpand}/>}
                         {Bay && <Baycomponent equipment={Bay} handleExpand={handleExpand}/>}
+                        {Line && <LineComponent equipment={Line} handleExpand={handleExpand}/>}
                     </main>
                 </div>
             </SidebarInset>
