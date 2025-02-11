@@ -6,15 +6,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { SquareTerminal } from "lucide-react";
+import {SquareTerminal} from "lucide-react";
 
-import AdditionalCimLinks from "../additional-cim-links-component";
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import DisplayProperty from "../display-property-component";
-import { CollapsedStyling } from "../dig/flow-component";
+import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
-
-
+import { colorStyling } from "../dig/flow-component";
 
 interface TerminalProps {
     equipment: Terminal
@@ -22,24 +19,17 @@ interface TerminalProps {
     handleExpand: () => void
 }
 
-
-
 export default function TerminalComponent({equipment, collapsed, handleExpand}: TerminalProps) {
-    const propertiyList = componentParameters(equipment)
-    
-
-        if (collapsed)
-            return (
-                <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+    if (collapsed)
+        return (
+            <>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <SquareTerminal className="w-10 h-10"/>
                     <div className="overflow-hidden text-sm ml-2">{equipment.name}</div>
                 </div>
-                </>
-            )
-
-    const refs = componentRefs(equipment)
+            </>
+        )
 
     return (
         <div>
@@ -53,7 +43,7 @@ export default function TerminalComponent({equipment, collapsed, handleExpand}: 
                     </CardTitle>
                     <CardDescription>
                         <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                            title= {equipment.name}>
+                             title={equipment.name}>
                             {equipment.name}
                         </div>
 

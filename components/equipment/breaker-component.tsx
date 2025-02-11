@@ -2,41 +2,33 @@
 import {BaseVoltage, Breaker} from "@/lib/cim";
 import {
     Card,
-    CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import DisplayProperty from "../display-property-component";
 import {CollapsedStyling} from "../dig/flow-component";
-import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import {Expand} from "lucide-react";
-import {Button} from "@/components/ui/button";
 import BtnGroupComponent from "../btn-group-component";
+import { colorStyling } from "../dig/flow-component";
 
 interface BreakerProps {
     equipment: Breaker
     collapsed?: boolean
-    handleExpand: () => void 
+    handleExpand: () => void
 }
 
 export default function BreakerComponent({equipment, collapsed, handleExpand}: BreakerProps) {
 
-    const refs = componentRefs(equipment)
-    const propertiyList = componentParameters(equipment)
-
-        if (collapsed)
-            return (
-                <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+    if (collapsed)
+        return (
+            <>
+               {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
-                    <ComponentIcon className="w-12 h-12" icon="bryter" />
+                    <ComponentIcon className="w-12 h-12" icon="bryter"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
                 </div>
-                </>
-            )
+            </>
+        )
 
     return (
         <div>
@@ -66,6 +58,6 @@ export default function BreakerComponent({equipment, collapsed, handleExpand}: B
                 </CardHeader>
             </Card>
         </div>
-        
+
     )
 }

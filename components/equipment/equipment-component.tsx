@@ -15,8 +15,6 @@ interface EquipmentProps {
 
 export default function EquipmentComponent({equipment}: EquipmentProps) {
 
-    
-
     return (
         <Card className="w-[350px]" color={equipment.color?.toString()!}>
             <CardHeader>
