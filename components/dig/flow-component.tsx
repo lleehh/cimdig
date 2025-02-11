@@ -25,14 +25,6 @@ export function CollapsedStyling (){
     )
 }
 
-export function coloredZoomOut (CIM: CIM){ 
-    return (
-        <>
-        <div style={{backgroundColor: CIM.color?.toString()!, height: "10px"}}> </div>
-        <div className={`${CollapsedStyling()} flex items-center`}></div>
-        </>
-    )
-}
 
 
 
