@@ -1,30 +1,29 @@
 'use client'
 import CimComponent from "@/components/dig/cim-component";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import {
     CIM,
     isConductingEquipment,
     isConnectivityNode,
-    isTerminal  
+    isTerminal, PowerTransformerEnd
 } from "@/lib/cim";
-import { createEdge, createNode, doesEquipmentExistsInFlow } from "@/lib/flow-utils";
-import { isExandable } from "@/lib/services/cim-service";
-import { getComponentById } from "@/lib/store/model-repository";
-import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
-import { Edge, Handle, NodeProps, Position, useStore, } from "@xyflow/react";
-import { Expand  } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useShallow } from "zustand/react/shallow";
+import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
+import {isExandable} from "@/lib/services/cim-service";
+import {getComponentById} from "@/lib/store/model-repository";
+import useFlowStore, {CimNode, selector} from "@/lib/store/store-flow";
+import {Edge, Handle, NodeProps, Position, useStore,} from "@xyflow/react";
+import {Expand} from "lucide-react";
+import {useEffect, useState} from "react";
+import {useShallow} from "zustand/react/shallow";
 import BtnGroupComponent from "../btn-group-component";
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
-export function CollapsedStyling (){
+export function CollapsedStyling() {
     return (
         "w-44 border border-gray-400 p-3 bg-white"
     )
 }
-
 
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {
@@ -62,26 +61,20 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             We have a set of different types that we will automatically render:
             terminals, connectivity nodes
          */
-        console.log("EQ", component?.rdfId, component?.rdfType)
         const newNodes: CimNode[] = []
         const newEdges: Edge[] = []
 
-        let colors  : string[] = [
-            "#ff9e9e", 
-            "#9eadff", 
+        let colors: string[] = [
+            "#ff9e9e",
+            "#9eadff",
             "#ea9eff",
             "#c8ff9e",
-            "#ffdf9e",
+            "#ffe380",
             "#9effdd",
-        
-            
-
-
+            "#ffa270",
         ]
-        
-        
-        
-        
+
+
         data.color = data.color?.toString()!
 
         if (node && component) {
@@ -99,7 +92,11 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             }
             if (isConnectivityNode(component) || isConductingEquipment(component)) {
                 const rdfId = component.rdfId
-                component.terminals.forEach(terminal => {
+                let terminals = component.terminals || []
+                if(terminals.length == 0 && (component as PowerTransformerEnd).terminal != undefined)
+                    terminals = [(component as PowerTransformerEnd).terminal]
+                console.log(terminals)
+                terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
                         newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.color?.toString()!))
                         newEdges.push(createEdge(terminal.rdfId, rdfId, false))
@@ -108,29 +105,32 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             }
         }
         if (newNodes.length > 0) {
-            
-            
 
-            if(newNodes.length > 1) {
-                let usedColors  : number[] = [];
-                let whileLoop   : number = 0
-                let randomColor : number = 0
+
+            if (newNodes.length > 1) {
+                let usedColors: number[] = [];
+                let whileLoop: number = 0
+                let randomColor: number = 0
 
                 usedColors = []
                 newNodes.forEach(element => {
                     whileLoop = 0
-                    console.log("node")
                     randomColor = 0
-                    while(colors[randomColor] === element.data.color?.toString()! ||         usedColors.includes(randomColor) ||         whileLoop > 500) {
-                        randomColor = Math.floor((Math.random()*colors.length))
+                    while ((colors[randomColor] === element.data.color?.toString()! || usedColors.includes(randomColor)) && whileLoop < 100 * nodes.length) {
+                        randomColor = Math.floor((Math.random() * colors.length))
 
-                        if(usedColors.length >= colors.length) {usedColors = []; console.log("For få farger.")}
+                        if (usedColors.length >= colors.length) {
+                            usedColors = [];
+                            console.log("For få farger.", usedColors.length)
+                        }
                         whileLoop++
                     }
 
-                    if(whileLoop>500) {console.log("While loop error.", usedColors)}
+                    if (whileLoop >= 100 * nodes.length) {
+                        console.log("While loop error.", usedColors)
+                    }
                     usedColors.push(randomColor)
-                    element.data.color = colors[randomColor]    
+                    element.data.color = colors[randomColor]
                 });
 
                 usedColors = []
@@ -142,11 +142,11 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         setExpanded(true)
     }
 
-    if(component !== null) {
+    if (component !== null) {
         component.color = data.color
     }
 
-    
+
     return (
         <div>
 
@@ -158,9 +158,9 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 {/*  {!expanded && isExandableComponent &&
                     <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
                             onClick={handleExpand}><Expand/></Button>}  */}
-                
+
                 <CimComponent equipment={component || data} collapsed={!showContent} handleExpand={handleExpand}/>
-            </div> 
+            </div>
             <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
             <Handle type="source" isConnectable={false} position={Position.Right}
                     className="!w-3 !h-3 !rounded-none !bg-stone-400" id="topHandle"/>
