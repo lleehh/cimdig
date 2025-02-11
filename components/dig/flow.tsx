@@ -37,7 +37,6 @@ export default function Dig({equipment}: DigProps) {
     );
 
     useEffect(() => {
-        console.log('equipment', equipment)
         if (equipment) {
             const {nodes, edges} = createNodesAndEdges(equipment)
             setNodes(nodes)
@@ -98,6 +97,8 @@ export default function Dig({equipment}: DigProps) {
                        onConnect={onConnect}
                        connectionLineStyle={{stroke: '#ddd', strokeWidth: 2}}
                        nodesConnectable={false}
+                       minZoom={0.2}
+                       maxZoom={2}
             >
                 <Panel position="top-center" className="w-1/2">
                     <SearchBar />

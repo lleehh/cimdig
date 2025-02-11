@@ -2,7 +2,7 @@ import {CimNode} from "@/lib/store/store-flow";
 import {Edge, MarkerType} from "@xyflow/react";
 import {CIM, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
 import Dagre from '@dagrejs/dagre';
-
+import {componentRefs} from "@/lib/services/cim-service";
 
 
 export function doesEquipmentExistsInFlow(rdfId: string, nodes: CimNode[]): boolean {
@@ -104,3 +104,45 @@ export const getLayoutedElements = (nodes, edges, options) => {
         edges,
     };
 };
+
+
+/*
+   Check if component is allready in the flow
+ */
+
+
+export type ComponentStatus = {
+    exists: boolean
+    connected: boolean
+    equipment: CIM
+}
+
+export function componentStatus(equipment: CIM, nodes: CimNode[], edges: Edge[]): ComponentStatus[] {
+
+    const refs = componentRefs(equipment)
+
+    const equipmentInFlow = refs.filter(ref =>
+        nodes.find(node => node.data.rdfId === ref.rdfId)
+    ) || []
+
+    const idsInFlow = equipmentInFlow.map(ref => ref.rdfId)
+
+    const missingConnections: string[] = []
+
+    edges.forEach(edge => {
+        if (edge.source === equipment.rdfId || edge.target === equipment.rdfId) {
+            if (idsInFlow.includes(edge.source) || idsInFlow.includes(edge.target)) {
+                if (edge.source === equipment.rdfId)
+                    missingConnections.push(edge.target)
+                else
+                    missingConnections.push(edge.source)
+            }
+        }
+    })
+    const filteredComponentRefs = refs.map(ref => {
+        const exists = nodes.find(node => node.data.rdfId === ref.rdfId) !== undefined
+        return {exists: exists, connected: missingConnections.includes(ref.rdfId), equipment: ref}
+    }) || []
+
+    return filteredComponentRefs
+}
