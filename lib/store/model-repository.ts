@@ -5,7 +5,7 @@ import {convertToCimObject} from "@/lib/services/transform-cim-service";
 import {IdentifiedObject} from "@/lib/cim";
 
 export type JsonData = Record<string, string>;
-export type SearchResult = { name: string, id: string }[];
+export type SearchResult = { name: string, id: string, rdfType: string }[];
 
 const dataDir = path.join(process.cwd(), "models", "nordic44");
 
@@ -41,8 +41,13 @@ export const searchByName = async (query: string): Promise<SearchResult> => {
         if (key.toLowerCase().startsWith(query.toLowerCase())) {
             const data = byNameData[key]
             const mRID = data["mRID"]
+            const rdfType = data["rdfType"]
             if (mRID)
-                result.push({name: key, id: mRID as string})
+                result.push({
+                    name: key,
+                    id: mRID,
+                    rdfType: rdfType as string
+                })
         }
     }
     return result

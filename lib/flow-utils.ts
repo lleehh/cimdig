@@ -2,7 +2,7 @@ import {CimNode} from "@/lib/store/store-flow";
 import {Edge, MarkerType} from "@xyflow/react";
 import {CIM, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
 import Dagre from '@dagrejs/dagre';
-
+import {componentRefs} from "@/lib/services/cim-service";
 
 
 export function doesEquipmentExistsInFlow(rdfId: string, nodes: CimNode[]): boolean {
@@ -53,14 +53,15 @@ export function createEdge(sourceId: string, targetId: string, fromSource: boole
 export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: Edge[] } => {
 
     console.log(component.rdfId, component.rdfType)
-    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "#ff9e9e")]
+
+    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "#a6a6a6")]
     const edges: Edge[] = [];
     if (isConductingEquipment(component) && component.terminals?.length) {
         let firstTerminal = true;
         (component.terminals ?? [])
             .sort((a, b) => (a.sequenceNumber ?? 0) - (b.sequenceNumber ?? 0))
             .forEach((terminal) => {
-                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0));
+                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, "#c8ff9e"));
                 edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal));
                 firstTerminal = false;
             });
@@ -103,3 +104,45 @@ export const getLayoutedElements = (nodes, edges, options) => {
         edges,
     };
 };
+
+
+/*
+   Check if component is allready in the flow
+ */
+
+
+export type ComponentStatus = {
+    exists: boolean
+    connected: boolean
+    equipment: CIM
+}
+
+export function componentStatus(equipment: CIM, nodes: CimNode[], edges: Edge[]): ComponentStatus[] {
+
+    const refs = componentRefs(equipment)
+
+    const equipmentInFlow = refs.filter(ref =>
+        nodes.find(node => node.data.rdfId === ref.rdfId)
+    ) || []
+
+    const idsInFlow = equipmentInFlow.map(ref => ref.rdfId)
+
+    const missingConnections: string[] = []
+
+    edges.forEach(edge => {
+        if (edge.source === equipment.rdfId || edge.target === equipment.rdfId) {
+            if (idsInFlow.includes(edge.source) || idsInFlow.includes(edge.target)) {
+                if (edge.source === equipment.rdfId)
+                    missingConnections.push(edge.target)
+                else
+                    missingConnections.push(edge.source)
+            }
+        }
+    })
+    const filteredComponentRefs = refs.map(ref => {
+        const exists = nodes.find(node => node.data.rdfId === ref.rdfId) !== undefined
+        return {exists: exists, connected: missingConnections.includes(ref.rdfId), equipment: ref}
+    }) || []
+
+    return filteredComponentRefs
+}
