@@ -7,9 +7,6 @@ import {
     CardTitle
 } from "@/components/ui/card";
 import { PowerTransformer } from "@/lib/cim";
-import {componentParameters, componentRefs} from "@/lib/services/cim-service";
-import AdditionalCimLinks from "../additional-cim-links-component";
-import DisplayProperty from "@/components/display-property-component";
 import {CollapsedStyling} from "@/components/dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 
@@ -21,8 +18,6 @@ interface PowerTransformerProps {
 }
 
 export default function PowerTransformerComponent({equipment, collapsed, handleExpand}: PowerTransformerProps) {
-    const propertiyList = componentParameters(equipment)
-    const refs = componentRefs(equipment)
 
     if (collapsed)
         return (

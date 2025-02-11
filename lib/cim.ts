@@ -98,6 +98,7 @@ export interface PowerTransformer extends ConductingEquipment {
 export interface PowerTransformerEnd extends ConductingEquipment {
     rdfType: "cim:PowerTransformerEnd";
     transformer: PowerTransformer;
+    terminal: Terminal
 }
 
 export interface Bay extends EquipmentContainer {
