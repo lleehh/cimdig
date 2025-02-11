@@ -3,7 +3,7 @@ import {findById, getComponentById, searchByName, SearchResult} from "@/lib/stor
 import useFlowStore from "@/lib/store/store-flow";
 import {createNode, createNodesAndEdges} from "@/lib/flow-utils";
 import {ComponentIcon} from "@/components/component-icon";
-import {Shell, Triangle} from "lucide-react";
+import {Factory, HousePlug, LandPlot, Shell, SquareTerminal, Triangle} from "lucide-react";
 import {useDebounce} from "use-debounce";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 
@@ -47,9 +47,29 @@ export default function SearchBar() {
             (() => {
                 switch (item.rdfType) {
                     case "cim:ACLineSegment":
-                        return <ComponentIcon icon="overforing"/>
+                        return <ComponentIcon icon="ledningssegment"/>
                     case "cim:ConnectivityNode":
                         return <Shell/>
+                    case "cim:Terminal":
+                        return <SquareTerminal />
+                    case "cim:NonConformLoad":
+                        return <Factory />
+                    case "cim:Line":
+                        return <ComponentIcon icon="overforing" />
+                    case "cim:Bay":
+                        return <LandPlot />
+                    case "cim:Breaker":
+                        return <ComponentIcon icon="bryter" />
+                    case "cim:BusbarSection":
+                        return <ComponentIcon icon="samleskinne" />
+                    case "cim:ConformLoad":
+                        return <HousePlug />
+                    case "cim:GeneratingUnit":
+                        return <ComponentIcon icon="generator" />
+                    case "cim:PowerTransformer":
+                        return <ComponentIcon icon="transformator" />
+                    case "cim:Substation":
+                        return <ComponentIcon icon="stasjon" />
                     default:
                         return <Triangle/>
                 }
