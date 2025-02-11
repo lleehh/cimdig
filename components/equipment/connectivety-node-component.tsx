@@ -11,6 +11,7 @@ import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import {CollapsedStyling} from "../dig/flow-component";
+import { colorStyling } from "../dig/flow-component";
 
 
 interface ConnectivetyNodeProps {
@@ -27,7 +28,7 @@ export default function ConnectivityNodeComponent({equipment, collapsed}: Connec
         if (collapsed)
             return (
                 <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Shell className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

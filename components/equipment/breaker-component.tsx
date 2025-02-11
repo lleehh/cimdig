@@ -12,6 +12,7 @@ import {componentRefs, componentParameters} from "@/lib/services/cim-service";
 import DisplayProperty from "./display-property-component";
 import {CollapsedStyling} from "../dig/flow-component";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
+import { colorStyling } from "../dig/flow-component";
 
 interface BreakerProps {
     equipment: Breaker
@@ -26,7 +27,7 @@ export default function BreakerComponent({equipment, collapsed}: BreakerProps) {
         if (collapsed)
             return (
                 <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon className="w-12 h-12" icon="bryter" />
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
