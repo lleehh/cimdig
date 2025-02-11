@@ -8,42 +8,35 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {ComponentIcon} from "@/components/component-icon";
-import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import DisplayProperty from "../display-property-component";
-import { CollapsedStyling } from "../dig/flow-component";
-import AdditionalCimLinks from "@/components/additional-cim-links-component";
-import { LandPlot } from 'lucide-react';
+import { colorStyling } from "../dig/flow-component";
+import {CollapsedStyling} from "../dig/flow-component";
+import {LandPlot} from 'lucide-react';
 import BtnGroupComponent from "../btn-group-component";
 
 
 interface BayProps {
     equipment: Bay
     collapsed?: boolean
-    handleExpand: () => void 
+    handleExpand: () => void
 }
 
 export default function Baycomponent({equipment, collapsed, handleExpand}: BayProps) {
-    const propertiyList = componentParameters(equipment)
-    const refs = componentRefs(equipment)
-    
 
-    
-        if (collapsed)
-            return (
-            <>
-                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}> </div>
-                <div className={`${CollapsedStyling()} flex items-center`}>
-                        <LandPlot className="w-10 h-10"/>
-                        <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
-                    </div>
-                </>
-                
-            )
-
+    if (collapsed)
         return (
-            <div>
-                <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <>
+                {colorStyling(equipment)}
+                <div className={`${CollapsedStyling()} flex items-center`}>
+                    <LandPlot className="w-10 h-10"/>
+                    <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+                </div>
+            </>
+
+        )
+
+    return (
+        <div>
+            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
             <Card className="w-[350px]" color={equipment.color?.toString()!}>
                 <CardHeader>
                     <CardTitle>
@@ -58,6 +51,6 @@ export default function Baycomponent({equipment, collapsed, handleExpand}: BayPr
                     <div className="text-gray-400">{equipment.description}</div>
                 </CardContent>
             </Card>
-            </div>
-        )
-    }
+        </div>
+    )
+}

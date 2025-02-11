@@ -1,34 +1,30 @@
 'use client'
-import {ConnectivityNode} from "@/lib/cim";
-import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {Shell} from "lucide-react";
+import {Line} from "@/lib/cim";
+import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {ComponentIcon} from "@/components/component-icon";
 import {CollapsedStyling} from "../dig/flow-component";
-import { colorStyling } from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 
-
-interface ConnectivetyNodeProps {
-    equipment: ConnectivityNode
+interface LineProps {
+    equipment: Line
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function ConnectivityNodeComponent({equipment, collapsed, handleExpand}: ConnectivetyNodeProps) {
+export default function LineComponent({equipment, collapsed, handleExpand}: LineProps) {
+
     if (collapsed)
         return (
             <>
-                {colorStyling(equipment)}
+                <div style={{backgroundColor: equipment.color?.toString()!, height: "10px"}}></div>
                 <div className={`${CollapsedStyling()} flex items-center`}>
-                    <Shell className="w-8 h-8"/>
+                    <ComponentIcon icon="overforing" className="w-16 h-16"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
+
                 </div>
             </>
         )
+
 
     return (
         <div>
@@ -37,14 +33,12 @@ export default function ConnectivityNodeComponent({equipment, collapsed, handleE
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">
-                            <Shell/> CN
+                            <ComponentIcon icon="overforing"/>
+                            Line
                         </div>
                     </CardTitle>
-                    <CardDescription>
-                        <div className="w-32 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-                             title={equipment.name}>
-                            {equipment.name}
-                        </div>
+                    <CardDescription className="flex flex-col space-y-4">
+                        {equipment.name}
                     </CardDescription>
                 </CardHeader>
             </Card>

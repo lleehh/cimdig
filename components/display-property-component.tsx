@@ -2,6 +2,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu"
 import {Button} from "@/components/ui/button"
 import { Info } from "lucide-react";
@@ -13,8 +15,9 @@ export default function DisplayProperty({ data }: { data: Record<string, String>
           <Button variant="ghost" size="icon"><Info/></Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <div className="w-[500px] h-fit p-4 shadow-md rounded-lg absolute top-0 left-0 z-10 bg-yellow-400">
-          <h2 className="text-l font-semibold text-gray-800">Properties</h2>
+          <div className="w-max h-max rounded-xl border bg-card text-card-foreground shadow p-5">
+            <DropdownMenuLabel>Properties</DropdownMenuLabel>
+            <DropdownMenuSeparator/>
             <ul className="space-y-2">
               {Object.entries(data)
               .filter(([key]) => key !== 'rdfId')
