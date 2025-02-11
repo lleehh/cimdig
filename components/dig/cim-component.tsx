@@ -10,7 +10,8 @@ import {
     BusbarSection,
     Bay,
     Substation, PowerTransformer, PowerTransformerEnd,
-    Line
+    Line,
+    ConformLoad
 } from "@/lib/cim";
 import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
 import BreakerComponent from "@/components/equipment/breaker-component";
@@ -25,6 +26,7 @@ import Substationcomponent from "../equipment/substation-component";
 import PowerTransformerComponent from "@/components/equipment/powertransformer-component";
 import PowerTransformerEndComponent from "@/components/equipment/powertransformer-end-component";
 import LineComponent from "../equipment/line-component";
+import ConformLoadComponent from "../equipment/conformload-component";
 
 
 interface CimComponentProps {
@@ -61,6 +63,8 @@ export default function CimComponent({equipment, collapsed, handleExpand}: CimCo
                 return <PowerTransformerEndComponent equipment={equipment as PowerTransformerEnd} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:Line":
                 return <LineComponent equipment={equipment as Line} collapsed={collapsed} handleExpand={handleExpand}/>
+            case "cim:ConformLoad":
+                return <ConformLoadComponent equipment={equipment as ConformLoad} collapsed={collapsed} handleExpand={handleExpand}/>
             default:
                 return <GenericComponent equipment={equipment} collapsed={collapsed} handleExpand={handleExpand}/>;
         }

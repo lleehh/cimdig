@@ -113,6 +113,10 @@ export interface Line extends EquipmentContainer {
     
 }
 
+export interface ConformLoad extends ConductingEquipment {
+    
+}
+
 /*
 
 "rdfType": "cim:ACLineSegment",
