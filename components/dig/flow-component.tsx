@@ -78,7 +78,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             "#c8ff9e",
             "#ffe380",
             "#9effdd",
-            "#ffa270",
         ]
 
 
@@ -120,7 +119,10 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 let randomColor: number = 0
 
                 usedColors = []
-                newNodes.forEach(element => {
+                newNodes.forEach((element, i) => {
+                    element.data.color = colors[i%colors.length]
+
+                    /*
                     whileLoop = 0
                     randomColor = 0
                     while ((colors[randomColor] === element.data.color?.toString()! || usedColors.includes(randomColor)) && whileLoop < 100 * nodes.length) {
@@ -138,6 +140,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                     }
                     usedColors.push(randomColor)
                     element.data.color = colors[randomColor]
+                    */
                 });
 
                 usedColors = []
