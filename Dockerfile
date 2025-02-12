@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS base
+FROM node:20 AS base
 
 WORKDIR /app
 
