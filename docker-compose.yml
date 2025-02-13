@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      ssh:
+        - default  # Mount the default SSH agent
+    command: >
+      sh -c "git clone git@github.com:lleehh/cimdig.git && cd cimdig && npm run start"
+ 
