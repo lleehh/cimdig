@@ -1,22 +1,13 @@
-FROM node:20 AS base
+FROM node:20
 
-WORKDIR /
+WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY package-lock.json ./
-COPY * .
-
-COPY app/ .
-COPY components/  .
-COPY docs/  .
-COPY hooks/  .
-COPY lib/  .
-COPY models/ .
-COPY nordic44/  .
-COPY public/ .
-
-RUN npm ci
-RUN npm run build
+COPY ./cimdig .
 
 EXPOSE 3000
-CMD ["node", "run", "start"]
+
+RUN npm i
+
+RUN npm run build
+
+CMD ["npm", "start"]
