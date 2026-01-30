@@ -13,7 +13,22 @@ export default function SearchBar() {
     const [input, setInput] = useState("")
     const [response, setResponse] = useState<SearchResult>([])
     const [debouncedInput] = useDebounce(input, 400)
-    const [animationParent] = useAutoAnimate()
+    
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = 
+        typeof window !== 'undefined' && 
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    
+    // Configure auto-animate with faster durations and respect user's motion preferences
+    const [animationParent] = useAutoAnimate({
+        duration: prefersReducedMotion ? 0 : 150, // Reduced from default 250ms to 150ms
+        easing: 'ease-in-out'
+    })
+    
+    const [resultsParent] = useAutoAnimate({
+        duration: prefersReducedMotion ? 0 : 100, // Fast appearance for search results
+        easing: 'ease-out'
+    })
 
     const {setNodes, setEdges} = useFlowStore()
 
@@ -42,6 +57,14 @@ export default function SearchBar() {
             setEdges(edges)
         }
     }
+    
+    const handleBlur = () => {
+        // Adjust delay based on animation preferences
+        // If animations are disabled, no delay is needed
+        const delay = prefersReducedMotion ? 0 : 150
+        setTimeout(() => setIsFocused(false), delay)
+    }
+    
     function iconLogic(item) {
         return (
             (() => {
@@ -83,11 +106,11 @@ export default function SearchBar() {
                 onChange={(e) => setInput(e.target.value)}
                 value={input}
                 onFocus={() => (setIsFocused(true))}
-                onBlur={() => setTimeout(() => setIsFocused(false), 250)}
+                onBlur={handleBlur}
                 placeholder="Search for components by name…"
             />
                 {isFocused ?
-                    <ul className="p-2 max-h-96 overflow-y-scroll rounded-b-md border-none shadow-2xl">
+                    <ul ref={resultsParent} className="p-2 max-h-96 overflow-y-scroll rounded-b-md border-none shadow-2xl">
                         {response.map((item) => (
                             <article className="w-full h-10 gap-3 bg-white flex flex-row hover:bg-neutral-100 hover:cursor-pointer hover: p-2 rounded-lg"
                                      key={item.id}
