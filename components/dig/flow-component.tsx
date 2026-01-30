@@ -8,7 +8,6 @@ import {
     isTerminal, PowerTransformerEnd
 } from "@/lib/cim";
 import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
-import {isExandable} from "@/lib/services/cim-service";
 import {getComponentById} from "@/lib/store/model-repository";
 import useFlowStore, {CimNode, selector} from "@/lib/store/store-flow";
 import {Edge, Handle, NodeProps, Position, useStore,} from "@xyflow/react";
@@ -38,8 +37,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     const [component, setComponent] = useState<CIM | null>(null);
     const [expanded, setExpanded] = useState(false);
     const showContent = useStore(zoomSelector);
-
-    const isExandableComponent = isExandable(data)
 
     const {
         nodes,
@@ -138,10 +135,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             <Handle type="target" isConnectable={false} position={Position.Left}
                     className="!w-3 !h-3 !rounded-none !bg-stone-400" id="bottomHandle"/>
             <div>
-                {/*  {!expanded && isExandableComponent &&
-                    <Button className="absolute -top-4 -right-4" size="icon" variant="secondary"
-                            onClick={handleExpand}><Expand/></Button>}  */}
-
                 <CimComponent equipment={component || data} collapsed={!showContent} handleExpand={handleExpand}/>
             </div>
             <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
