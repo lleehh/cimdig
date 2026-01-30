@@ -1,4 +1,4 @@
-import {CIM, ConductingEquipment, isConductingEquipment, PowerTransformerEnd} from "@/lib/cim";
+import {CIM, ConductingEquipment, PowerTransformerEnd} from "@/lib/cim";
 
 export function sholdNotBeInComponentRefs(component: CIM): boolean {
     return component.rdfType !== 'cim:ConnectivityNode'
