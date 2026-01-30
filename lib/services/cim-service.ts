@@ -1,11 +1,5 @@
 import {CIM, ConductingEquipment, isConductingEquipment, PowerTransformerEnd} from "@/lib/cim";
 
-export function isExpandable(component: CIM): boolean {
-    return component.rdfType === 'cim:ConnectivityNode'
-        || component.rdfType === 'cim:Terminal'
-        || isConductingEquipment(component)
-}
-
 export function sholdNotBeInComponentRefs(component: CIM): boolean {
     return component.rdfType !== 'cim:ConnectivityNode'
         && component.rdfType !== 'cim:Terminal'
