@@ -3,7 +3,7 @@ import {findById, getComponentById, searchByName, SearchResult} from "@/lib/stor
 import useFlowStore from "@/lib/store/store-flow";
 import {createNode, createNodesAndEdges} from "@/lib/flow-utils";
 import {ComponentIcon} from "@/components/component-icon";
-import {Factory, HousePlug, LandPlot, Shell, SquareTerminal, Triangle} from "lucide-react";
+import {Factory, HousePlug, LandPlot, Shell, SquareTerminal, Triangle, SearchX} from "lucide-react";
 import {useDebounce} from "use-debounce";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 
@@ -88,15 +88,25 @@ export default function SearchBar() {
             />
                 {isFocused ?
                     <ul className="p-2 max-h-96 overflow-y-scroll rounded-b-md border-none shadow-2xl">
-                        {response.map((item) => (
-                            <article className="w-full h-10 gap-3 bg-white flex flex-row hover:bg-neutral-100 hover:cursor-pointer hover: p-2 rounded-lg"
-                                     key={item.id}
-                                     onClick={() => fetchComponent(item.id)}
-                            >
-                                {iconLogic(item)}
-                                {item.name}
-                            </article>
-                        ))}
+                        {response.length > 0 ? (
+                            response.map((item) => (
+                                <article className="w-full h-10 gap-3 bg-white flex flex-row hover:bg-neutral-100 hover:cursor-pointer hover: p-2 rounded-lg"
+                                         key={item.id}
+                                         onClick={() => fetchComponent(item.id)}
+                                >
+                                    {iconLogic(item)}
+                                    {item.name}
+                                </article>
+                            ))
+                        ) : (
+                            debouncedInput && (
+                                <div className="flex flex-col items-center justify-center py-8 text-gray-500">
+                                    <SearchX className="w-12 h-12 mb-2 text-gray-400" />
+                                    <p className="text-sm font-medium">No results found</p>
+                                    <p className="text-xs text-gray-400 mt-1">Try searching with a different term</p>
+                                </div>
+                            )
+                        )}
                     </ul>
                     : <></>}
         </div>
