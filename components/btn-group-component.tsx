@@ -5,7 +5,7 @@ import {
     Card
 } from "@/components/ui/card";
 import {componentParameters, componentRefs, isEquipmentExpandable} from "@/lib/services/cim-service";
-import {Expand} from "lucide-react";
+import {Expand, Info} from "lucide-react";
 import DisplayProperty from "./display-property-component";
 import {CIM} from "@/lib/cim";
 import FlowComponent from "./dig/flow-component";
@@ -13,6 +13,13 @@ import {useState} from "react";
 import useFlowStore, {selector} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {componentStatus} from "@/lib/flow-utils";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {getCIMDescription, hasCIMDescription} from "@/lib/cim-descriptions";
 
 interface BtnGroupComponentProps {
     handleExpand: () => void
@@ -34,6 +41,7 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
     } = useFlowStore(useShallow(selector));
 
     const expandable = isEquipmentExpandable(equipment)
+    const cimDescription = getCIMDescription(equipment.rdfType)
 
     const onExpand = () => {
         setExpanded(true)
@@ -55,6 +63,23 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
                 color={equipment.color?.toString()!}>
                 <DisplayProperty data={propertiyList}/>
                 {haveMoreRefs && <AdditionalCimLinks componentRefs={components} component={equipment}/>}
+                {cimDescription && (
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                    <Info className="h-4 w-4"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-xs">
+                                <div className="space-y-2">
+                                    <p className="font-semibold">{cimDescription.title}</p>
+                                    <p className="text-sm">{cimDescription.description}</p>
+                                </div>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                )}
                 {expandable &&
                     <Button variant="ghost" size="icon" onClick={onExpand} disabled={expanded}><Expand/></Button>}
             </div>
