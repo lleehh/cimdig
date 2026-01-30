@@ -56,6 +56,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     }, []);
 
     const handleExpand = async () => {
+        console.log("Nodes", nodes)
         // We need to load the full component from the database to get all the properties
 
         const node = nodes.find(node => node.id === component?.rdfId)
@@ -98,7 +99,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 let terminals = component.terminals || []
                 if(terminals.length == 0 && (component as PowerTransformerEnd).terminal != undefined)
                     terminals = [(component as PowerTransformerEnd).terminal]
-                console.log(terminals)
+                console.log("Terminals:", terminals)
                 terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
                         newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.color?.toString()!))
