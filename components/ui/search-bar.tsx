@@ -29,8 +29,8 @@ export default function SearchBar() {
   const [isFocused, setIsFocused] = useState(false);
   const [input, setInput] = useState("");
   const [response, setResponse] = useState<SearchResult>([]);
-  const [debouncedInput] = useDebounce(input, 400);
-  const [animationParent] = useAutoAnimate();
+  const [debouncedInput] = useDebounce(input, 200);
+  const [animationParent] = useAutoAnimate({ duration: 100 });
 
   const { setNodes, setEdges } = useFlowStore();
 
