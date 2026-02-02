@@ -24,6 +24,18 @@ export function CollapsedStyling() {
     )
 }
 
+export function smallComponentStyling() {
+    return (
+        "w-[135px]"
+    )
+}
+
+export function mediumComponentStyling() {
+       return (
+        "w-[180px]"
+    ) 
+}
+
 export function colorStyling(CIM: CIM) {
     return (
         <div style={{backgroundColor: CIM.color?.toString()!, height: "10px"}}> </div>
