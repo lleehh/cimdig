@@ -80,11 +80,8 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         ]
 
 
-        //data.otherData.color = data.otherData.color
 
-        console.log(component)
         if (node && component) {
-            console.log("2")
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
                     newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.otherData.color))
@@ -128,9 +125,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         setExpanded(true)
     }
 
-    //if (component !== null) {
-    //    component.color = data.otherData.color
-    //}
 
 
     return (

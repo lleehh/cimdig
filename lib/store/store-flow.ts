@@ -3,20 +3,21 @@ import {create} from "zustand";
 import {CIM, RdfValue} from "@/lib/cim";
 import {edgeTemplate} from "@/lib/flow-utils";
 
- export interface OtherData {
+export interface OtherData {
     color: string | undefined
 
     [key: string]: any;
 }
 
-export interface nodeData {
+
+export interface NodeData {
     cimData: CIM
     otherData: OtherData
 
     [key: string]: any;
 }
 
-export type CimNode = Node<nodeData, 'flowComponent'>
+export type CimNode = Node<NodeData, 'flowComponent'>
 
 export type FlowState = {
     nodes: CimNode[];
@@ -27,7 +28,7 @@ export type FlowState = {
     onConnect: OnConnect;
     setNodes: (nodes: CimNode[]) => void;
     setEdges: (edges: Edge[]) => void;
-    getNodeData: (id: string) => nodeData | undefined;
+    getNodeData: (id: string) => NodeData | undefined;
     addNode: (node: CimNode) => void;
     setFocusNode: (id: string) => void;
 };
