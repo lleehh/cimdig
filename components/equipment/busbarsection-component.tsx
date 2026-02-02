@@ -4,19 +4,21 @@ import {BusbarSection} from "@/lib/cim";
 import {CollapsedStyling} from "../dig/flow-component";
 import { colorStyling } from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 interface BusbarProps {
     equipment: BusbarSection
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function BusbarComponent({equipment, collapsed, handleExpand}: BusbarProps) {
+export default function BusbarComponent({equipment, otherData, collapsed, handleExpand}: BusbarProps) {
 
     if (collapsed)
         return (
             <>
-                  {colorStyling(equipment)}
+                {colorStyling(otherData.color)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="samleskinne" className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
@@ -29,7 +31,7 @@ export default function BusbarComponent({equipment, collapsed, handleExpand}: Bu
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[230px]" color={equipment.color?.toString()!}>
+            <Card className="w-[230px]" color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">

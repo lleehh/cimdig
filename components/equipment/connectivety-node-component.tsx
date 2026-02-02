@@ -10,19 +10,21 @@ import {Shell} from "lucide-react";
 import {CollapsedStyling} from "../dig/flow-component";
 import { colorStyling } from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 
 interface ConnectivetyNodeProps {
     equipment: ConnectivityNode
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function ConnectivityNodeComponent({equipment, collapsed, handleExpand}: ConnectivetyNodeProps) {
+export default function ConnectivityNodeComponent({equipment, otherData, collapsed, handleExpand}: ConnectivetyNodeProps) {
     if (collapsed)
         return (
             <>
-                {colorStyling(equipment)}
+                {colorStyling(otherData.color)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Shell className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
@@ -33,7 +35,7 @@ export default function ConnectivityNodeComponent({equipment, collapsed, handleE
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[160px]" color={equipment.color?.toString()!}>
+            <Card className="w-[160px]" color={otherData.color ?? "black"}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">
