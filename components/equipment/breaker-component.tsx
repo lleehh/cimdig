@@ -24,7 +24,7 @@ export default function BreakerComponent({equipment, otherData, collapsed, handl
     if (collapsed)
         return (
             <>
-               {colorStyling(otherData.color)}
+               {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon className="w-12 h-12" icon="bryter"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
