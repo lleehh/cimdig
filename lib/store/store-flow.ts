@@ -10,8 +10,8 @@ export interface OtherData {
 }
 
 export interface NodeData {
-    cimData: CIM
-    otherData: OtherData
+    cimData: CIM  // - Data relating to the CIM component that the node is representing. Should NOT be altered.
+    otherData: OtherData // - Data relating to the node that is not stored in CIM, such as colors, whether or not it can be expanded, etc... Can be altered.
 
     [key: string]: any;
 }
