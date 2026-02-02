@@ -9,7 +9,6 @@ export interface OtherData {
     [key: string]: any;
 }
 
-
 export interface NodeData {
     cimData: CIM
     otherData: OtherData
