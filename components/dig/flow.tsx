@@ -100,7 +100,7 @@ export default function Dig({equipment}: DigProps) {
                        minZoom={0.2}
                        maxZoom={2}
             >
-                <Panel position="top-center" className="w-1/2">
+                <Panel position="top-center" className="w-[31.25rem]">
                     <SearchBar />
                 </Panel>
                 <Panel position="top-right">
