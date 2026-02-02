@@ -45,7 +45,7 @@ export default function GeneratorComponent({equipment, collapsed, handleExpand}:
                     </CardTitle>
                     <CardDescription>{equipment.name}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-col space-y-4">
+                <CardContent className="flex flex-col">
                     <div className="text-gray-400">{equipment.description}</div>
                     <div>
                         Max operating power limit {(equipment.maxOperatingP)}

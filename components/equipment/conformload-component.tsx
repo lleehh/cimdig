@@ -46,7 +46,7 @@ export default function ConformLoadComponent({equipment, collapsed, handleExpand
                     </CardTitle>
                     <CardDescription>{equipment.name}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-col space-y-4">
+                <CardContent className="flex flex-col">
                     <div className="text-gray-400">{equipment.description}</div>
                     <div>
                         Voltage {(equipment.baseVoltage as BaseVoltage)?.name}
