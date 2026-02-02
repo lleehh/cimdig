@@ -27,6 +27,7 @@ import PowerTransformerComponent from "@/components/equipment/powertransformer-c
 import PowerTransformerEndComponent from "@/components/equipment/powertransformer-end-component";
 import LineComponent from "../equipment/line-component";
 import ConformLoadComponent from "../equipment/conformload-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 
 interface CimComponentProps {
