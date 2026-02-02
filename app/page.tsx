@@ -71,19 +71,19 @@ export default async function Home() {
                 <div
                     className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
                     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                        {acLineSegment && <ACLineSegmentComponent equipment={acLineSegment} handleExpand={handleExpand}/>}
-                        {breaker && <BreakerComponent  equipment={breaker} handleExpand={handleExpand}/>}
-                        {generator && <GeneratorComponent equipment={generator} handleExpand={handleExpand}/>}
-                        {cn && <ConnectivityNodeComponent equipment={cn} handleExpand={handleExpand}/>}
-                        {terminal && <TerminalComponent equipment={terminal} handleExpand={handleExpand}/>}
-                        {busbarSection && <BusbarComponent equipment={busbarSection} handleExpand={handleExpand}/>}
-                        {powerTransformer && <PowerTransformerComponent equipment={powerTransformer} handleExpand={handleExpand}/>}
-                        {PowerTransformerEnd && <PowerTransformerEndComponent equipment={PowerTransformerEnd} handleExpand={handleExpand}/>}
-                        {loadProp && <NonConformLoadComponent equipment={loadProp} handleExpand={handleExpand}/>}
-                        {Substation && <Substationcomponent equipment={Substation} handleExpand={handleExpand}/>}
-                        {Bay && <Baycomponent equipment={Bay} handleExpand={handleExpand}/>}
-                        {Line && <LineComponent equipment={Line} handleExpand={handleExpand}/>}
-                        {ConformLoad && <ConformLoadComponent equipment={ConformLoad} handleExpand={handleExpand}/>}
+                        {acLineSegment && <ACLineSegmentComponent equipment={acLineSegment} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {breaker && <BreakerComponent  equipment={breaker} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {generator && <GeneratorComponent equipment={generator} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {cn && <ConnectivityNodeComponent equipment={cn} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {terminal && <TerminalComponent equipment={terminal} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {busbarSection && <BusbarComponent equipment={busbarSection} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {powerTransformer && <PowerTransformerComponent equipment={powerTransformer} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {PowerTransformerEnd && <PowerTransformerEndComponent equipment={PowerTransformerEnd} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {loadProp && <NonConformLoadComponent equipment={loadProp} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {Substation && <Substationcomponent equipment={Substation} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {Bay && <Baycomponent equipment={Bay} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {Line && <LineComponent equipment={Line} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {ConformLoad && <ConformLoadComponent equipment={ConformLoad} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                     </main>
                 </div>
             </SidebarInset>

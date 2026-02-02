@@ -4,7 +4,7 @@ import {CIM, RdfValue} from "@/lib/cim";
 import {edgeTemplate} from "@/lib/flow-utils";
 
  export interface OtherData {
-    color: string
+    color: string | undefined
 
     [key: string]: any;
 }
