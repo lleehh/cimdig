@@ -8,7 +8,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import {CollapsedStyling, mediumComponentStyling, smallComponentStyling} from "../dig/flow-component";
+import {CollapsedStyling, mediumComponentStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
 
