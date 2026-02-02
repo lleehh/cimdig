@@ -25,7 +25,7 @@ export default function PowerTransformerComponent({equipment, otherData, collaps
     if (collapsed)
         return (
             <>
-            {colorStyling(otherData.color)}
+            {colorStyling(otherData.color ?? "black")}
             <div className={`${CollapsedStyling()} flex items-center`}>
                 <ComponentIcon icon="transformator" className="w-16 h-16"/>
                 <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>

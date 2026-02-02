@@ -24,7 +24,7 @@ export default function ConnectivityNodeComponent({equipment, otherData, collaps
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color)}
+                {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Shell className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

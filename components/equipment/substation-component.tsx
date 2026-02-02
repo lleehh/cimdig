@@ -24,7 +24,7 @@ export default function Substationcomponent({equipment, otherData, collapsed, ha
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color)}
+                {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="stasjon" className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.rdfType}</div>

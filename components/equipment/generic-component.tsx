@@ -25,7 +25,7 @@ export default function GenericComponent({equipment, otherData, collapsed, handl
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color)}
+                {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Triangle className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>

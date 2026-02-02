@@ -18,7 +18,7 @@ export default function BusbarComponent({equipment, otherData, collapsed, handle
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color)}
+                {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="samleskinne" className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

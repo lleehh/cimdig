@@ -25,7 +25,7 @@ export default function GeneratorComponent({equipment, otherData, collapsed, han
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color)}
+                {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="generator" className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>

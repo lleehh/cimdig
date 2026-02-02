@@ -19,7 +19,7 @@ export default function ACLineSegmentComponent({equipment, otherData, collapsed,
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color)}
+                {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="ledningssegment" className="w-16 h-16"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
