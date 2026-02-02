@@ -13,6 +13,7 @@ import {useState} from "react";
 import useFlowStore, {selector} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {componentStatus} from "@/lib/flow-utils";
+import Description from "./description-component";
 
 interface BtnGroupComponentProps {
     handleExpand: () => void
@@ -53,6 +54,7 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
             <div
                 className="w-max h-max rounded-t-xl border-r border-t border-l bg-card text-card-foreground absolute -top-4 right-0"
                 color={equipment.color?.toString()!}>
+                <Description />
                 <DisplayProperty data={propertiyList}/>
                 {haveMoreRefs && <AdditionalCimLinks componentRefs={components} component={equipment}/>}
                 {expandable &&
