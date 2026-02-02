@@ -5,10 +5,11 @@ import {ComponentIcon} from "@/components/component-icon";
 import {CollapsedStyling} from "../dig/flow-component";
 import { colorStyling } from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 interface EquipmentProps {
     equipment: ACLineSegment
-    otherData: string
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
@@ -18,7 +19,7 @@ export default function ACLineSegmentComponent({equipment, otherData, collapsed,
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData)}
+                {colorStyling(otherData.color)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="ledningssegment" className="w-16 h-16"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
