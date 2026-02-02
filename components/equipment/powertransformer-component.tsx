@@ -7,7 +7,7 @@ import {
     CardTitle
 } from "@/components/ui/card";
 import { PowerTransformer } from "@/lib/cim";
-import {CollapsedStyling} from "@/components/dig/flow-component";
+import {CollapsedStyling, smallComponentStyling} from "@/components/dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
 
@@ -34,7 +34,7 @@ export default function PowerTransformerComponent({equipment, collapsed, handleE
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-        <Card className="w-[230px]" color={equipment.color?.toString()!}>
+        <Card className={`${smallComponentStyling()}`} color={equipment.color?.toString()!}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">

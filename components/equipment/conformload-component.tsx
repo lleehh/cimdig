@@ -36,7 +36,7 @@ export default function ConformLoadComponent({equipment, collapsed, handleExpand
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[350px]" color={equipment.color?.toString()!}>
+            <Card color={equipment.color?.toString()!}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">
