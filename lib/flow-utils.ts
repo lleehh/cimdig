@@ -35,7 +35,7 @@ export function createNode(id: string, data: CIM, x: number, y: number, color?: 
         id: id,
         type: 'flowComponent',
         position: {x: x, y: y},
-        data: {...data, color: color}
+        data: {cimData: {...data}, otherData: {color}}
     } as CimNode
 }
 

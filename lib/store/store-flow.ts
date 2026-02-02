@@ -1,9 +1,22 @@
  import {addEdge, applyEdgeChanges, applyNodeChanges, Edge, Node, OnConnect, OnEdgesChange, OnNodesChange} from "@xyflow/react";
 import {create} from "zustand";
-import {CIM} from "@/lib/cim";
+import {CIM, RdfValue} from "@/lib/cim";
 import {edgeTemplate} from "@/lib/flow-utils";
 
-export type CimNode = Node<CIM, 'flowComponent'>
+ export interface OtherData {
+    color: string
+
+    [key: string]: any;
+}
+
+export interface nodeData {
+    cimData: CIM
+    otherData: OtherData
+
+    [key: string]: any;
+}
+
+export type CimNode = Node<nodeData, 'flowComponent'>
 
 export type FlowState = {
     nodes: CimNode[];
@@ -14,7 +27,7 @@ export type FlowState = {
     onConnect: OnConnect;
     setNodes: (nodes: CimNode[]) => void;
     setEdges: (edges: Edge[]) => void;
-    getNodeData: (id: string) => CIM | undefined;
+    getNodeData: (id: string) => nodeData | undefined;
     addNode: (node: CimNode) => void;
     setFocusNode: (id: string) => void;
 };

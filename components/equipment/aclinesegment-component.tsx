@@ -8,16 +8,17 @@ import BtnGroupComponent from "../btn-group-component";
 
 interface EquipmentProps {
     equipment: ACLineSegment
+    otherData: string
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function ACLineSegmentComponent({equipment, collapsed, handleExpand}: EquipmentProps) {
+export default function ACLineSegmentComponent({equipment, otherData, collapsed, handleExpand}: EquipmentProps) {
 
     if (collapsed)
         return (
             <>
-                {colorStyling(equipment)}
+                {colorStyling(otherData)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="ledningssegment" className="w-16 h-16"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
