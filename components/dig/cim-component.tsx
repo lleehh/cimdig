@@ -30,17 +30,18 @@ import ConformLoadComponent from "../equipment/conformload-component";
 
 
 interface CimComponentProps {
-    equipment: CIM 
+    equipment: CIM
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void 
 }
 
-export default function CimComponent({equipment, collapsed, handleExpand}: CimComponentProps) {
+export default function CimComponent({equipment, otherData, collapsed, handleExpand}: CimComponentProps) {
 
     const renderComponent = () => {
         switch (equipment.rdfType) {
             case "cim:ACLineSegment":
-                return <ACLineSegmentComponent equipment={equipment as ACLineSegment} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <ACLineSegmentComponent equipment={equipment as ACLineSegment} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:Terminal":
                 return <TerminalComponent equipment={equipment as Terminal} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:ConnectivityNode":

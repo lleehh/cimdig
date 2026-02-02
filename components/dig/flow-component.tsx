@@ -136,7 +136,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             <Handle type="target" isConnectable={false} position={Position.Left}
                     className="!w-3 !h-3 !rounded-none !bg-stone-400" id="bottomHandle"/>
             <div>
-                <CimComponent equipment={component || data} collapsed={!showContent} handleExpand={handleExpand}/>
+                <CimComponent equipment={component || data.cimData} otherData={data.otherData} collapsed={!showContent} handleExpand={handleExpand}/>
             </div>
             <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
             <Handle type="source" isConnectable={false} position={Position.Right}
