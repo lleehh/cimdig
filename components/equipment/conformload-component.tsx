@@ -12,19 +12,21 @@ import {HousePlug} from "lucide-react";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 interface ConformLoadProps {
     equipment: ConformLoad
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function ConformLoadComponent({equipment, collapsed, handleExpand}: ConformLoadProps) {
+export default function ConformLoadComponent({equipment, otherData, collapsed, handleExpand}: ConformLoadProps) {
 
     if (collapsed)
         return (
             <>
-                {colorStyling(equipment)}
+                {colorStyling(otherData.color)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <HousePlug className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
@@ -36,7 +38,7 @@ export default function ConformLoadComponent({equipment, collapsed, handleExpand
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[350px]" color={equipment.color?.toString()!}>
+            <Card className="w-[350px]" color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">
