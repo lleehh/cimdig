@@ -49,14 +49,15 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     useEffect(() => {
         if (!component) {
             const loadComponent = async () => {
-                setComponent(await getComponentById(data.rdfId))
+                setComponent(await getComponentById(data.cimData.rdfId))
             }
             loadComponent()
         }
     }, []);
 
     const handleExpand = async () => {
-        console.log("Nodes", nodes)
+        console.log("All Nodes", nodes)
+        console.log("All Edges", edges)
         // We need to load the full component from the database to get all the properties
 
         const node = nodes.find(node => node.id === component?.rdfId)
@@ -79,18 +80,20 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         ]
 
 
-        data.color = data.color?.toString()!
+        //data.otherData.color = data.otherData.color
 
+        console.log(component)
         if (node && component) {
+            console.log("2")
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
-                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.color?.toString()!))
+                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.otherData.color))
                     newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, true))
 
                 }
 
                 if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
-                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.color?.toString()!))
+                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.otherData.color))
                     newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, true))
                 }
             }
@@ -102,7 +105,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 console.log("Terminals:", terminals)
                 terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
-                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.color?.toString()!))
+                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.otherData.color))
                         newEdges.push(createEdge(terminal.rdfId, rdfId, false))
                     }
                 })
@@ -113,19 +116,21 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
 
             if (newNodes.length > 1) {
                 newNodes.forEach((element, i) => {
-                    element.data.color = colors[i%colors.length]
+                    element.data.otherData.color = colors[i%colors.length]
                 });
             }
             setNodes([...nodes, ...newNodes])
             setEdges([...edges, ...newEdges])
             setFocusNode(newNodes[newNodes.length - 1].id)
         }
+        console.log("New Nodes:", newNodes)
+        console.log("New Edges:", newEdges)
         setExpanded(true)
     }
 
-    if (component !== null) {
-        component.color = data.color
-    }
+    //if (component !== null) {
+    //    component.color = data.otherData.color
+    //}
 
 
     return (
