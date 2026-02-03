@@ -62,7 +62,7 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 				</CardHeader>
 				{equipment.description &&
 					<CardContent className="flex flex-col">
-                    	<div className="text-gray-400">{equipment.description}</div>
+                    	<div className="text-gray-400">{equipment.description.toString()}</div>
                 	</CardContent>
 				}
 			</Card>
