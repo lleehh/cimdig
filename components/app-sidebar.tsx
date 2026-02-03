@@ -11,17 +11,18 @@ import {Command, GalleryHorizontal, SpadeIcon} from "lucide-react"
 
 // This is sample data.
 const items = [
+        {
+        title: "Cim Dig",
+        url: "/",
+        icon: SpadeIcon,
+    },
     {
         title: "Gallery",
-        url: "/",
+        url: "/gallery",
         icon: GalleryHorizontal,
     },
 
-    {
-        title: "Cim Dig",
-        url: "/dig",
-        icon: SpadeIcon,
-    },
+
 ]
 
 export async function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
