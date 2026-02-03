@@ -5,6 +5,7 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
+	CardContent,
 } from "@/components/ui/card"
 import { Triangle } from "lucide-react";
 import { CollapsedStyling } from "../dig/flow-component";
@@ -59,6 +60,11 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 						</>
 					</CardDescription>
 				</CardHeader>
+				{equipment.description &&
+					<CardContent className="flex flex-col">
+                    	<div className="text-gray-400">{equipment.description}</div>
+                	</CardContent>
+				}
 			</Card>
 		</div>
 	)
