@@ -78,7 +78,7 @@ export default async function Home() {
                         {acLineSegment && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="ledningssegment" />} equipment={acLineSegment} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {breaker && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="bryter" />}  equipment={breaker} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {generator && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="generator" />} equipment={generator} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {cn && <GenericComponent size={mediumComponentStyling} icon={<Shell />} equipment={cn} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {cn && <GenericComponent size={smallComponentStyling} icon={<Shell />} equipment={cn} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {terminal && <GenericComponent size={smallComponentStyling} icon={<SquareTerminal />} equipment={terminal} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {busbarSection && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="samleskinne" />} equipment={busbarSection} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {powerTransformer && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="transformator" />} equipment={powerTransformer} otherData={{color: undefined}} handleExpand={handleExpand}/>}
