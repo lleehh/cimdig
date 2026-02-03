@@ -24,6 +24,12 @@ export function CollapsedStyling() {
     )
 }
 
+export function colorStyling(color: string) {
+    return (
+        <div style={{backgroundColor: color ?? "black", height: "10px"}}> </div>
+    )
+}
+
 export function smallComponentStyling() {
     return (
         "w-[135px]"
@@ -34,12 +40,6 @@ export function mediumComponentStyling() {
        return (
         "w-[180px]"
     ) 
-}
-
-export function colorStyling(CIM: CIM) {
-    return (
-        <div style={{backgroundColor: CIM.color?.toString()!, height: "10px"}}> </div>
-    )
 }
 
 
@@ -61,7 +61,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     useEffect(() => {
         if (!component) {
             const loadComponent = async () => {
-                setComponent(await getComponentById(data.rdfId))
+                setComponent(await getComponentById(data.cimData.rdfId))
             }
             loadComponent()
         }
@@ -90,18 +90,17 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         ]
 
 
-        data.color = data.color?.toString()!
 
         if (node && component) {
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
-                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.color?.toString()!))
+                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.otherData.color))
                     newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, true))
 
                 }
 
                 if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
-                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.color?.toString()!))
+                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.otherData.color))
                     newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, true))
                 }
             }
@@ -110,10 +109,9 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 let terminals = component.terminals || []
                 if(terminals.length == 0 && (component as PowerTransformerEnd).terminal != undefined)
                     terminals = [(component as PowerTransformerEnd).terminal]
-                console.log(terminals)
                 terminals.forEach(terminal => {
                     if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
-                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.color?.toString()!))
+                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.otherData.color))
                         newEdges.push(createEdge(terminal.rdfId, rdfId, false))
                     }
                 })
@@ -124,7 +122,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
 
             if (newNodes.length > 1) {
                 newNodes.forEach((element, i) => {
-                    element.data.color = colors[i%colors.length]
+                    element.data.otherData.color = colors[i%colors.length]
                 });
             }
             setNodes([...nodes, ...newNodes])
@@ -134,9 +132,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         setExpanded(true)
     }
 
-    if (component !== null) {
-        component.color = data.color
-    }
 
 
     return (
@@ -147,7 +142,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             <Handle type="target" isConnectable={false} position={Position.Left}
                     className="!w-3 !h-3 !rounded-none !bg-stone-400" id="bottomHandle"/>
             <div>
-                <CimComponent equipment={component || data} collapsed={!showContent} handleExpand={handleExpand}/>
+                <CimComponent equipment={component || data.cimData} otherData={data.otherData} collapsed={!showContent} handleExpand={handleExpand}/>
             </div>
             <Handle type="source" position={Position.Right} className="!w-3 !h-3 !rounded-none !bg-stone-400" id=""/>
             <Handle type="source" isConnectable={false} position={Position.Right}
