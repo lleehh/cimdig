@@ -28,7 +28,7 @@ export default function ACLineSegmentComponent({equipment, collapsed, handleExpa
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[250px]" color={equipment.color?.toString()!}>
+            <Card color={equipment.color?.toString()!}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">
@@ -49,9 +49,7 @@ export default function ACLineSegmentComponent({equipment, collapsed, handleExpa
                         </div>
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="p-2">
-
-                </CardContent>
+               
             </Card>
         </div>
     )

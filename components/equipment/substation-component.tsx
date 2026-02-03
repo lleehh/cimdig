@@ -8,7 +8,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {ComponentIcon} from "@/components/component-icon";
-import {CollapsedStyling} from "../dig/flow-component";
+import {CollapsedStyling, mediumComponentStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
 
@@ -33,7 +33,7 @@ export default function Substationcomponent({equipment, collapsed, handleExpand}
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[350px]" color={equipment.color?.toString()!}>
+            <Card className={`${mediumComponentStyling()}`}color={equipment.color?.toString()!}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">
@@ -43,9 +43,11 @@ export default function Substationcomponent({equipment, collapsed, handleExpand}
                     </CardTitle>
                     <CardDescription>{equipment.name}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-col space-y-4">
-                    <div className="text-gray-400">{equipment.description}</div>
-                </CardContent>
+                {equipment.description && 
+                    <CardContent className="flex flex-col space-y-4">
+                        <div className="text-gray-400">{equipment.description}</div>
+                    </CardContent>
+                }
             </Card>
         </div>
     )
