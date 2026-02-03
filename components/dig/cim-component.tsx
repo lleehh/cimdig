@@ -28,6 +28,8 @@ import PowerTransformerEndComponent from "@/components/equipment/powertransforme
 import LineComponent from "../equipment/line-component";
 import ConformLoadComponent from "../equipment/conformload-component";
 import { OtherData } from "@/lib/store/store-flow";
+import { mediumComponentStyling } from "./flow-component";
+import { Triangle } from "lucide-react";
 
 
 interface CimComponentProps {
@@ -68,7 +70,7 @@ export default function CimComponent({equipment, otherData, collapsed, handleExp
             case "cim:ConformLoad":
                 return <ConformLoadComponent equipment={equipment as ConformLoad} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>
             default:
-                return <GenericComponent equipment={equipment} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <GenericComponent equipment={equipment} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand} size={mediumComponentStyling} icon={<Triangle />}/>;
         }
     };
     
