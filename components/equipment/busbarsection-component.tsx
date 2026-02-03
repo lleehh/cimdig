@@ -1,7 +1,8 @@
+'use client'
 import {ComponentIcon} from "@/components/component-icon";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {BusbarSection} from "@/lib/cim";
-import {CollapsedStyling} from "../dig/flow-component";
+import {CollapsedStyling, smallComponentStyling} from "../dig/flow-component";
 import { colorStyling } from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 
@@ -29,7 +30,7 @@ export default function BusbarComponent({equipment, collapsed, handleExpand}: Bu
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[230px]" color={equipment.color?.toString()!}>
+            <Card className={`${smallComponentStyling()}`} color={equipment.color?.toString()!}>
                 <CardHeader>
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">
