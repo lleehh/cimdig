@@ -10,19 +10,21 @@ import {ComponentIcon} from "@/components/component-icon";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 interface BreakerProps {
     equipment: Breaker
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function BreakerComponent({equipment, collapsed, handleExpand}: BreakerProps) {
+export default function BreakerComponent({equipment, otherData, collapsed, handleExpand}: BreakerProps) {
 
     if (collapsed)
         return (
             <>
-               {colorStyling(equipment)}
+               {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon className="w-12 h-12" icon="bryter"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
@@ -34,7 +36,7 @@ export default function BreakerComponent({equipment, collapsed, handleExpand}: B
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
 
-            <Card color={equipment.color?.toString()!}>
+            <Card color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">
