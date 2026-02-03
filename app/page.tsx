@@ -1,14 +1,32 @@
-import {getComponentById} from "@/lib/store/model-repository";
-import {ACLineSegment, Breaker, ConnectivityNode, GeneratingUnit, Terminal, BusbarSection, NonConformLoad, PowerTransformer, PowerTransformerEnd, Bay, Substation, Line, ConformLoad} from "@/lib/cim";
-import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
-import {AppSidebar} from "@/components/app-sidebar";
-import {Separator} from "@/components/ui/separator";
+import { getComponentById } from "@/lib/store/model-repository";
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbSeparator
+  ACLineSegment,
+  Breaker,
+  ConnectivityNode,
+  GeneratingUnit,
+  Terminal,
+  BusbarSection,
+  NonConformLoad,
+  PowerTransformer,
+  PowerTransformerEnd,
+  Bay,
+  Substation,
+  Line,
+  ConformLoad,
+} from "@/lib/cim";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import BreakerComponent from "@/components/equipment/breaker-component";
 import GeneratorComponent from "@/components/equipment/generator-component";
@@ -23,71 +41,165 @@ import Substationcomponent from "@/components/equipment/substation-component";
 import Baycomponent from "@/components/equipment/bay-component";
 import LineComponent from "@/components/equipment/line-component";
 import ConformLoadComponent from "@/components/equipment/conformload-component";
+import GenericComponent from "@/components/equipment/generic-component";
+import {
+  mediumComponentStyling,
+  smallComponentStyling,
+} from "@/components/dig/flow-component";
+import { Factory, Triangle } from "lucide-react";
+import { ComponentIcon } from "@/components/component-icon";
 
 export default async function Home() {
+  const acLineSegmentId = "f1769cf8-9aeb-11e5-91da-b8763fd99c5f";
+  const breakerId = "22e5ddcf-ac23-b449-bc4f-83336535f7c2";
 
-    const acLineSegmentId = "f1769cf8-9aeb-11e5-91da-b8763fd99c5f"
-    const breakerId = "22e5ddcf-ac23-b449-bc4f-83336535f7c2"
+  const acLineSegment = await getComponentById<ACLineSegment>(acLineSegmentId);
+  const breaker = await getComponentById<Breaker>(breakerId);
+  const generator = await getComponentById<GeneratingUnit>(
+    "f1769915-9aeb-11e5-91da-b8763fd99c5f",
+  );
+  const cn = await getComponentById<ConnectivityNode>(
+    "f176969d-9aeb-11e5-91da-b8763fd99c5f",
+  );
+  const terminal = await getComponentById<Terminal>(
+    "2dd903ab-bdfb-11e5-94fa-c8f73332c8f4",
+  );
+  const busbarSection = await getComponentById<BusbarSection>(
+    "2dd90172-bdfb-11e5-94fa-c8f73332c8f4",
+  );
+  const powerTransformer = await getComponentById<PowerTransformer>(
+    "f1769da0-9aeb-11e5-91da-b8763fd99c5f",
+  );
+  const PowerTransformerEnd = await getComponentById<PowerTransformerEnd>(
+    "2dd9044c-bdfb-11e5-94fa-c8f73332c8f4",
+  );
+  const loadProp = await getComponentById<NonConformLoad>(
+    "f17697f4-9aeb-11e5-91da-b8763fd99c5f",
+  );
+  const Substation = await getComponentById<Substation>(
+    "f1769604-9aeb-11e5-91da-b8763fd99c5f",
+  );
+  const Bay = await getComponentById<Bay>(
+    "f72994d8-9857-b349-a4ae-2e3c9652d5bc",
+  );
+  const Line = await getComponentById<Line>(
+    "5e7d0b4c-fa65-1d40-aef6-779298018c7e",
+  );
+  const ConformLoad = await getComponentById<ConformLoad>(
+    "f1769746-9aeb-11e5-91da-b8763fd99c5f",
+  );
+  const Generic = await getComponentById<ConformLoad>(
+    "f1769746-9aeb-11e5-91da-b8763fd99c5f",
+  );
 
+  const handleExpand = async () => {
+    "use server";
+  };
 
-    const acLineSegment = await getComponentById<ACLineSegment>(acLineSegmentId)
-    const breaker = await getComponentById<Breaker>(breakerId)
-    const generator = await getComponentById<GeneratingUnit>("f1769915-9aeb-11e5-91da-b8763fd99c5f")
-    const cn = await getComponentById<ConnectivityNode>("f176969d-9aeb-11e5-91da-b8763fd99c5f")
-    const terminal = await getComponentById<Terminal>("2dd903ab-bdfb-11e5-94fa-c8f73332c8f4")
-    const busbarSection = await getComponentById<BusbarSection>("2dd90172-bdfb-11e5-94fa-c8f73332c8f4")
-    const powerTransformer = await getComponentById<PowerTransformer>("f1769da0-9aeb-11e5-91da-b8763fd99c5f")
-    const PowerTransformerEnd = await getComponentById<PowerTransformerEnd>("2dd9044c-bdfb-11e5-94fa-c8f73332c8f4")
-    const loadProp = await getComponentById<NonConformLoad>("f17697f4-9aeb-11e5-91da-b8763fd99c5f")
-    const Substation = await getComponentById<Substation>("f1769604-9aeb-11e5-91da-b8763fd99c5f")
-    const Bay = await getComponentById<Bay>("f72994d8-9857-b349-a4ae-2e3c9652d5bc")
-    const Line = await getComponentById<Line>("5e7d0b4c-fa65-1d40-aef6-779298018c7e")
-    const ConformLoad = await getComponentById<ConformLoad>("f1769746-9aeb-11e5-91da-b8763fd99c5f")
-    const handleExpand = async()=>{'use server'}
-
-    return (
-        <SidebarProvider>
-            <AppSidebar/>
-            <SidebarInset>
-                <header
-                    className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-                    <div className="flex items-center gap-2 px-4 justify-between w-full">
-                        <SidebarTrigger className="-ml-1"/>
-                        <Separator orientation="vertical" className="mr-2 h-4"/>
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Gallery
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block"/>
-                            </BreadcrumbList>
-                        </Breadcrumb>
-                        <div className="ml-auto">
-                        </div>
-                    </div>
-                </header>
-                <div
-                    className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-                    <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                        {acLineSegment && <ACLineSegmentComponent equipment={acLineSegment} handleExpand={handleExpand}/>}
-                        {breaker && <BreakerComponent  equipment={breaker} handleExpand={handleExpand}/>}
-                        {generator && <GeneratorComponent equipment={generator} handleExpand={handleExpand}/>}
-                        {cn && <ConnectivityNodeComponent equipment={cn} handleExpand={handleExpand}/>}
-                        {terminal && <TerminalComponent equipment={terminal} handleExpand={handleExpand}/>}
-                        {busbarSection && <BusbarComponent equipment={busbarSection} handleExpand={handleExpand}/>}
-                        {powerTransformer && <PowerTransformerComponent equipment={powerTransformer} handleExpand={handleExpand}/>}
-                        {PowerTransformerEnd && <PowerTransformerEndComponent equipment={PowerTransformerEnd} handleExpand={handleExpand}/>}
-                        {loadProp && <NonConformLoadComponent equipment={loadProp} handleExpand={handleExpand}/>}
-                        {Substation && <Substationcomponent equipment={Substation} handleExpand={handleExpand}/>}
-                        {Bay && <Baycomponent equipment={Bay} handleExpand={handleExpand}/>}
-                        {Line && <LineComponent equipment={Line} handleExpand={handleExpand}/>}
-                        {ConformLoad && <ConformLoadComponent equipment={ConformLoad} handleExpand={handleExpand}/>}
-                    </main>
-                </div>
-            </SidebarInset>
-
-        </SidebarProvider>
-    );  
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4 justify-between w-full">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">Gallery</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+              </BreadcrumbList>
+            </Breadcrumb>
+            <div className="ml-auto"></div>
+          </div>
+        </header>
+        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+          <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+            {acLineSegment && (
+              <ACLineSegmentComponent
+                equipment={acLineSegment}
+                handleExpand={handleExpand}
+              />
+            )}
+            {breaker && (
+              <BreakerComponent
+                equipment={breaker}
+                handleExpand={handleExpand}
+              />
+            )}
+            {generator && (
+              <GeneratorComponent
+                equipment={generator}
+                handleExpand={handleExpand}
+              />
+            )}
+            {cn && (
+              <ConnectivityNodeComponent
+                equipment={cn}
+                handleExpand={handleExpand}
+              />
+            )}
+            {terminal && (
+              <TerminalComponent
+                equipment={terminal}
+                handleExpand={handleExpand}
+              />
+            )}
+            {busbarSection && (
+              <BusbarComponent
+                equipment={busbarSection}
+                handleExpand={handleExpand}
+              />
+            )}
+            {powerTransformer && (
+              <PowerTransformerComponent
+                equipment={powerTransformer}
+                handleExpand={handleExpand}
+              />
+            )}
+            {PowerTransformerEnd && (
+              <PowerTransformerEndComponent
+                equipment={PowerTransformerEnd}
+                handleExpand={handleExpand}
+              />
+            )}
+            {loadProp && (
+              <NonConformLoadComponent
+                equipment={loadProp}
+                handleExpand={handleExpand}
+              />
+            )}
+            {Substation && (
+              <Substationcomponent
+                equipment={Substation}
+                handleExpand={handleExpand}
+              />
+            )}
+            {Bay && (
+              <Baycomponent equipment={Bay} handleExpand={handleExpand} />
+            )}
+            {Line && (
+              <LineComponent equipment={Line} handleExpand={handleExpand} />
+            )}
+            {ConformLoad && (
+              <ConformLoadComponent
+                equipment={ConformLoad}
+                handleExpand={handleExpand}
+              />
+            )}
+            {Generic && (
+              <GenericComponent
+                equipment={Generic}
+                handleExpand={handleExpand}
+                size={mediumComponentStyling}
+                icon={<Triangle />}
+              />
+            )}
+          </main>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  );
 }
