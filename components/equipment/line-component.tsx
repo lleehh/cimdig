@@ -2,7 +2,7 @@
 import {Line} from "@/lib/cim";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {ComponentIcon} from "@/components/component-icon";
-import {CollapsedStyling} from "../dig/flow-component";
+import {CollapsedStyling, mediumComponentStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { OtherData } from "@/lib/store/store-flow";
 
@@ -31,7 +31,7 @@ export default function LineComponent({equipment, otherData, collapsed, handleEx
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[160px]" color={otherData.color ?? "black"}>
+            <Card className={`${mediumComponentStyling()}`} color={otherData.color ?? "black"}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">

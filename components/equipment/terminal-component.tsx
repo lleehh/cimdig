@@ -9,7 +9,7 @@ import {
 import {SquareTerminal} from "lucide-react";
 
 import {componentRefs, componentParameters} from "@/lib/services/cim-service";
-import {CollapsedStyling} from "../dig/flow-component";
+import {CollapsedStyling, smallComponentStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
 import { OtherData } from "@/lib/store/store-flow";
@@ -36,7 +36,7 @@ export default function TerminalComponent({equipment, otherData, collapsed, hand
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[160px]" color={otherData.color ?? "black"}>
+            <Card className={`${smallComponentStyling()}`} color={otherData.color ?? "black"}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">

@@ -36,7 +36,7 @@ export default function GeneratorComponent({equipment, otherData, collapsed, han
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[350px]" color={otherData.color ?? "black"}>
+            <Card color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">
@@ -47,7 +47,7 @@ export default function GeneratorComponent({equipment, otherData, collapsed, han
                     </CardTitle>
                     <CardDescription>{equipment.name}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-col space-y-4">
+                <CardContent className="flex flex-col">
                     <div className="text-gray-400">{equipment.description}</div>
                     <div>
                         Max operating power limit {(equipment.maxOperatingP)}

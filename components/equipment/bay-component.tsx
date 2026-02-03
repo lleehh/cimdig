@@ -39,7 +39,7 @@ export default function Baycomponent({equipment, otherData, collapsed, handleExp
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[350px]" color={otherData.color ?? "black"}>
+            <Card color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">
