@@ -23,6 +23,10 @@ import Substationcomponent from "@/components/equipment/substation-component";
 import Baycomponent from "@/components/equipment/bay-component";
 import LineComponent from "@/components/equipment/line-component";
 import ConformLoadComponent from "@/components/equipment/conformload-component";
+import GenericComponent from "@/components/equipment/generic-component";
+import { largeComponentStyling, mediumComponentStyling } from "@/components/dig/flow-component";
+import { Circle, Factory, HousePlug, LandPlot, Shell, Square, SquareTerminal, Triangle } from "lucide-react";
+import { ComponentIcon } from "@/components/component-icon";
 
 export default async function Home() {
 
@@ -71,19 +75,19 @@ export default async function Home() {
                 <div
                     className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
                     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                        {acLineSegment && <ACLineSegmentComponent equipment={acLineSegment} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {breaker && <BreakerComponent  equipment={breaker} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {generator && <GeneratorComponent equipment={generator} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {cn && <ConnectivityNodeComponent equipment={cn} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {terminal && <TerminalComponent equipment={terminal} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {busbarSection && <BusbarComponent equipment={busbarSection} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {powerTransformer && <PowerTransformerComponent equipment={powerTransformer} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {PowerTransformerEnd && <PowerTransformerEndComponent equipment={PowerTransformerEnd} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {loadProp && <NonConformLoadComponent equipment={loadProp} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Substation && <Substationcomponent equipment={Substation} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Bay && <Baycomponent equipment={Bay} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Line && <LineComponent equipment={Line} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {ConformLoad && <ConformLoadComponent equipment={ConformLoad} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {acLineSegment && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="ledningssegment" />} equipment={acLineSegment} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {breaker && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="bryter" />}  equipment={breaker} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {generator && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="generator" />} equipment={generator} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {cn && <GenericComponent size={mediumComponentStyling} icon={<Shell />} equipment={cn} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {terminal && <GenericComponent size={mediumComponentStyling} icon={<SquareTerminal />} equipment={terminal} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {busbarSection && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="samleskinne" />} equipment={busbarSection} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {powerTransformer && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="transformator" />} equipment={powerTransformer} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {PowerTransformerEnd && <GenericComponent size={mediumComponentStyling} icon={<Circle />} equipment={PowerTransformerEnd} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {loadProp && <GenericComponent size={mediumComponentStyling} icon={<Factory />} equipment={loadProp} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {Substation && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="stasjon" />} equipment={Substation} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {Bay && <GenericComponent size={mediumComponentStyling} icon={<LandPlot />} equipment={Bay} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {Line && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="overforing" />} equipment={Line} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {ConformLoad && <GenericComponent size={mediumComponentStyling} icon={<HousePlug />} equipment={ConformLoad} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                     </main>
                 </div>
             </SidebarInset>
