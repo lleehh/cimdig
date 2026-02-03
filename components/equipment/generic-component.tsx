@@ -10,20 +10,22 @@ import {Triangle} from "lucide-react";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 interface ConnectivetyNodeProps {
     equipment: CIM
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
 
-export default function GenericComponent({equipment, collapsed, handleExpand}: ConnectivetyNodeProps) {
+export default function GenericComponent({equipment, otherData, collapsed, handleExpand}: ConnectivetyNodeProps) {
 
     if (collapsed)
         return (
             <>
-                {colorStyling(equipment)}
+                {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Triangle className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>
@@ -34,7 +36,7 @@ export default function GenericComponent({equipment, collapsed, handleExpand}: C
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[250px]" color={equipment.color?.toString()!}>
+            <Card className="w-[250px]" color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">
