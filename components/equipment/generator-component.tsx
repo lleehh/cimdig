@@ -11,21 +11,19 @@ import {ComponentIcon} from "@/components/component-icon";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
-import { OtherData } from "@/lib/store/store-flow";
 
 interface GeneratorProps {
     equipment: GeneratingUnit
-    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function GeneratorComponent({equipment, otherData, collapsed, handleExpand}: GeneratorProps) {
+export default function GeneratorComponent({equipment, collapsed, handleExpand}: GeneratorProps) {
 
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color ?? "black")}
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="generator" className="w-8 h-8"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
@@ -36,7 +34,7 @@ export default function GeneratorComponent({equipment, otherData, collapsed, han
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card color={otherData.color ?? "black"}>
+            <Card color={equipment.color?.toString()!}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">

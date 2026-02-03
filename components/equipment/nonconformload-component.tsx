@@ -12,21 +12,19 @@ import {Factory} from "lucide-react";
 import {CollapsedStyling} from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
-import { OtherData } from "@/lib/store/store-flow";
 
 interface NonConformLoadProps {
     equipment: NonConformLoad
-    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function NonConformLoadComponent({equipment, otherData, collapsed, handleExpand}: NonConformLoadProps) {
+export default function NonConformLoadComponent({equipment, collapsed, handleExpand}: NonConformLoadProps) {
 
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color ?? "black")}
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <Factory className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
@@ -38,7 +36,7 @@ export default function NonConformLoadComponent({equipment, otherData, collapsed
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card color={otherData.color ?? "black"}>
+            <Card color={equipment.color?.toString()!}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">

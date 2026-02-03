@@ -8,17 +8,15 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { OtherData } from "@/lib/store/store-flow";
 
 interface EquipmentProps {
     equipment: IdentifiedObject
-    otherData: OtherData
 }
 
-export default function EquipmentComponent({equipment, otherData}: EquipmentProps) {
+export default function EquipmentComponent({equipment}: EquipmentProps) {
 
     return (
-        <Card className="w-[350px]" color={otherData.color ?? "black"}>
+        <Card className="w-[350px]" color={equipment.color?.toString()!}>
             <CardHeader>
                 <CardTitle>{equipment.rdfType}</CardTitle>
                 <CardDescription>{equipment.name}</CardDescription>

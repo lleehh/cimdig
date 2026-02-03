@@ -92,48 +92,9 @@ export default async function Home() {
     "f1769746-9aeb-11e5-91da-b8763fd99c5f",
   );
 
-    return (
-        <SidebarProvider>
-            <AppSidebar/>
-            <SidebarInset>
-                <header
-                    className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-                    <div className="flex items-center gap-2 px-4 justify-between w-full">
-                        <SidebarTrigger className="-ml-1"/>
-                        <Separator orientation="vertical" className="mr-2 h-4"/>
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Gallery
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block"/>
-                            </BreadcrumbList>
-                        </Breadcrumb>
-                        <div className="ml-auto">
-                        </div>
-                    </div>
-                </header>
-                <div
-                    className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-                    <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                        {acLineSegment && <ACLineSegmentComponent equipment={acLineSegment} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {breaker && <BreakerComponent  equipment={breaker} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {generator && <GeneratorComponent equipment={generator} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {cn && <ConnectivityNodeComponent equipment={cn} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {terminal && <TerminalComponent equipment={terminal} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {busbarSection && <BusbarComponent equipment={busbarSection} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {powerTransformer && <PowerTransformerComponent equipment={powerTransformer} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {PowerTransformerEnd && <PowerTransformerEndComponent equipment={PowerTransformerEnd} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {loadProp && <NonConformLoadComponent equipment={loadProp} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Substation && <Substationcomponent equipment={Substation} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Bay && <Baycomponent equipment={Bay} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Line && <LineComponent equipment={Line} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {ConformLoad && <ConformLoadComponent equipment={ConformLoad} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                    </main>
-                </div>
-            </SidebarInset>
+  const handleExpand = async () => {
+    "use server";
+  };
 
   return (
     <SidebarProvider>

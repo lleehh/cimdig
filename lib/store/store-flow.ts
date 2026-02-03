@@ -1,22 +1,9 @@
  import {addEdge, applyEdgeChanges, applyNodeChanges, Edge, Node, OnConnect, OnEdgesChange, OnNodesChange} from "@xyflow/react";
 import {create} from "zustand";
-import {CIM, RdfValue} from "@/lib/cim";
+import {CIM} from "@/lib/cim";
 import {edgeTemplate} from "@/lib/flow-utils";
 
-export interface OtherData {
-    color: string | undefined
-
-    [key: string]: any;
-}
-
-export interface NodeData {
-    cimData: CIM  // - Data relating to the CIM component that the node is representing. Should NOT be altered.
-    otherData: OtherData // - Data relating to the node that is not stored in CIM, such as colors, whether or not it can be expanded, etc... Can be altered.
-
-    [key: string]: any;
-}
-
-export type CimNode = Node<NodeData, 'flowComponent'>
+export type CimNode = Node<CIM, 'flowComponent'>
 
 export type FlowState = {
     nodes: CimNode[];
@@ -27,7 +14,7 @@ export type FlowState = {
     onConnect: OnConnect;
     setNodes: (nodes: CimNode[]) => void;
     setEdges: (edges: Edge[]) => void;
-    getNodeData: (id: string) => NodeData | undefined;
+    getNodeData: (id: string) => CIM | undefined;
     addNode: (node: CimNode) => void;
     setFocusNode: (id: string) => void;
 };

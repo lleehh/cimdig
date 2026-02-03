@@ -6,7 +6,7 @@ import {componentRefs} from "@/lib/services/cim-service";
 
 
 export function doesEquipmentExistsInFlow(rdfId: string, nodes: CimNode[]): boolean {
-    return nodes.some(node => node.data.cimData.rdfId === rdfId);
+    return nodes.some(node => node.data.rdfId === rdfId);
 }
 
 export const edgeTemplate = {
@@ -35,7 +35,7 @@ export function createNode(id: string, data: CIM, x: number, y: number, color?: 
         id: id,
         type: 'flowComponent',
         position: {x: x, y: y},
-        data: {cimData: {...data}, otherData: {color}}
+        data: {...data, color: color}
     } as CimNode
 }
 
@@ -122,7 +122,7 @@ export function componentStatus(equipment: CIM, nodes: CimNode[], edges: Edge[])
     const refs = componentRefs(equipment)
 
     const equipmentInFlow = refs.filter(ref =>
-        nodes.find(node => node.data.cimData.rdfId === ref.rdfId)
+        nodes.find(node => node.data.rdfId === ref.rdfId)
     ) || []
 
     const idsInFlow = equipmentInFlow.map(ref => ref.rdfId)
@@ -140,7 +140,7 @@ export function componentStatus(equipment: CIM, nodes: CimNode[], edges: Edge[])
         }
     })
     const filteredComponentRefs = refs.map(ref => {
-        const exists = nodes.find(node => node.data.cimData.rdfId === ref.rdfId) !== undefined
+        const exists = nodes.find(node => node.data.rdfId === ref.rdfId) !== undefined
         return {exists: exists, connected: missingConnections.includes(ref.rdfId), equipment: ref}
     }) || []
 

@@ -5,21 +5,19 @@ import {ComponentIcon} from "@/components/component-icon";
 import {CollapsedStyling} from "../dig/flow-component";
 import { colorStyling } from "../dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
-import { OtherData } from "@/lib/store/store-flow";
 
 interface EquipmentProps {
     equipment: ACLineSegment
-    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function ACLineSegmentComponent({equipment, otherData, collapsed, handleExpand}: EquipmentProps) {
+export default function ACLineSegmentComponent({equipment, collapsed, handleExpand}: EquipmentProps) {
 
     if (collapsed)
         return (
             <>
-                {colorStyling(otherData.color ?? "black")}
+                {colorStyling(equipment)}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <ComponentIcon icon="ledningssegment" className="w-16 h-16"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
@@ -30,7 +28,7 @@ export default function ACLineSegmentComponent({equipment, otherData, collapsed,
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card color={otherData.color ?? "black"}>
+            <Card color={equipment.color?.toString()!}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">

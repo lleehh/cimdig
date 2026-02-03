@@ -22,7 +22,7 @@ interface BtnGroupComponentProps {
 
 export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupComponentProps) {
     const refs = componentRefs(equipment)
-    const propertyList = componentParameters(equipment)
+    const propertiyList = componentParameters(equipment)
     const [expanded, setExpanded] = useState(false)
 
     const {
@@ -53,7 +53,7 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
             <div
                 className="w-max h-max rounded-t-xl border-r border-t border-l bg-card text-card-foreground absolute -top-4 right-0"
                 color={equipment.color?.toString()!}>
-                <DisplayProperty data={propertyList}/>
+                <DisplayProperty data={propertiyList}/>
                 {haveMoreRefs && <AdditionalCimLinks componentRefs={components} component={equipment}/>}
                 {expandable &&
                     <Button variant="ghost" size="icon" onClick={onExpand} disabled={expanded}><Expand/></Button>}
