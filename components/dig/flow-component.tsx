@@ -68,6 +68,8 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     }, []);
 
     const handleExpand = async () => {
+        console.log("Nodes:", nodes)
+
         // We need to load the full component from the database to get all the properties
 
         const node = nodes.find(node => node.id === component?.rdfId)
