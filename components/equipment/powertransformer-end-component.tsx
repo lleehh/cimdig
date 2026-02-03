@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import {PowerTransformerEnd} from "@/lib/cim";
 import {Circle} from "lucide-react";
-import {CollapsedStyling} from "@/components/dig/flow-component";
+import {CollapsedStyling, smallComponentStyling} from "@/components/dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { OtherData } from "@/lib/store/store-flow";
 
@@ -32,7 +32,7 @@ export default function PowerTransformerEndComponent({equipment, otherData, coll
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-        <Card className="w-[160px]"  color={otherData.color ?? "black"}>
+        <Card className={`${smallComponentStyling()}`} color={otherData.color ?? "black"}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">

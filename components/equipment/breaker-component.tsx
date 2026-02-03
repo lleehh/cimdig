@@ -36,7 +36,7 @@ export default function BreakerComponent({equipment, otherData, collapsed, handl
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
 
-            <Card className="w-[350px]" color={otherData.color ?? "black"}>
+            <Card color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle className="flex justify-between">
                         <div className="flex flex-row items-center gap-2">

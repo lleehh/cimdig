@@ -30,6 +30,12 @@ export function colorStyling(color: string) {
     )
 }
 
+export function smallComponentStyling() {
+    return (
+        "w-[135px]"
+    )
+}
+
 
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {
