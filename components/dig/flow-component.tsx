@@ -36,6 +36,12 @@ export function smallComponentStyling() {
     )
 }
 
+export function mediumComponentStyling() {
+       return (
+        "w-[180px]"
+    ) 
+}
+
 
 
 export default function FlowComponent({data}: NodeProps<CimNode>) {
