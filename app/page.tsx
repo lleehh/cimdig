@@ -81,8 +81,8 @@ export default async function Home() {
                         {cn && <GenericComponent size={smallComponentStyling} icon={<Shell />} equipment={cn} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {terminal && <GenericComponent size={smallComponentStyling} icon={<SquareTerminal />} equipment={terminal} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {busbarSection && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="samleskinne" />} equipment={busbarSection} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {powerTransformer && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="transformator" />} equipment={powerTransformer} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {PowerTransformerEnd && <GenericComponent size={mediumComponentStyling} icon={<Circle />} equipment={PowerTransformerEnd} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {powerTransformer && <GenericComponent size={smallComponentStyling} icon={<ComponentIcon icon="transformator" />} equipment={powerTransformer} otherData={{color: undefined}} handleExpand={handleExpand}/>}
+                        {PowerTransformerEnd && <GenericComponent size={smallComponentStyling} icon={<Circle />} equipment={PowerTransformerEnd} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {loadProp && <GenericComponent size={mediumComponentStyling} icon={<Factory />} equipment={loadProp} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {Substation && <GenericComponent size={mediumComponentStyling} icon={<ComponentIcon icon="stasjon" />} equipment={Substation} otherData={{color: undefined}} handleExpand={handleExpand}/>}
                         {Bay && <GenericComponent size={mediumComponentStyling} icon={<LandPlot />} equipment={Bay} otherData={{color: undefined}} handleExpand={handleExpand}/>}
