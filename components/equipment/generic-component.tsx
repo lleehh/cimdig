@@ -25,7 +25,7 @@ interface ConnectivetyNodeProps {
 
 
 export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, size, icon }: ConnectivetyNodeProps) {
-
+	const baseTitle = equipment.rdfType.split(":")[1]
 	if (collapsed)
 		return (
 			<>
@@ -46,8 +46,8 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 					<CardTitle className="flex justify-between">
 						<div className="flex flex-row items-center gap-2">
 							{icon}
-							<div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-								title={equipment.rdfType as string}>{equipment.rdfType}
+							<div className="w-40 truncate overflow-hidden text-ellipsis text-sm"
+								title={equipment.rdfType as string}>{baseTitle}
 							</div>
 						</div>
 					</CardTitle>
