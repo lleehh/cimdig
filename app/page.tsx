@@ -10,19 +10,6 @@ import {
 	BreadcrumbList,
 	BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import BreakerComponent from "@/components/equipment/breaker-component";
-import GeneratorComponent from "@/components/equipment/generator-component";
-import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
-import ConnectivityNodeComponent from "@/components/equipment/connectivety-node-component";
-import TerminalComponent from "@/components/equipment/terminal-component";
-import BusbarComponent from "@/components/equipment/busbarsection-component";
-import PowerTransformerComponent from "@/components/equipment/powertransformer-component";
-import PowerTransformerEndComponent from "@/components/equipment/powertransformer-end-component";
-import NonConformLoadComponent from "@/components/equipment/nonconformload-component";
-import Substationcomponent from "@/components/equipment/substation-component";
-import Baycomponent from "@/components/equipment/bay-component";
-import LineComponent from "@/components/equipment/line-component";
-import ConformLoadComponent from "@/components/equipment/conformload-component";
 import GenericComponent from "@/components/equipment/generic-component";
 import { largeComponentStyling, mediumComponentStyling, smallComponentStyling } from "@/components/dig/flow-component";
 import { Circle, Factory, HousePlug, LandPlot, Shell, Square, SquareTerminal, Triangle } from "lucide-react";
