@@ -7,7 +7,9 @@ import {
     SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar"
-import {Command, GalleryHorizontal, SpadeIcon} from "lucide-react"
+import {Command, GalleryHorizontal, ScrollText, icons, SpadeIcon} from "lucide-react"
+import { title } from "process"
+import { url } from "inspector"
 
 // This is sample data.
 const items = [
@@ -21,6 +23,12 @@ const items = [
         title: "Cim Dig",
         url: "/dig",
         icon: SpadeIcon,
+    },
+
+    {
+        title: "description",
+        url: "/description",
+        icon:  ScrollText,
     },
 ]
 
