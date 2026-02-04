@@ -33,7 +33,9 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 			<>
 				{colorStyling(otherData.color ?? "black")}
 				<div className={`${CollapsedStyling()} flex items-center`}>
-					{icon}
+					<div className="shrink-0">
+						{icon}
+					</div>
 					<div className="overflow-hidden text-m ml-2 truncate-text">{equipment.name as string}</div>
 				</div>
 			</>
@@ -44,12 +46,12 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 			<BtnGroupComponent equipment={equipment} handleExpand={handleExpand} />
 			<Card className={size()} color={otherData.color ?? "black"}>
 				<CardHeader>
-					<CardTitle className="flex justify-between">
-						<div className="flex flex-row items-center gap-2">
+					<CardTitle className="flex min-w-0 gap-2">
+						<div className="shrink-0">
 							{icon}
-							<div className="w-40 max-w-[120px] truncate-text text-sm font-medium"
-							>{title}
-							</div>
+						</div>
+						<div className=" truncate-text text-sm font-medium">
+							{title}
 						</div>
 					</CardTitle>
 					<CardDescription>
