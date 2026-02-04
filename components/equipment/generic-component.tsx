@@ -33,27 +33,29 @@ interface States {
 }
 
 export default function GenericComponent({ data, states, presentation }: ConnectivetyNodeProps) {
+	const { equipment, otherData } = data
+	const { collapsed, handleExpand } = states
 	const { size, icon, showDescription = false } = presentation
 	const title = getTitle(data.equipment)
 	const truncateClass = "truncate-text"
 
-	if (states.collapsed)
+	if (collapsed)
 		return (
 			<>
-				{colorStyling(data.otherData.color ?? "black")}
+				{colorStyling(otherData.color ?? "black")}
 				<div className={`${CollapsedStyling()} flex items-center`}>
 					<div className="shrink-0">
 						{presentation.icon}
 					</div>
-					<div className={`text-m ml-2 ${truncateClass}`}>{data.equipment.name as string}</div>
+					<div className={`text-m ml-2 ${truncateClass}`}>{equipment.name as string}</div>
 				</div>
 			</>
 		)
 
 	return (
 		<div>
-			<BtnGroupComponent equipment={data.equipment} handleExpand={states.handleExpand} />
-			<Card className={presentation.size()} color={data.otherData.color ?? "black"}>
+			<BtnGroupComponent equipment={equipment} handleExpand={handleExpand} />
+			<Card className={presentation.size()} color={otherData.color ?? "black"}>
 				<CardHeader>
 					<CardTitle className="flex min-w-0 gap-2">
 						<div className="shrink-0">
@@ -65,15 +67,22 @@ export default function GenericComponent({ data, states, presentation }: Connect
 					</CardTitle>
 					<CardDescription>
 						<>
-							{data.equipment.name &&
+							{equipment.name &&
 								<div className={`${truncateClass} text-xs text-gray-400`}
-									title={data.equipment.name as string}>{data.equipment.name as string}
+									title={equipment.name as string}>{equipment.name as string}
 								</div>}
 						</>
 					</CardDescription>
 				</CardHeader>
 				{showDescription && (<CardContent className="flex flex-col text-gray-600">
-					{showDescription && <div className={`text-gray-400 ${truncateClass}`}>{data.equipment.description?.toString()}</div>}
+					{showDescription && <div className={`text-gray-400 ${truncateClass}`}>{equipment.description?.toString()}</div>}
+					{equipment.baseVoltage && (
+						<span className={`${truncateClass}`}>Voltage {(equipment.baseVoltage as BaseVoltage).name}</span>
+					)}
+					{equipment.maxOperatingP && (
+						<span className={`${truncateClass}`}>Operating power limit {equipment.maxOperatingP.toString()}</span>
+
+					)}
 				</CardContent>)}
 			</Card>
 		</div>
