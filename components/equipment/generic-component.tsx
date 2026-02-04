@@ -27,6 +27,7 @@ interface ConnectivetyNodeProps {
 export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, presentation }: ConnectivetyNodeProps) {
 	const title = getTitle(equipment)
 	const { size, icon } = presentation
+	const truncateClass = "truncate-text"
 
 	if (collapsed)
 		return (
@@ -36,7 +37,7 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 					<div className="shrink-0">
 						{icon}
 					</div>
-					<div className="overflow-hidden text-m ml-2 truncate-text">{equipment.name as string}</div>
+					<div className={`overflow-hidden text-m ml-2 ${truncateClass}`}>{equipment.name as string}</div>
 				</div>
 			</>
 		)
@@ -50,14 +51,14 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 						<div className="shrink-0">
 							{icon}
 						</div>
-						<div className=" truncate-text text-sm font-medium">
+						<div className={`${truncateClass} text-sm font-medium`}>
 							{title}
 						</div>
 					</CardTitle>
 					<CardDescription>
 						<>
 							{equipment.name &&
-								<div className={`truncate-text text-xs text-gray-400`}
+								<div className={`${truncateClass} text-xs text-gray-400`}
 									title={equipment.name as string}>{equipment.name as string}
 								</div>}
 						</>
@@ -65,12 +66,12 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 				</CardHeader>
 				{equipment.description && size.name !== "smallComponentStyling" &&
 					<CardContent className="flex flex-col text-gray-600">
-						<div className="text-gray-400 truncate-text">{equipment.description.toString()}</div>
+						<div className={`text-gray-400 ${truncateClass}`}>{equipment.description.toString()}</div>
 						{equipment.baseVoltage && (
-							<span className="truncate-text"> Voltage {(equipment.baseVoltage as BaseVoltage).name}</span>
+							<span className={`${truncateClass}`}> Voltage {(equipment.baseVoltage as BaseVoltage).name}</span>
 						)}
 						{equipment.maxOperatingP && (
-							<span className="truncate-text"> Max operating power limit {equipment.maxOperatingP.toString()}</span>
+							<span className={`${truncateClass}`}> Max operating power limit {equipment.maxOperatingP.toString()}</span>
 						)}
 
 					</CardContent>
