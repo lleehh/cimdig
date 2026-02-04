@@ -57,13 +57,8 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     const [expanded, setExpanded] = useState(false);
     const showContent = useStore(zoomSelector);
 
-    const updateComponent = (value: any) => {
-        console.log("Updating count to:", value);
-
-        const {newNodesInfo, newEdgesInfo} = checkNodesForConnections(nodes, value)
-
-        if(newNodesInfo.length == 0) {console.log("NO CONNECTIONS!"); data.otherData.expanded = true}
-        console.log(data)
+    const createComponentData = (value: any) => {
+        if(checkNodesForConnections(nodes, value).newNodesInfo.length == 0) {data.otherData.expanded = true}
 
         setComponent(value);
     };
@@ -78,9 +73,8 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
 
     useEffect(() => {
         if (!component) {
-            console.log("Creating component!!!!!!!!!!!!!!!!!!!!!!!")
             const loadComponent = async () => {
-                updateComponent(await getComponentById(data.cimData.rdfId))
+                createComponentData(await getComponentById(data.cimData.rdfId))
             }
             loadComponent()
 
@@ -89,8 +83,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
 
     const handleExpand = async () => {
         console.log("Nodes:", nodes)
-
-        console.log("\n\n\n\n\n\n")
 
         // We need to load the full component from the database to get all the properties
 
@@ -101,8 +93,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             We have a set of different types that we will automatically render:
             terminals, connectivity nodes
          */
-        //const newNodes: CimNode[] = []
-        //const newEdges: Edge[] = []
 
         let colors: string[] = [
             "#ff9e9e",

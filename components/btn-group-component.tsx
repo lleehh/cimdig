@@ -22,8 +22,6 @@ interface BtnGroupComponentProps {
 
 
 export default function BtnGroupComponent({equipment, otherData, handleExpand}: BtnGroupComponentProps) {
-    //if(equipment.rdfId == "2dd90417-bdfb-11e5-94fa-c8f73332c8f4") {console.log(otherData)}
-    //console.log("Otherdata:", otherData)
     const refs = componentRefs(equipment)
     const propertyList = componentParameters(equipment)
     const [expanded, setExpanded] = useState(false)
@@ -60,7 +58,7 @@ export default function BtnGroupComponent({equipment, otherData, handleExpand}: 
                 className="w-max h-max rounded-t-xl border-r border-t border-l bg-card text-card-foreground absolute -top-4 right-0"
                 color={equipment.color?.toString()!}>
                 <DisplayProperty data={propertyList}/>
-                {haveMoreRefs && <AdditionalCimLinks componentRefs={components} component={equipment}/>}
+                {haveMoreRefs && <AdditionalCimLinks componentRefs={components} otherData={otherData} component={equipment}/>}
                 {expandable &&
                     <Button variant="ghost" size="icon" onClick={onExpand} disabled={otherData.expanded}><Expand/></Button>}
             </div>

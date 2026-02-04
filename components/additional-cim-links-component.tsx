@@ -9,18 +9,19 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {List} from "lucide-react";
 import {CIM, IdentifiedObject} from "@/lib/cim";
-import useFlowStore, {selector} from "@/lib/store/store-flow";
+import useFlowStore, {selector, OtherData} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {getComponentById} from "@/lib/store/model-repository";
-import {ComponentStatus, componentStatus, createEdge, createNode} from "@/lib/flow-utils";
+import {checkNodesForConnections, ComponentStatus, componentStatus, createEdge, createNode} from "@/lib/flow-utils";
 import {Button} from "@/components/ui/button";
 
 interface CimLinksProps {
     component: CIM
+    otherData: OtherData
     componentRefs: ComponentStatus[]
 }
 
-const AdditionalCimLinks = ({component, componentRefs}: CimLinksProps) => {
+const AdditionalCimLinks = ({component, otherData, componentRefs}: CimLinksProps) => {
 
     const {
         nodes,
@@ -37,11 +38,14 @@ const AdditionalCimLinks = ({component, componentRefs}: CimLinksProps) => {
 
         if (refComponent != null) {
             if (nodes.find(node => node.data.rdfId === refComponent.rdfId) === undefined) {
-                const newNode = createNode(refComponent.rdfId, refComponent, 0, 0)
+                const newNode = createNode(refComponent.rdfId, refComponent, 0, 0, "#bdbdbd")
                 const newEdge = createEdge(component.rdfId, refComponent.rdfId, true, "topHandle", "bottomHandle")
                 setNodes([...nodes, newNode])
                 setEdges([...edges, newEdge])
                 setFocusNode(newNode.id)
+
+                if (checkNodesForConnections([...nodes, newNode], component).newNodesInfo.length == 0) {otherData.expanded = true}
+
             } else {
                 console.log("COnnect to existsing ")
                 const newEdge = createEdge(component.rdfId, refComponent.rdfId, true, "topHandle", "bottomHandle")
