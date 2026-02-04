@@ -12,20 +12,22 @@ import { colorStyling } from "../dig/flow-component";
 import {CollapsedStyling} from "../dig/flow-component";
 import {LandPlot} from 'lucide-react';
 import BtnGroupComponent from "../btn-group-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 
 interface BayProps {
     equipment: Bay
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void
 }
 
-export default function Baycomponent({equipment, collapsed, handleExpand}: BayProps) {
+export default function Baycomponent({equipment, otherData, collapsed, handleExpand}: BayProps) {
 
     if (collapsed)
         return (
             <>
-                {colorStyling(equipment)}
+                {colorStyling(otherData.color ?? "black")}
                 <div className={`${CollapsedStyling()} flex items-center`}>
                     <LandPlot className="w-10 h-10"/>
                     <div className="overflow-hidden text-m ml-2">{equipment.name}</div>
@@ -37,7 +39,7 @@ export default function Baycomponent({equipment, collapsed, handleExpand}: BayPr
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-            <Card className="w-[350px]" color={equipment.color?.toString()!}>
+            <Card color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle>
                         <div className="flex flex-row items-center gap-2">

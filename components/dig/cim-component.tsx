@@ -27,46 +27,48 @@ import PowerTransformerComponent from "@/components/equipment/powertransformer-c
 import PowerTransformerEndComponent from "@/components/equipment/powertransformer-end-component";
 import LineComponent from "../equipment/line-component";
 import ConformLoadComponent from "../equipment/conformload-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 
 interface CimComponentProps {
-    equipment: CIM 
+    equipment: CIM
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void 
 }
 
-export default function CimComponent({equipment, collapsed, handleExpand}: CimComponentProps) {
+export default function CimComponent({equipment, otherData, collapsed, handleExpand}: CimComponentProps) {
 
     const renderComponent = () => {
         switch (equipment.rdfType) {
             case "cim:ACLineSegment":
-                return <ACLineSegmentComponent equipment={equipment as ACLineSegment} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <ACLineSegmentComponent equipment={equipment as ACLineSegment} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:Terminal":
-                return <TerminalComponent equipment={equipment as Terminal} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <TerminalComponent equipment={equipment as Terminal} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:ConnectivityNode":
-                return <ConnectivityNodeComponent equipment={equipment as ConnectivityNode} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <ConnectivityNodeComponent equipment={equipment as ConnectivityNode} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:Breaker":
-                return <BreakerComponent equipment={equipment as Breaker} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <BreakerComponent equipment={equipment as Breaker} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:GeneratingUnit":
-                return <GeneratorComponent equipment={equipment as GeneratingUnit} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <GeneratorComponent equipment={equipment as GeneratingUnit} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:NonConformLoad":
-                return <NonConformLoadComponent equipment={equipment as NonConformLoad} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <NonConformLoadComponent equipment={equipment as NonConformLoad} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:BusbarSection":
-                return <BusbarComponent equipment={equipment as BusbarSection} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <BusbarComponent equipment={equipment as BusbarSection} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:Bay":
-                return <Baycomponent equipment={equipment as Bay} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <Baycomponent equipment={equipment as Bay} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:Substation":
-                return <Substationcomponent equipment={equipment as Substation} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <Substationcomponent equipment={equipment as Substation} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:PowerTransformer":
-                return <PowerTransformerComponent equipment={equipment as PowerTransformer} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <PowerTransformerComponent equipment={equipment as PowerTransformer} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:PowerTransformerEnd":
-                return <PowerTransformerEndComponent equipment={equipment as PowerTransformerEnd} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <PowerTransformerEndComponent equipment={equipment as PowerTransformerEnd} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
             case "cim:Line":
-                return <LineComponent equipment={equipment as Line} collapsed={collapsed} handleExpand={handleExpand}/>
+                return <LineComponent equipment={equipment as Line} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>
             case "cim:ConformLoad":
-                return <ConformLoadComponent equipment={equipment as ConformLoad} collapsed={collapsed} handleExpand={handleExpand}/>
+                return <ConformLoadComponent equipment={equipment as ConformLoad} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>
             default:
-                return <GenericComponent equipment={equipment} collapsed={collapsed} handleExpand={handleExpand}/>;
+                return <GenericComponent equipment={equipment} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand}/>;
         }
     };
     

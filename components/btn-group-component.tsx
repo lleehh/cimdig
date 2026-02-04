@@ -19,9 +19,10 @@ interface BtnGroupComponentProps {
 
 type OpenThing = "description" | "properties" | "links" | null;
 
-export default function BtnGroupComponent({ equipment, handleExpand }: BtnGroupComponentProps) {
-  const propertyList = componentParameters(equipment)
-  const [expanded, setExpanded] = useState(false)
+export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupComponentProps) {
+    const refs = componentRefs(equipment)
+    const propertyList = componentParameters(equipment)
+    const [expanded, setExpanded] = useState(false)
 
   // Single source of truth: only one can be open
   const [openThing, setOpenThing] = useState<OpenThing>(null)

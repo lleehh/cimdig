@@ -7,23 +7,25 @@ import {
     CardTitle
 } from "@/components/ui/card";
 import { PowerTransformer } from "@/lib/cim";
-import {CollapsedStyling} from "@/components/dig/flow-component";
+import {CollapsedStyling, smallComponentStyling} from "@/components/dig/flow-component";
 import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
+import { OtherData } from "@/lib/store/store-flow";
 
 
 interface PowerTransformerProps {
     equipment: PowerTransformer
+    otherData: OtherData
     collapsed?: boolean
     handleExpand: () => void 
 }
 
-export default function PowerTransformerComponent({equipment, collapsed, handleExpand}: PowerTransformerProps) {
+export default function PowerTransformerComponent({equipment, otherData, collapsed, handleExpand}: PowerTransformerProps) {
 
     if (collapsed)
         return (
             <>
-            {colorStyling(equipment)}
+            {colorStyling(otherData.color ?? "black")}
             <div className={`${CollapsedStyling()} flex items-center`}>
                 <ComponentIcon icon="transformator" className="w-16 h-16"/>
                 <div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>
@@ -34,7 +36,7 @@ export default function PowerTransformerComponent({equipment, collapsed, handleE
     return (
         <div>
             <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
-        <Card className="w-[230px]" color={equipment.color?.toString()!}>
+        <Card className={`${smallComponentStyling()}`} color={otherData.color ?? "black"}>
             <CardHeader className="p-2">
                 <CardTitle className="flex justify-between">
                     <div className="flex flex-row items-center gap-2">
