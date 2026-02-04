@@ -46,7 +46,7 @@ export default async function Home() {
 		return (
 			<GenericComponent
 				equipment={equipment}
-				otherData={{ color: undefined }}
+				otherData={{ color: undefined, expanded: false }}
 				handleExpand={handleExpand}
 				presentation={presentation}
 			/>
