@@ -61,31 +61,32 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     useEffect(() => {
         if (!component) {
             const loadComponent = async () => {
-                setComponent(await getComponentById(data.cimData.rdfId))
+                let comp = await getComponentById(data.cimData.rdfId)
+                checkForVoltageLevel(comp)
+                setComponent(comp)
             }
             loadComponent()
         }
+        
     }, []);
 
-    async function checkForVoltageLevel(component: CIM) {
+    async function checkForVoltageLevel(component: CIM | null) {
         let currentComponent = await findById(component.rdfId)
-        let mrid = currentComponent["cim:Terminal.ConnectivityNode"]["mRID"]
-        let conectivetynode = await findById(mrid)
-        let conectivitynodemrid = conectivetynode["cim:ConnectivityNode.ConnectivityNodeContainer"]["mRID"]
-        let voltagelevel = await findById(conectivitynodemrid)
-        let stasjon = voltagelevel["cim:VoltageLevel.Substation"]["mRID"]
-        let navnstasjon = voltagelevel["cim:VoltageLevel.Substation"]["cim:IdentifiedObject.name"]
-        console.log(stasjon + navnstasjon)
+        if (currentComponent["rdfType"] == "cim:Terminal"){
+            console.log(currentComponent["cim:Terminal.ConnectivityNode"])
+            let mrid = currentComponent["cim:Terminal.ConnectivityNode"]["mRID"]
+            let conectivetynode = await findById(mrid)
+            let conectivitynodemrid = conectivetynode["cim:ConnectivityNode.ConnectivityNodeContainer"]["mRID"]
+            let voltagelevel = await findById(conectivitynodemrid)
+            let stasjon = voltagelevel["cim:VoltageLevel.Substation"]["mRID"]
+            let navnstasjon = voltagelevel["cim:VoltageLevel.Substation"]["cim:IdentifiedObject.name"]
+            console.log(stasjon + navnstasjon)
+        }
     }
     
 
-    useEffect(() => {
-        if (component) {
-            console.log(component)
-            checkForVoltageLevel(component)
-        }
 
-    }, [])
+
 
     const handleExpand = async () => {
         // We need to load the full component from the database to get all the properties
