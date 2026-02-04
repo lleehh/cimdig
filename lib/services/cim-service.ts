@@ -6,8 +6,14 @@ export function sholdNotBeInComponentRefs(component: CIM): boolean {
         && component.rdfType !== 'cim:BaseVoltage'
 }
 
+/**
+ * Finds all related CIM component for "component" parameter which is not ConnectivityNody, Terminal or BaseVoltage
+ * @returns Array of CIM component that is related to "component" parameter
+ */
 export function componentRefs(component: CIM): CIM[] {
     const refs: CIM[] = []
+    // Will travese each element in "component" and check if it's an object or an array.
+    // If it's an array, then it will iterate through each item and use sholdNotBeInComponentRefs to check if it is added to refs
     Object.entries(component).forEach(([key, value]) => {
         if (typeof value === "object" && !Array.isArray(value)) {
             if (sholdNotBeInComponentRefs(value)) {
