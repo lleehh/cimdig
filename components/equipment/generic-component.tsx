@@ -33,8 +33,10 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 			<>
 				{colorStyling(otherData.color ?? "black")}
 				<div className={`${CollapsedStyling()} flex items-center`}>
-					{icon}
-					<div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>
+					<div className="shrink-0">
+						{icon}
+					</div>
+					<div className="overflow-hidden text-m ml-2 truncate-text">{equipment.name as string}</div>
 				</div>
 			</>
 		)
@@ -44,31 +46,31 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 			<BtnGroupComponent equipment={equipment} handleExpand={handleExpand} />
 			<Card className={size()} color={otherData.color ?? "black"}>
 				<CardHeader>
-					<CardTitle className="flex justify-between">
-						<div className="flex flex-row items-center gap-2">
+					<CardTitle className="flex min-w-0 gap-2">
+						<div className="shrink-0">
 							{icon}
-							<div className="w-40 max-w-[120px] truncate overflow-hidden text-ellipsis text-sm font-medium"
-							>{title}
-							</div>
+						</div>
+						<div className=" truncate-text text-sm font-medium">
+							{title}
 						</div>
 					</CardTitle>
 					<CardDescription>
 						<>
 							{equipment.name &&
-								<div className={`${size()} pr-3 w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400`}
+								<div className={`truncate-text text-xs text-gray-400`}
 									title={equipment.name as string}>{equipment.name as string}
 								</div>}
 						</>
 					</CardDescription>
 				</CardHeader>
 				{equipment.description && size.name !== "smallComponentStyling" &&
-					<CardContent className="flex flex-col">
-						<div className="text-gray-400">{equipment.description.toString()}</div>
+					<CardContent className="flex flex-col text-gray-600">
+						<div className="text-gray-400 truncate-text">{equipment.description.toString()}</div>
 						{equipment.baseVoltage && (
-							<span> Voltage {(equipment.baseVoltage as BaseVoltage).name} </span>
+							<span className="truncate-text"> Voltage {(equipment.baseVoltage as BaseVoltage).name}</span>
 						)}
 						{equipment.maxOperatingP && (
-							<span> Max operating power limit {equipment.maxOperatingP.toString()} </span>
+							<span className="truncate-text"> Max operating power limit {equipment.maxOperatingP.toString()}</span>
 						)}
 
 					</CardContent>
