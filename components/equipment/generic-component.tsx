@@ -14,6 +14,7 @@ import { colorStyling } from "../dig/flow-component";
 import { OtherData } from "@/lib/store/store-flow";
 import { ReactElement } from "react";
 import { CimPresentation } from "@/lib/cim-presentation";
+import { getTitle } from "@/lib/utils";
 
 interface ConnectivetyNodeProps {
 	equipment: CIM
@@ -32,8 +33,7 @@ const abbreviatedTitles = new Map([
 
 
 export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, presentation }: ConnectivetyNodeProps) {
-	let title = equipment.rdfType.split(":")[1]
-	if (abbreviatedTitles.has(title)) title = abbreviatedTitles.get(title) ?? title
+	const title = getTitle(equipment)
 	const { size, icon } = presentation
 
 	if (collapsed)
