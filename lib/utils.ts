@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { CIM } from "./cim";
+import { CIM, Terminal } from "./cim";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -11,7 +11,7 @@ export function getTitle(equipment: CIM): string {
 
   switch (type) {
     case "Terminal": {
-      const seq = (equipment as any).sequenceNumber;
+      const seq = (equipment as Terminal).sequenceNumber;
       return seq ? `T${seq}` : "T";
     }
 
