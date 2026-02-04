@@ -20,6 +20,11 @@ interface BtnGroupComponentProps {
 type OpenThing = "description" | "properties" | "links" | null;
 
 export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupComponentProps) {
+    const pathname = usePathname();
+    if (pathname === "/") {
+        return null;
+    }
+
     const refs = componentRefs(equipment)
     const propertyList = componentParameters(equipment)
     const [expanded, setExpanded] = useState(false)
