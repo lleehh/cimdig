@@ -37,6 +37,7 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
     handleExpand()
   }
 
+  // Filters out components already loaded but not connected to any edges, or not yet loaded at all.
   const components = componentStatus(equipment, nodes, edges)
   const haveMoreRefs =
     components.filter(status => (status.exists === true && status.connected === false) || status.exists === false)
