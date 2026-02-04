@@ -37,7 +37,7 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 					<div className="shrink-0">
 						{icon}
 					</div>
-					<div className={`overflow-hidden text-m ml-2 ${truncateClass}`}>{equipment.name as string}</div>
+					<div className={`text-m ml-2 ${truncateClass}`}>{equipment.name as string}</div>
 				</div>
 			</>
 		)
