@@ -45,7 +45,7 @@ export default function GenericComponent({ data, states, presentation }: Connect
 				{colorStyling(otherData.color ?? "black")}
 				<div className={`${CollapsedStyling()} flex items-center`}>
 					<div className="shrink-0">
-						{presentation.icon}
+						{icon}
 					</div>
 					<div className={`text-m ml-2 ${truncateClass}`}>{equipment.name as string}</div>
 				</div>
@@ -55,11 +55,11 @@ export default function GenericComponent({ data, states, presentation }: Connect
 	return (
 		<div>
 			<BtnGroupComponent equipment={equipment} handleExpand={handleExpand} />
-			<Card className={presentation.size()} color={otherData.color ?? "black"}>
+			<Card className={size()} color={otherData.color ?? "black"}>
 				<CardHeader>
 					<CardTitle className="flex min-w-0 gap-2">
 						<div className="shrink-0">
-							{presentation.icon}
+							{icon}
 						</div>
 						<div className={`${truncateClass} text-sm font-medium`}>
 							{title}
