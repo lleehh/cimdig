@@ -31,6 +31,7 @@ import { OtherData } from "@/lib/store/store-flow";
 import { mediumComponentStyling, smallComponentStyling } from "./flow-component";
 import { Circle, CombineIcon, Factory, HousePlug, LandPlot, Shell, SquareTerminal, Triangle } from "lucide-react";
 import { ComponentIcon } from "../component-icon";
+import { cimPresentationMap, defaultCimPresentation } from "@/lib/cim-presentation";
 
 
 interface CimComponentProps {
@@ -40,48 +41,16 @@ interface CimComponentProps {
 	handleExpand: () => void
 }
 
-
-
 export default function CimComponent({ equipment, otherData, collapsed, handleExpand }: CimComponentProps) {
-	function genericMaker(equipment, size, icon) {
-		return <GenericComponent equipment={equipment} otherData={otherData} collapsed={collapsed} handleExpand={handleExpand} size={size} icon={icon} />
-	}
-	const renderComponent = () => {
-		switch (equipment.rdfType) {
-			case "cim:ACLineSegment":
-				return genericMaker(equipment as ACLineSegment, mediumComponentStyling, <ComponentIcon icon="ledningssegment" />)
-			case "cim:Terminal":
-				return genericMaker(equipment as Terminal, smallComponentStyling, <SquareTerminal />)
-			case "cim:ConnectivityNode":
-				return genericMaker(equipment as ConnectivityNode, smallComponentStyling, <Shell />)
-			case "cim:Breaker":
-				return genericMaker(equipment as Breaker, mediumComponentStyling, <ComponentIcon icon="bryter" />)
-			case "cim:GeneratingUnit":
-				return genericMaker(equipment as GeneratingUnit, mediumComponentStyling, <ComponentIcon icon="generator" />)
-			case "cim:NonConformLoad":
-				return genericMaker(equipment as NonConformLoad, mediumComponentStyling, <Factory />)
-			case "cim:BusbarSection":
-				return genericMaker(equipment as BusbarSection, mediumComponentStyling, <ComponentIcon icon="samleskinne" />)
-			case "cim:Bay":
-				return genericMaker(equipment as Bay, mediumComponentStyling, <LandPlot />)
-			case "cim:Substation":
-				return genericMaker(equipment as Substation, mediumComponentStyling, <ComponentIcon icon="stasjon" />)
-			case "cim:PowerTransformer":
-				return genericMaker(equipment as PowerTransformer, smallComponentStyling, <ComponentIcon icon="transformator" />)
-			case "cim:PowerTransformerEnd":
-				return genericMaker(equipment as PowerTransformerEnd, smallComponentStyling, <Circle />)
-			case "cim:Line":
-				return genericMaker(equipment as Line, smallComponentStyling, <ComponentIcon icon="overforing" />)
-			case "cim:ConformLoad":
-				return genericMaker(equipment as ConformLoad, mediumComponentStyling, <HousePlug />)
-			default:
-				return genericMaker(equipment, mediumComponentStyling, <Triangle />)
-		}
-	};
-
+	const presentation =
+		cimPresentationMap[equipment.rdfType] ?? defaultCimPresentation
 	return (
-		<>
-
-			{renderComponent()}
-		</>)
+		<GenericComponent
+			equipment={equipment}
+			otherData={otherData}
+			collapsed={collapsed}
+			handleExpand={handleExpand}
+			presentation={presentation}
+		/>
+	)
 } 

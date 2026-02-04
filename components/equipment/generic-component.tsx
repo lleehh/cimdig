@@ -13,14 +13,14 @@ import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
 import { OtherData } from "@/lib/store/store-flow";
 import { ReactElement } from "react";
+import { CimPresentation } from "@/lib/cim-presentation";
 
 interface ConnectivetyNodeProps {
 	equipment: CIM
 	otherData: OtherData
 	collapsed?: boolean
 	handleExpand: () => void
-	size: () => string
-	icon: ReactElement
+	presentation: CimPresentation
 }
 
 const abbreviatedTitles = new Map([
@@ -31,9 +31,10 @@ const abbreviatedTitles = new Map([
 ])
 
 
-export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, size, icon }: ConnectivetyNodeProps) {
+export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, presentation }: ConnectivetyNodeProps) {
 	let title = equipment.rdfType.split(":")[1]
 	if (abbreviatedTitles.has(title)) title = abbreviatedTitles.get(title) ?? title
+	const { size, icon } = presentation
 
 	if (collapsed)
 		return (
