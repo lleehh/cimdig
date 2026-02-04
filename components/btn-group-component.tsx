@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import { Button } from "@/components/ui/button";
 import { Expand } from "lucide-react";
@@ -20,6 +21,12 @@ interface BtnGroupComponentProps {
 type OpenThing = "description" | "properties" | "links" | null;
 
 export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupComponentProps) {
+    // Avoid rendering this component on the gallery page.
+    const pathname = usePathname();
+    if (pathname === "/") {
+        return null;
+    }
+
     const refs = componentRefs(equipment)
     const propertyList = componentParameters(equipment)
     const [expanded, setExpanded] = useState(false)
