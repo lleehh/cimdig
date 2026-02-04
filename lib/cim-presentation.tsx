@@ -2,7 +2,6 @@ import { ReactElement } from "react"
 import {
 	Circle,
 	Factory,
-
 	HousePlug,
 	LandPlot,
 	Shell,
@@ -11,9 +10,6 @@ import {
 } from "lucide-react"
 import { mediumComponentStyling, smallComponentStyling } from "../components/dig/flow-component"
 import { ComponentIcon } from "../components/component-icon";
-
-
-
 
 export interface CimPresentation {
 	size: () => string
@@ -73,11 +69,11 @@ export const cimPresentationMap: Record<string, CimPresentation> = {
 	},
 
 	"cim:ConformLoad": {
-
 		size: mediumComponentStyling,
 		icon: <HousePlug />
 	}
 }
+
 export const defaultCimPresentation: CimPresentation = {
 	size: mediumComponentStyling,
 	icon: <Triangle />
