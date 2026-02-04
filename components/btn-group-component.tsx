@@ -21,6 +21,7 @@ interface BtnGroupComponentProps {
 type OpenThing = "description" | "properties" | "links" | null;
 
 export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupComponentProps) {
+    // Avoid rendering this component on the gallery page.
     const pathname = usePathname();
     if (pathname === "/") {
         return null;
