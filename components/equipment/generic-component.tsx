@@ -24,14 +24,6 @@ interface ConnectivetyNodeProps {
 	presentation: CimPresentation
 }
 
-const abbreviatedTitles = new Map([
-	["Terminal", "T1"],
-	["PowerTransformer", "PT"],
-	["PowerTransformerEnd", "PTE"],
-	["ConnectivityNode", "CN"]
-])
-
-
 export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, presentation }: ConnectivetyNodeProps) {
 	const title = getTitle(equipment)
 	const { size, icon } = presentation
