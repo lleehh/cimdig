@@ -37,7 +37,7 @@ export default function ConformLoadComponent({equipment, otherData, collapsed, h
 
     return (
         <div>
-            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand}/>
             <Card color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle>

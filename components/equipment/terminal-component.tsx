@@ -35,7 +35,7 @@ export default function TerminalComponent({equipment, otherData, collapsed, hand
 
     return (
         <div>
-            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand}/>
             <Card className={`${smallComponentStyling()}`} color={otherData.color ?? "black"}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">

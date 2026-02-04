@@ -31,7 +31,7 @@ export default function BusbarComponent({equipment, otherData, collapsed, handle
 
     return (
         <div>
-            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand}/>
             <Card className={`${smallComponentStyling()}`} color={otherData.color?.toString()!}>
                 <CardHeader>
                     <CardTitle className="flex justify-between">

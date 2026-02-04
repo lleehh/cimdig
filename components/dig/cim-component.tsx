@@ -39,6 +39,9 @@ interface CimComponentProps {
 
 export default function CimComponent({equipment, otherData, collapsed, handleExpand}: CimComponentProps) {
 
+
+    //console.log(otherData)
+
     const renderComponent = () => {
         switch (equipment.rdfType) {
             case "cim:ACLineSegment":

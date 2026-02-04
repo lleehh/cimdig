@@ -34,7 +34,7 @@ export default function Substationcomponent({equipment, otherData, collapsed, ha
 
     return (
         <div>
-            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand}/>
             <Card className={`${mediumComponentStyling()}`}color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle>

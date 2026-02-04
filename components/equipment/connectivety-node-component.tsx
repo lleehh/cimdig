@@ -34,7 +34,7 @@ export default function ConnectivityNodeComponent({equipment, otherData, collaps
 
     return (
         <div>
-            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand}/>
             <Card className={`${smallComponentStyling()}`} color={otherData.color ?? "black"}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">

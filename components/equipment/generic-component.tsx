@@ -35,7 +35,7 @@ export default function GenericComponent({equipment, otherData, collapsed, handl
 
     return (
         <div>
-            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand}/>
             <Card className="w-[250px]" color={otherData.color ?? "black"}>
                 <CardHeader>
                     <CardTitle className="flex justify-between">

@@ -10,17 +10,20 @@ import DisplayProperty from "./display-property-component";
 import {CIM} from "@/lib/cim";
 import FlowComponent from "./dig/flow-component";
 import {useState} from "react";
-import useFlowStore, {selector} from "@/lib/store/store-flow";
+import useFlowStore, {OtherData, selector} from "@/lib/store/store-flow";
 import {useShallow} from "zustand/react/shallow";
 import {componentStatus} from "@/lib/flow-utils";
 
 interface BtnGroupComponentProps {
     handleExpand: () => void
     equipment: CIM
+    otherData: OtherData
 }
 
 
-export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupComponentProps) {
+export default function BtnGroupComponent({equipment, otherData, handleExpand}: BtnGroupComponentProps) {
+    //if(equipment.rdfId == "2dd90417-bdfb-11e5-94fa-c8f73332c8f4") {console.log(otherData)}
+    //console.log("Otherdata:", otherData)
     const refs = componentRefs(equipment)
     const propertyList = componentParameters(equipment)
     const [expanded, setExpanded] = useState(false)
@@ -37,6 +40,9 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
 
     const onExpand = () => {
         setExpanded(true)
+        otherData.expanded = true
+        //console.log("Expanded:", otherData)
+
         handleExpand()
     }
 
@@ -56,7 +62,7 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
                 <DisplayProperty data={propertyList}/>
                 {haveMoreRefs && <AdditionalCimLinks componentRefs={components} component={equipment}/>}
                 {expandable &&
-                    <Button variant="ghost" size="icon" onClick={onExpand} disabled={expanded}><Expand/></Button>}
+                    <Button variant="ghost" size="icon" onClick={onExpand} disabled={otherData.expanded}><Expand/></Button>}
             </div>
         </div>
     )

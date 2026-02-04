@@ -30,7 +30,7 @@ export default function LineComponent({equipment, otherData, collapsed, handleEx
 
     return (
         <div>
-            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand}/>
             <Card className={`${mediumComponentStyling()}`} color={otherData.color ?? "black"}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">

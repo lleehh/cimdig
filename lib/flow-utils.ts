@@ -1,6 +1,13 @@
 import {CimNode} from "@/lib/store/store-flow";
 import {Edge, MarkerType} from "@xyflow/react";
-import {CIM, IdentifiedObject, isConductingEquipment} from "@/lib/cim";
+import {
+    CIM,
+    IdentifiedObject,
+    isConductingEquipment,
+    isConnectivityNode,
+    isTerminal,
+    PowerTransformerEnd
+} from "@/lib/cim";
 import Dagre from '@dagrejs/dagre';
 import {componentRefs} from "@/lib/services/cim-service";
 
@@ -30,12 +37,99 @@ export const edgeTemplate = {
     }
 }
 
-export function createNode(id: string, data: CIM, x: number, y: number, color?: string): CimNode {
+interface NodeInfo {
+    id: string
+    data: CIM
+}
+
+interface EdgeInfo {
+    sourceId: string
+    targetId: string
+    fromSource: boolean
+}
+
+export function checkNodesForConnections(nodes: CimNode[], component: CIM) {
+    const newNodesInfo: NodeInfo[] = []
+    const newEdgesInfo: EdgeInfo[] = []
+
+    console.log(component.rdfId)
+    if (isTerminal(component)) {
+        console.log("TERMINAL!")
+        if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
+            newNodesInfo.push({id: component.connectivityNode.rdfId, data: component.connectivityNode})
+            newEdgesInfo.push({sourceId: component.rdfId, targetId: component.connectivityNode.rdfId, fromSource: true})
+        }
+
+        if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
+            newNodesInfo.push({id: component.conductingEquipment.rdfId, data: component.conductingEquipment})
+            newEdgesInfo.push({sourceId: component.rdfId, targetId: component.conductingEquipment.rdfId, fromSource: true})
+        }
+    }
+
+    if (isConnectivityNode(component) || isConductingEquipment(component)) {
+        console.log("NOT TERMINAL!")
+        const rdfId = component.rdfId
+        let terminals = component.terminals || []
+        if(terminals.length == 0 && (component as PowerTransformerEnd).terminal != undefined)
+            terminals = [(component as PowerTransformerEnd).terminal]
+        console.log("Terminals:", terminals.length)
+        terminals.forEach(terminal => {
+            if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
+                console.log("NOT TERMINAL 22222!")
+                newNodesInfo.push({id: terminal.rdfId, data: terminal})
+                newEdgesInfo.push({sourceId: terminal.rdfId, targetId: rdfId, fromSource: false})
+            }
+        })
+    }
+
+    return {newNodesInfo, newEdgesInfo}
+}
+
+export function createConnectingNodes(nodes: CimNode[], component: CIM) {
+
+    const newNodes: CimNode[] = []
+    const newEdges: Edge[] = []
+
+    const {newNodesInfo, newEdgesInfo} = checkNodesForConnections(nodes, component)
+
+    newNodesInfo.forEach((info) => {
+        newNodes.push(createNode(info.id, info.data, 0, 0, nodes))
+    })
+
+    newEdgesInfo.forEach((info) => {
+        newEdges.push(createEdge(info.sourceId, info.targetId, info.fromSource))
+    })
+
+    return {newNodes, newEdges}
+}
+
+
+
+
+export function createNode(id: string, data: CIM, x: number, y: number, nodes: CimNode[], color?: string): CimNode {
+    //let expanded = false
+    //console.log("Checking", data.rdfId, "for connections.")
+
+    //const {newNodesInfo, newEdgesInfo} = checkNodesForConnections(nodes, data)
+
+    //if(!isTerminal(data) && newNodesInfo.length == 0) {expanded = true; console.log("NO CONNECTIONS, NOT EXPANDABLE")}
+    //else {console.log("Has connections, expandable."); console.log(data)}
+
+
+
+
+    //console.log("New Nodes Info:", newNodesInfo)
+    //if(newNodesInfo.length == 0) {
+    //    console.log("EXPANDED!!!!")
+    //    console.log(data)
+    //}
+
+    console.log("Data:", data)
     return {
         id: id,
         type: 'flowComponent',
         position: {x: x, y: y},
-        data: {cimData: {...data}, otherData: {color}}
+        data: {cimData: {...data}, otherData: {color: color || "gray", expanded: false}}
     } as CimNode
 }
 
@@ -52,16 +146,18 @@ export function createEdge(sourceId: string, targetId: string, fromSource: boole
 
 export const createNodesAndEdges = (component: CIM): { nodes: CimNode[], edges: Edge[] } => {
 
+
     console.log(component.rdfId, component.rdfType)
 
-    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "#a6a6a6")]
+    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, [], "#ff9e9e")]
     const edges: Edge[] = [];
+
     if (isConductingEquipment(component) && component.terminals?.length) {
         let firstTerminal = true;
         (component.terminals ?? [])
             .sort((a, b) => (a.sequenceNumber ?? 0) - (b.sequenceNumber ?? 0))
             .forEach((terminal) => {
-                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, "#c8ff9e"));
+                nodes.push(createNode(terminal.rdfId, terminal, firstTerminal ? 100 : 800, 0, nodes, "#c8ff9e"));
                 edges.push(createEdge(terminal.rdfId, component.rdfId, firstTerminal));
                 firstTerminal = false;
             });

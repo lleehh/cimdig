@@ -29,7 +29,7 @@ export default function ACLineSegmentComponent({equipment, otherData, collapsed,
 
     return (
         <div>
-            <BtnGroupComponent equipment={equipment} handleExpand={handleExpand}/>
+            <BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand}/>
             <Card color={otherData.color ?? "black"}>
                 <CardHeader className="p-2">
                     <CardTitle className="flex justify-between">

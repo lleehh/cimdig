@@ -5,7 +5,7 @@ import {edgeTemplate} from "@/lib/flow-utils";
 
 export interface OtherData {
     color: string | undefined
-    isExpandable: boolean | undefined
+    expanded: boolean | undefined
 
     [key: string]: any;
 }
