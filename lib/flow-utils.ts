@@ -117,6 +117,16 @@ export type ComponentStatus = {
     equipment: CIM
 }
 
+/**
+ * @param equipment The actual CIM component checked
+ * @param nodes List of all nodes in the current canvas
+ * @param edges List of all edges in the current canvas
+ * 
+ * @returns A list with three properties:
+ * - exists: boolean - if component exists in the flow
+ * - connected: boolean - If any edges are connected to the component
+ * - equipment: CIM - reference to the "equipment" parameter
+ */
 export function componentStatus(equipment: CIM, nodes: CimNode[], edges: Edge[]): ComponentStatus[] {
 
     const refs = componentRefs(equipment)
