@@ -62,7 +62,10 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         if (!component) {
             const loadComponent = async () => {
                 let comp = await getComponentById(data.cimData.rdfId)
-                checkForVoltageLevel(comp)
+                if (comp != null) {
+                    checkForVoltageLevel(comp)
+                }
+                
                 setComponent(comp)
             }
             loadComponent()
@@ -70,18 +73,31 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         
     }, []);
 
-    async function checkForVoltageLevel(component: CIM | null) {
+    async function checkForVoltageLevel(component: CIM) {
+        let componentTypes = ["cim:Terminal.ConnectivityNode", "cim:ConnectivityNode.ConnectivityNodeContainer"]
         let currentComponent = await findById(component.rdfId)
+        // for (const key in currentComponent) {
+        //     if (key == "rdfType") {
+        //         if (currentComponent[key] == "cim:Terminal") {
+        //             console.log("Yey")
+        //         }
+                
+        //     }
+        // }
+
         if (currentComponent["rdfType"] == "cim:Terminal"){
-            console.log(currentComponent["cim:Terminal.ConnectivityNode"])
-            let mrid = currentComponent["cim:Terminal.ConnectivityNode"]["mRID"]
-            let conectivetynode = await findById(mrid)
-            let conectivitynodemrid = conectivetynode["cim:ConnectivityNode.ConnectivityNodeContainer"]["mRID"]
-            let voltagelevel = await findById(conectivitynodemrid)
-            let stasjon = voltagelevel["cim:VoltageLevel.Substation"]["mRID"]
-            let navnstasjon = voltagelevel["cim:VoltageLevel.Substation"]["cim:IdentifiedObject.name"]
-            console.log(stasjon + navnstasjon)
+            for (let i = 0; i < componentTypes.length; i ++){
+                let mrid = currentComponent[componentTypes[i]]["mRID"]
+                currentComponent = await findById(mrid)
+            }
+            let voltageMrid = currentComponent["cim:VoltageLevel.Substation"]["mRID"]
+            let stationName = currentComponent["cim:VoltageLevel.Substation"]["cim:IdentifiedObject.name"]
+            console.log(voltageMrid + stationName)
         }
+        else {
+            console.log("Du er ikke på en terminal gå riktig sted")
+        }
+
     }
     
 
