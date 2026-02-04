@@ -15,6 +15,7 @@ import { largeComponentStyling, mediumComponentStyling, smallComponentStyling } 
 import { Circle, Factory, HousePlug, LandPlot, Shell, Square, SquareTerminal, Triangle } from "lucide-react";
 import { ComponentIcon } from "@/components/component-icon";
 import { cimPresentationMap, defaultCimPresentation } from "@/lib/cim-presentation";
+import { Fragment } from "react";
 
 export default async function Home() {
 
@@ -44,12 +45,16 @@ export default async function Home() {
 			cimPresentationMap[equipment.rdfType] ?? defaultCimPresentation
 
 		return (
+            <Fragment>
 			<GenericComponent
 				equipment={equipment}
 				otherData={{ color: undefined }}
 				handleExpand={handleExpand}
 				presentation={presentation}
-			/>
+			/> 
+            <p>{equipment.description?.toString()}</p>
+            </Fragment>
+            
 		)
 	}
 
@@ -78,7 +83,7 @@ export default async function Home() {
 				</header>
 				<div
 					className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-					<main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+					<main className="grid grid-cols-2 gap-8 col-start-1 row-start-2 items-center sm:items-start">
 						{acLineSegment && renderGeneric(acLineSegment)}
 						{breaker && renderGeneric(breaker)}
 						{generator && renderGeneric(generator)}
