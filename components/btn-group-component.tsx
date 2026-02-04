@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import { Button } from "@/components/ui/button";
 import { Expand } from "lucide-react";
