@@ -122,7 +122,7 @@ export type ComponentStatus = {
  * @param nodes List of all nodes in the current canvas
  * @param edges List of all edges in the current canvas
  * 
- * @returns A list with three properties:
+ * @returns An array of objects with these three properties:
  * - exists: boolean - if component exists in the flow
  * - connected: boolean - If any edges are connected to the component
  * - equipment: CIM - reference to the "equipment" parameter
