@@ -54,7 +54,7 @@ export default function Dig({ equipment }: DigProps) {
       setNodes(newNodes);
       setEdges(newEdges);
     }
-  }, [equipment, setNodes, setEdges]);
+  }, [equipment]);
 
   useEffect(() => {
     if (focusNodeId) {
@@ -106,11 +106,7 @@ export default function Dig({ equipment }: DigProps) {
         ? Math.max(0.0001, minZoomCandidate)
         : 0.05;
 
-      let currentViewportZoom: number | undefined = undefined;
-      try {
-        const vp = typeof getViewport === 'function' ? getViewport() : undefined;
-        if (vp && typeof vp.zoom === 'number') currentViewportZoom = vp.zoom;
-      } catch {}
+      let currentViewportZoom = getViewport().zoom;
 
       const desiredMinZoom = computeDesiredMinZoom(
         finalMinZoom,
@@ -125,7 +121,7 @@ export default function Dig({ equipment }: DigProps) {
       if (!hasAutoFitRunRef.current) {
         hasAutoFitRunRef.current = true;
         window.requestAnimationFrame(() => {
-          try { fitView({ padding: PADDING, duration: 300 }); } catch {}
+          fitView({ padding: PADDING, duration: 300 }); 
         });
       }
     };
@@ -134,7 +130,7 @@ export default function Dig({ equipment }: DigProps) {
 
     let ro: ResizeObserver | null = null;
     try {
-      if (containerRef.current && (window as any).ResizeObserver) {
+      if (containerRef.current && 'ResizeObserver' in window) {
         ro = new ResizeObserver(measureAndApply);
         ro.observe(containerRef.current);
       } else {
