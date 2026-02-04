@@ -86,3 +86,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.truncate-text {
+  @apply truncate overflow-hidden text-ellipsis;
+}
