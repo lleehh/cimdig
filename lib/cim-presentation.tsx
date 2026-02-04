@@ -15,7 +15,6 @@ import { CIM, GeneratingUnit, NonConformLoad, PowerTransformer } from "./cim";
 export interface CimPresentation {
 	size: () => string
 	icon: ReactElement
-	// content?: (equipment: CIM) => string
 	showDescription?: boolean
 }
 
@@ -35,28 +34,16 @@ export const cimPresentationMap: Record<string, CimPresentation> = {
 	"cim:Breaker": {
 		size: mediumComponentStyling,
 		icon: <ComponentIcon icon="bryter" />,
-		// content: (equipment) => {
-		// 	const pt = equipment as PowerTransformer
-		// 	return pt.baseVoltage ? `Voltage ${pt.baseVoltage.name}` : ""
-		// }
 
 	},
 	"cim:GeneratingUnit": {
 		size: mediumComponentStyling,
 		icon: <ComponentIcon icon="generator" />,
-		// content: (equipment) => {
-		// 	const pt = equipment as GeneratingUnit
-		// 	return pt.baseVoltage ? `Max operating power limit ${pt.maxOperatingP}` : ""
-		// },
 		showDescription: true
 	},
 	"cim:NonConformLoad": {
 		size: mediumComponentStyling,
 		icon: <Factory />,
-		// content: (equipment) => {
-		// 	const pt = equipment as NonConformLoad
-		// 	return pt.baseVoltage ? `Voltage ${pt.baseVoltage.name}` : ""
-		// },
 		showDescription: true
 	},
 	"cim:BusbarSection": {
