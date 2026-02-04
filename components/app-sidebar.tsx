@@ -26,7 +26,7 @@ const items = [
     },
 
     {
-        title: "description",
+        title: "Description",
         url: "/description",
         icon:  ScrollText,
     },
