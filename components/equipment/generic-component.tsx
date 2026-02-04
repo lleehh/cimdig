@@ -1,5 +1,5 @@
 'use client'
-import { CIM } from "@/lib/cim";
+import { BaseVoltage, CIM } from "@/lib/cim";
 import {
 	Card,
 	CardDescription,
@@ -13,25 +13,26 @@ import BtnGroupComponent from "../btn-group-component";
 import { colorStyling } from "../dig/flow-component";
 import { OtherData } from "@/lib/store/store-flow";
 import { ReactElement } from "react";
+import { CimPresentation } from "@/lib/cim-presentation";
+import { getTitle } from "@/lib/utils";
 
 interface ConnectivetyNodeProps {
 	equipment: CIM
 	otherData: OtherData
 	collapsed?: boolean
 	handleExpand: () => void
-	size: () => string
-	icon: ReactElement
+	presentation: CimPresentation
 }
 
-
-export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, size, icon }: ConnectivetyNodeProps) {
+export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, presentation }: ConnectivetyNodeProps) {
+	const title = getTitle(equipment)
+	const { size, icon } = presentation
 
 	if (collapsed)
 		return (
 			<>
 				{colorStyling(otherData.color ?? "black")}
 				<div className={`${CollapsedStyling()} flex items-center`}>
-					// TODO: check if this works. may have to have another icon for small
 					{icon}
 					<div className="overflow-hidden text-m ml-2">{equipment.name as string}</div>
 				</div>
@@ -46,24 +47,31 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 					<CardTitle className="flex justify-between">
 						<div className="flex flex-row items-center gap-2">
 							{icon}
-							<div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
-								title={equipment.rdfType as string}>{equipment.rdfType}
+							<div className="w-40 max-w-[120px] truncate overflow-hidden text-ellipsis text-sm font-medium"
+							>{title}
 							</div>
 						</div>
 					</CardTitle>
 					<CardDescription>
 						<>
 							{equipment.name &&
-								<div className="w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400"
+								<div className={`${size()} pr-3 w-40 truncate overflow-hidden text-ellipsis text-xs text-gray-400`}
 									title={equipment.name as string}>{equipment.name as string}
 								</div>}
 						</>
 					</CardDescription>
 				</CardHeader>
-				{equipment.description &&
+				{equipment.description && size.name !== "smallComponentStyling" &&
 					<CardContent className="flex flex-col">
-                    	<div className="text-gray-400">{equipment.description.toString()}</div>
-                	</CardContent>
+						<div className="text-gray-400">{equipment.description.toString()}</div>
+						{equipment.baseVoltage && (
+							<span> Voltage {(equipment.baseVoltage as BaseVoltage).name} </span>
+						)}
+						{equipment.maxOperatingP && (
+							<span> Max operating power limit {equipment.maxOperatingP.toString()} </span>
+						)}
+
+					</CardContent>
 				}
 			</Card>
 		</div>
