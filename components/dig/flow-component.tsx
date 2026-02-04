@@ -8,7 +8,7 @@ import {
     isTerminal, PowerTransformerEnd
 } from "@/lib/cim";
 import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
-import {getComponentById} from "@/lib/store/model-repository";
+import {findById, getComponentById} from "@/lib/store/model-repository";
 import useFlowStore, {CimNode, selector} from "@/lib/store/store-flow";
 import {Edge, Handle, NodeProps, Position, useStore,} from "@xyflow/react";
 import {Expand} from "lucide-react";
@@ -67,6 +67,26 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         }
     }, []);
 
+    async function checkForVoltageLevel(component: CIM) {
+        let currentComponent = await findById(component.rdfId)
+        let mrid = currentComponent["cim:Terminal.ConnectivityNode"]["mRID"]
+        let conectivetynode = await findById(mrid)
+        let conectivitynodemrid = conectivetynode["cim:ConnectivityNode.ConnectivityNodeContainer"]["mRID"]
+        let voltagelevel = await findById(conectivitynodemrid)
+        let stasjon = voltagelevel["cim:VoltageLevel.Substation"]["mRID"]
+        let navnstasjon = voltagelevel["cim:VoltageLevel.Substation"]["cim:IdentifiedObject.name"]
+        console.log(stasjon + navnstasjon)
+    }
+    
+
+    useEffect(() => {
+        if (component) {
+            console.log(component)
+            checkForVoltageLevel(component)
+        }
+
+    }, [])
+
     const handleExpand = async () => {
         // We need to load the full component from the database to get all the properties
 
@@ -92,6 +112,15 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
 
 
         if (node && component) {
+
+            switch (component.rdfType) {
+                case "cim:Substation":
+                    console.log("Yippiee")
+                case "cim:Terminal":
+                    checkForVoltageLevel(component)
+
+            }
+
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
                     newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.otherData.color))
