@@ -7,7 +7,9 @@ import {
     SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar"
-import {Command, GalleryHorizontal, SpadeIcon} from "lucide-react"
+import {Command, GalleryHorizontal, icons, SpadeIcon} from "lucide-react"
+import { title } from "process"
+import { url } from "inspector"
 
 // This is sample data.
 const items = [
@@ -22,6 +24,7 @@ const items = [
         url: "/dig",
         icon: SpadeIcon,
     },
+
 ]
 
 export async function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
