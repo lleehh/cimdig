@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -43,23 +43,41 @@ export default function BtnGroupComponent({equipment, otherData, handleExpand}: 
         handleExpand()
     }
 
-  // Filters out components already loaded but not connected to any edges, or not yet loaded at all.
-  const components = componentStatus(equipment, nodes, edges)
-  const haveMoreRefs =
-    components.filter(status => (status.exists === true && status.connected === false) || status.exists === false)
-      .length > 0
+    // Filters out components already loaded but not connected to any edges, or not yet loaded at all.
+    const components = componentStatus(equipment, nodes, edges);
+    const haveMoreRefs =
+        components.filter(
+            (status) =>
+                (status.exists === true && status.connected === false) || status.exists === false
+        ).length > 0;
 
-  return (
-    <div>
-      <div className="w-max h-max rounded-t-xl border-r border-t border-l bg-card text-card-foreground absolute -top-4 right-0">
+    return (
+        <div>
+            <div className="w-max h-max rounded-t-xl border-r border-t border-l bg-card text-card-foreground absolute -top-4 right-0">
+                {/* Properties: controlled */}
+                <DisplayProperty
+                    data={propertyList}
+                    open={openThing === "properties"}
+                    onOpenChange={(open) =>
+                        setOpenThing((prev) =>
+                            open ? "properties" : prev === "properties" ? null : prev
+                        )
+                    }
+                />
 
-        {/* Description: controlled */}
-        <Description
-          open={openThing === "description"}
-          onOpenChange={(open) =>
-            setOpenThing((prev) => (open ? "description" : prev === "description" ? null : prev))
-          }
-        />
+                {/* Links: Popover-based + controlled */}
+                {haveMoreRefs && (
+                    <AdditionalCimLinks
+                        component={equipment}
+                        componentRefs={components}
+                        open={openThing === "links"}
+                        onOpenChange={(open) =>
+                            setOpenThing((prev) =>
+                                open ? "links" : prev === "links" ? null : prev
+                            )
+                        }
+                    />
+                )}
 
         {/* Properties: controlled */}
         <DisplayProperty

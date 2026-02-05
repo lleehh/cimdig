@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
+import { componentDescriptionMap } from "@/lib/cim-presentation";
 
 export default function DisplayProperty({
     data,
@@ -26,7 +27,13 @@ export default function DisplayProperty({
             </DropdownMenuTrigger>
 
             <DropdownMenuContent>
-                <DropdownMenuLabel>Properties</DropdownMenuLabel>
+                <DropdownMenuLabel>Description</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <span className="text-gray-800 text-xs leading-none">
+                    {componentDescriptionMap.get(data["rdfType"].toString())}
+                </span>
+
+                <DropdownMenuLabel className="mt-4">Properties</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <ul className="space-y-2">
                     {Object.entries(data)
