@@ -33,11 +33,11 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 		return (
 			<>
 				{colorStyling(otherData.color ?? "black")}
-				<div className={`${CollapsedStyling()} flex items-center`}>
+				<div className={`${CollapsedStyling()} ${size()} flex items-center`}>
 					<div className="shrink-0">
 						{icon}
 					</div>
-					<div className={`text-m ml-2 ${truncateClass}`}>{equipment.name as string}</div>
+					<div className={`text-m ml-2 ${truncateClass}`}>{title}</div>
 				</div>
 			</>
 		)
