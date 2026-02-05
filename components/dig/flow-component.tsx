@@ -2,7 +2,7 @@
 import CimComponent from "@/components/dig/cim-component";
 import {Button} from "@/components/ui/button";
 import {
-    CIM,
+    CIM, IdentifiedObject,
     isConductingEquipment,
     isConnectivityNode,
     isTerminal, PowerTransformerEnd
@@ -59,13 +59,13 @@ export function largeComponentStyling() {
 export default function FlowComponent({data}: NodeProps<CimNode>) {
     // The fully loaded component from the database
     const [component, setComponent] = useState<CIM | null>(null);
-    const [expanded, setExpanded] = useState(false);
     const showContent = useStore(zoomSelector);
 
-    const createComponentData = (value: any) => {
-        if(checkNodesForConnections(nodes, value).newNodesInfo.length == 0) {data.otherData.expanded = true}
-
-        setComponent(value);
+    const createComponentData = (componentData: IdentifiedObject | null) => {
+        if(componentData) {
+            if (checkNodesForConnections(nodes, componentData).newNodesInfo.length == 0) {data.otherData.expanded = true}
+        }
+        setComponent(componentData);
     };
 
     const {
@@ -129,9 +129,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             }
         }
         data.otherData.expanded = true
-        setExpanded(true)
     }
-
 
 
     return (

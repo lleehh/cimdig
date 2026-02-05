@@ -29,7 +29,6 @@ export default function BtnGroupComponent({equipment, otherData, handleExpand}: 
     }
     const refs = componentRefs(equipment)
     const propertyList = componentParameters(equipment)
-    const [expanded, setExpanded] = useState(false)
     // These lines are referenced by related components to keep only one DropdownMenu open at a time.
 
     // Single source of truth: only one can be open
@@ -39,7 +38,6 @@ export default function BtnGroupComponent({equipment, otherData, handleExpand}: 
     const expandable = isEquipmentExpandable(equipment)
 
     const onExpand = () => {
-        setExpanded(true)
         setOpenThing(null)
         otherData.expanded = true
         handleExpand()
