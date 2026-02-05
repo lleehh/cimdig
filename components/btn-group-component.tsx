@@ -8,41 +8,40 @@ import { Expand } from "lucide-react";
 import DisplayProperty from "./display-property-component";
 import { CIM } from "@/lib/cim";
 import { componentParameters, componentRefs, isEquipmentExpandable } from "@/lib/services/cim-service";
-import useFlowStore, { selector } from "@/lib/store/store-flow";
+import useFlowStore, { OtherData, selector } from "@/lib/store/store-flow";
 import { useShallow } from "zustand/react/shallow";
 import { componentStatus } from "@/lib/flow-utils";
 import Description from "./description-component";
 
 interface BtnGroupComponentProps {
-  handleExpand: () => void
-  equipment: CIM
+    handleExpand: () => void
+    equipment: CIM
+    otherData: OtherData
 }
 
 type OpenThing = "description" | "properties" | "links" | null;
 
-export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupComponentProps) {
+export default function BtnGroupComponent({equipment, otherData, handleExpand}: BtnGroupComponentProps) {
     // Avoid rendering this component on the gallery page.
     const pathname = usePathname();
     if (pathname === "/") {
         return null;
     }
-
     const refs = componentRefs(equipment)
     const propertyList = componentParameters(equipment)
-    const [expanded, setExpanded] = useState(false)
     // These lines are referenced by related components to keep only one DropdownMenu open at a time.
 
-  // Single source of truth: only one can be open
-  const [openThing, setOpenThing] = useState<OpenThing>(null)
+    // Single source of truth: only one can be open
+    const [openThing, setOpenThing] = useState<OpenThing>(null)
 
-  const { nodes, edges } = useFlowStore(useShallow(selector))
-  const expandable = isEquipmentExpandable(equipment)
+    const { nodes, edges } = useFlowStore(useShallow(selector))
+    const expandable = isEquipmentExpandable(equipment)
 
-  const onExpand = () => {
-    setExpanded(true)
-    setOpenThing(null)
-    handleExpand()
-  }
+    const onExpand = () => {
+        setOpenThing(null)
+        otherData.expanded = true
+        handleExpand()
+    }
 
   // Filters out components already loaded but not connected to any edges, or not yet loaded at all.
   const components = componentStatus(equipment, nodes, edges)
@@ -75,6 +74,7 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
         {haveMoreRefs && (
           <AdditionalCimLinks
             component={equipment}
+            otherData={otherData}
             componentRefs={components}
             open={openThing === "links"}
             onOpenChange={(open) =>
@@ -84,7 +84,7 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
         )}
 
         {expandable && (
-          <Button variant="ghost" size="icon" onClick={onExpand} disabled={expanded}>
+          <Button variant="ghost" size="icon" onClick={onExpand} disabled={otherData.expanded}>
             <Expand />
           </Button>
         )}
@@ -92,3 +92,4 @@ export default function BtnGroupComponent({equipment, handleExpand}: BtnGroupCom
     </div>
   )
 }
+

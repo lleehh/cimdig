@@ -2,12 +2,18 @@
 import CimComponent from "@/components/dig/cim-component";
 import {Button} from "@/components/ui/button";
 import {
-    CIM,
+    CIM, IdentifiedObject,
     isConductingEquipment,
     isConnectivityNode,
     isTerminal, PowerTransformerEnd
 } from "@/lib/cim";
-import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
+import {
+    createEdge,
+    createNode,
+    doesEquipmentExistsInFlow,
+    createConnectingNodes,
+    checkNodesForConnections
+} from "@/lib/flow-utils";
 import {getComponentById} from "@/lib/store/model-repository";
 import useFlowStore, {CimNode, selector} from "@/lib/store/store-flow";
 import {Edge, Handle, NodeProps, Position, useStore,} from "@xyflow/react";
@@ -15,6 +21,7 @@ import {Expand} from "lucide-react";
 import {useEffect, useState} from "react";
 import {useShallow} from "zustand/react/shallow";
 import BtnGroupComponent from "../btn-group-component";
+import {func} from "ts-interface-checker";
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
@@ -52,8 +59,14 @@ export function largeComponentStyling() {
 export default function FlowComponent({data}: NodeProps<CimNode>) {
     // The fully loaded component from the database
     const [component, setComponent] = useState<CIM | null>(null);
-    const [expanded, setExpanded] = useState(false);
     const showContent = useStore(zoomSelector);
+
+    const createComponentData = (componentData: IdentifiedObject | null) => {
+        if(componentData) {
+            if (checkNodesForConnections(nodes, componentData).newNodesInfo.length == 0) {data.otherData.expanded = true}
+        }
+        setComponent(componentData);
+    };
 
     const {
         nodes,
@@ -66,13 +79,16 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
     useEffect(() => {
         if (!component) {
             const loadComponent = async () => {
-                setComponent(await getComponentById(data.cimData.rdfId))
+                createComponentData(await getComponentById(data.cimData.rdfId))
             }
             loadComponent()
+
         }
     }, []);
 
     const handleExpand = async () => {
+        console.log("Nodes:", nodes)
+
         // We need to load the full component from the database to get all the properties
 
         const node = nodes.find(node => node.id === component?.rdfId)
@@ -82,8 +98,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             We have a set of different types that we will automatically render:
             terminals, connectivity nodes
          */
-        const newNodes: CimNode[] = []
-        const newEdges: Edge[] = []
 
         let colors: string[] = [
             "#ff9e9e",
@@ -95,48 +109,25 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         ]
 
 
-
         if (node && component) {
-            if (isTerminal(component)) {
-                if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
-                    newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.otherData.color))
-                    newEdges.push(createEdge(component.rdfId, component.connectivityNode.rdfId, true))
+            const {newNodes, newEdges} = createConnectingNodes(nodes, component)
 
+            if (newNodes.length > 0) {
+                newNodes[0].data.otherData.color = data.otherData.color
+                if (newNodes.length > 1) {
+                    newNodes.forEach((element, i) => {
+                        element.data.otherData.color = colors[i % colors.length]
+                    });
                 }
-
-                if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
-                    newNodes.push(createNode(component.conductingEquipment.rdfId, component.conductingEquipment, 0, 0, data.otherData.color))
-                    newEdges.push(createEdge(component.rdfId, component.conductingEquipment.rdfId, true))
-                }
-            }
-            if (isConnectivityNode(component) || isConductingEquipment(component)) {
-                const rdfId = component.rdfId
-                let terminals = component.terminals || []
-                if(terminals.length == 0 && (component as PowerTransformerEnd).terminal != undefined)
-                    terminals = [(component as PowerTransformerEnd).terminal]
-                terminals.forEach(terminal => {
-                    if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
-                        newNodes.push(createNode(terminal.rdfId, terminal, 0, 0, data.otherData.color))
-                        newEdges.push(createEdge(terminal.rdfId, rdfId, false))
-                    }
-                })
+                
+                setNodes([...nodes, ...newNodes])
+                setEdges([...edges, ...newEdges])
+                setFocusNode(newNodes[newNodes.length - 1].id)
             }
         }
-        if (newNodes.length > 0) {
-
-
-            if (newNodes.length > 1) {
-                newNodes.forEach((element, i) => {
-                    element.data.otherData.color = colors[i%colors.length]
-                });
-            }
-            setNodes([...nodes, ...newNodes])
-            setEdges([...edges, ...newEdges])
-            setFocusNode(newNodes[newNodes.length - 1].id)
-        }
-        setExpanded(true)
+        // Will disable expand button in btn-group-component if all nodes connected to current CIM component already exists in flow.
+        data.otherData.expanded = true
     }
-
 
 
     return (
