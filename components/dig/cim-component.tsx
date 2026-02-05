@@ -33,10 +33,8 @@ export default function CimComponent({ equipment, otherData, collapsed, handleEx
 		cimPresentationMap[equipment.rdfType] ?? defaultCimPresentation
 	return (
 		<GenericComponent
-			equipment={equipment}
-			otherData={otherData}
-			collapsed={collapsed}
-			handleExpand={handleExpand}
+			data={{ equipment: equipment, otherData: { color: undefined } }}
+			states={{ handleExpand: handleExpand, collapsed: collapsed }}
 			presentation={presentation}
 		/>
 	)

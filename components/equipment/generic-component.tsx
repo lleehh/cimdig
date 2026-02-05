@@ -17,16 +17,26 @@ import { CimPresentation } from "@/lib/cim-presentation";
 import { getTitle } from "@/lib/utils";
 
 interface ConnectivetyNodeProps {
-	equipment: CIM
-	otherData: OtherData
-	collapsed?: boolean
-	handleExpand: () => void
+	data: Data
+	states: States
 	presentation: CimPresentation
 }
 
-export default function GenericComponent({ equipment, otherData, collapsed, handleExpand, presentation }: ConnectivetyNodeProps) {
-	const title = getTitle(equipment)
-	const { size, icon } = presentation
+interface Data {
+	equipment: CIM
+	otherData: OtherData
+}
+
+interface States {
+	collapsed?: boolean
+	handleExpand: () => void
+}
+
+export default function GenericComponent({ data, states, presentation }: ConnectivetyNodeProps) {
+	const { equipment, otherData } = data
+	const { collapsed, handleExpand } = states
+	const { size, icon, showDescription = false } = presentation
+	const title = getTitle(data.equipment)
 	const truncateClass = "truncate-text"
 
 	if (collapsed)
@@ -64,18 +74,16 @@ export default function GenericComponent({ equipment, otherData, collapsed, hand
 						</>
 					</CardDescription>
 				</CardHeader>
-				{equipment.description && size.name !== "smallComponentStyling" &&
-					<CardContent className="flex flex-col text-gray-600">
-						<div className={`text-gray-400 ${truncateClass}`}>{equipment.description.toString()}</div>
-						{equipment.baseVoltage && (
-							<span className={`${truncateClass}`}> Voltage {(equipment.baseVoltage as BaseVoltage).name}</span>
-						)}
-						{equipment.maxOperatingP && (
-							<span className={`${truncateClass}`}> Max operating power limit {equipment.maxOperatingP.toString()}</span>
-						)}
+				{showDescription && (<CardContent className="flex flex-col text-gray-600">
+					{showDescription && <div className={`text-gray-400 ${truncateClass}`}>{equipment.description?.toString()}</div>}
+					{equipment.baseVoltage && (
+						<span className={`${truncateClass}`}>Voltage {(equipment.baseVoltage as BaseVoltage).name}</span>
+					)}
+					{equipment.maxOperatingP && (
+						<span className={`${truncateClass}`}>Operating power limit {equipment.maxOperatingP.toString()}</span>
 
-					</CardContent>
-				}
+					)}
+				</CardContent>)}
 			</Card>
 		</div>
 	)
