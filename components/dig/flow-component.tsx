@@ -64,7 +64,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             const loadComponent = async () => {
                 let comp = await getComponentById(data.cimData.rdfId)
                 if (comp != null) {
-                    checkForVoltageLevel(comp)
+                    findClosestSubstation(comp)
                 }
                 
                 setComponent(comp)
@@ -74,22 +74,34 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         
     }, []);
 
-    async function findSubstationComponents(subStationId: string) {
-        const wantedComponents = ["cim:Substation.VoltageLevels"]
-        let subStationComponents: object[] = []
-        let subStation = await findById(subStationId)
-
-
-        let list: [] = subStation["cim:EquipmentContainer.Equipments"]
+    // async function findSubstationComponents(subStationId: string) {
+    //     const wantedComponents = ["cim:Substation.VoltageLevels"]
+    //     let subStationComponents: object[] = []
         
-        list?.forEach((e) => {
-            subStationComponents.push(e)
-        })
-    }
+    //     let subStation = await findById(subStationId)
+    //     compFinder(subStation, subStationComponents)
+    // }
 
-    async function checkForVoltageLevel(component: CIM) {
+    async function compFinder(component: object, subStationComponents) {
+        console.log(component)
+        switch (component["rdfType"]) {
+            case "cim:Substation":
+                component["cim:EquipmentContainer.Equipments"]?.forEach(e => {
+                    subStationComponents.push(e)
+                    compFinder(e, subStationComponents)
+                });
+                break;
+        
+            default:
+                
+                break;
+        }
+    }
+    
+    async function findClosestSubstation(component: CIM) {
         let componentTypes = ["cim:Terminal.ConnectivityNode", "cim:ConnectivityNode.ConnectivityNodeContainer"]
         let currentComponent = await findById(component.rdfId)
+        let subStationComponents: object[] = []
 
         if (currentComponent["rdfType"] == "cim:Terminal") {
             for (let i = 0; i < componentTypes.length; i ++){
@@ -98,13 +110,13 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
             }
             let subStationMrid = currentComponent["cim:VoltageLevel.Substation"]["mRID"]
             let stationName = currentComponent["cim:VoltageLevel.Substation"]["cim:IdentifiedObject.name"]
-            findSubstationComponents(subStationMrid)
+
+            compFinder(await findById(subStationMrid), subStationComponents)
             console.log(subStationMrid + stationName)
         }
         else {
-            console.log("Du er ikke på en terminal gå riktig sted")
+            console.log("Du er ikke på en terminal")
         }
-
     }
     
 
@@ -141,7 +153,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 case "cim:Substation":
                     console.log("Yippiee")
                 case "cim:Terminal":
-                    checkForVoltageLevel(component)
+                    findClosestSubstation(component)
 
             }
 
