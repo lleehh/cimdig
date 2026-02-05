@@ -148,7 +148,7 @@ export default function Dig({ equipment }: DigProps) {
         window.removeEventListener('resize', measureAndApply);
       }
     };
-  }, [nodes, fitView, getViewport, computedMinZoom]);
+  }, [nodes, computedMinZoom]);
 
   return (
     <div ref={containerRef} className="relative flex flex-col h-full flex-grow">
