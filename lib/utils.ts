@@ -24,6 +24,9 @@ export function getTitle(equipment: CIM): string {
     case "ConnectivityNode":
       return "CN";
 
+    case "BusbarSection":
+      return "Busbar";
+
     default:
       return type;
   }
