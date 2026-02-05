@@ -18,6 +18,7 @@ import { cimPresentationMap, defaultCimPresentation } from "@/lib/cim-presentati
 import { Fragment } from "react";
 import { componentDescriptionMap } from "@/lib/cim-presentation";
 import Description from "@/components/description-component";
+import { splitTitle } from "@/lib/utils";
 
 export default async function Home() {
 
@@ -47,15 +48,20 @@ export default async function Home() {
 			cimPresentationMap[equipment.rdfType] ?? defaultCimPresentation
 
 		return (
-			<Fragment>
-			<GenericComponent
-				data={{ equipment: equipment, otherData: { color: undefined } }}
-				states={{ handleExpand: handleExpand, collapsed: false }}
-				presentation={presentation}
-			/> 
-			<p>{componentDescriptionMap.get(equipment.rdfType)}</p>
-			</Fragment>
-			
+			<div className="flex items-center w-full gap-20 ">
+				<div className="w-1/4 flex justify-end ">
+					<GenericComponent
+						equipment={equipment}
+						otherData={{ color: undefined }}
+						handleExpand={handleExpand}
+						presentation={presentation}
+					/> 
+				</div>
+				<div className="w-3/4 b">
+					<span className="font-bold">{splitTitle(equipment.rdfType)}</span>
+					<p>{componentDescriptionMap.get(equipment.rdfType)}</p>
+				</div>
+			</div>
 		)
 	}
 
@@ -83,9 +89,10 @@ export default async function Home() {
 					</div>
 				</header>
 				<div
-					className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-					<main className="grid grid-cols-2 gap-8 row-start-2 items-center sm:items-start">
+					className="grid grid-rows-[20px_1fr_20px] items-center justify-items-left min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+					<main className="flex flex-col gap-12 row-start-2 justify-items-center ">
 						{acLineSegment && renderGeneric(acLineSegment)}
+
 						{breaker && renderGeneric(breaker)}
 						{generator && renderGeneric(generator)}
 						{cn && renderGeneric(cn)}
@@ -103,5 +110,5 @@ export default async function Home() {
 			</SidebarInset>
 
 		</SidebarProvider>
-	);
+	)
 }

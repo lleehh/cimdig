@@ -6,9 +6,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getTitle(equipment: CIM): string {
-  const type = equipment.rdfType.split(":")[1];
+export const splitTitle = (raw) => raw.split(":")[1]
 
+export function getTitle(equipment: CIM): string {
+  const type = splitTitle(equipment.rdfType)
+  
   switch (type) {
     case "Terminal": {
       const seq = (equipment as Terminal).sequenceNumber;
