@@ -39,18 +39,18 @@ export function colorStyling(color: string) {
 
 export function smallComponentStyling() {
     return (
-        "w-[180px]"
+        "w-[135px]"
     )
 }
 
 export function mediumComponentStyling() {
     return (
-       "w-[220px]"
+       "w-[180px]"
     ) 
 }
 
 export function largeComponentStyling() {
-    return "w-[300px]";
+    return "w-[270px]";
 }
 
 
