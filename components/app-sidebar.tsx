@@ -7,7 +7,7 @@ import {
     SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar"
-import {Command, GalleryHorizontal, ScrollText, icons, SpadeIcon} from "lucide-react"
+import {Command, GalleryHorizontal, icons, SpadeIcon} from "lucide-react"
 import { title } from "process"
 import { url } from "inspector"
 
@@ -25,11 +25,6 @@ const items = [
         icon: SpadeIcon,
     },
 
-    {
-        title: "Description",
-        url: "/description",
-        icon:  ScrollText,
-    },
 ]
 
 export async function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
