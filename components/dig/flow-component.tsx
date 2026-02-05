@@ -5,7 +5,8 @@ import {
     CIM,
     isConductingEquipment,
     isConnectivityNode,
-    isTerminal, PowerTransformerEnd
+    isTerminal, PowerTransformerEnd,
+    Substation
 } from "@/lib/cim";
 import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
 import {findById, getComponentById} from "@/lib/store/model-repository";
@@ -15,6 +16,7 @@ import {Expand} from "lucide-react";
 import {useEffect, useState} from "react";
 import {useShallow} from "zustand/react/shallow";
 import BtnGroupComponent from "../btn-group-component";
+import { subscribe } from "diagnostics_channel";
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
@@ -73,6 +75,20 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         
     }, []);
 
+    async function findSubstationComponents(subStationId: string) {
+        const wantedComponents = ["cim:Substation.VoltageLevels"]
+        let subStationComponents: object[] = []
+        let subStation = await findById(subStationId)
+        for (const key in subStation) {
+            if (wantedComponents.includes(key)) {
+                let substationComponentsIds = []
+                let component = subStation[key]
+                subStationComponents.push(component)
+                console.log(subStationComponents)
+            }
+        }
+    }
+
     async function checkForVoltageLevel(component: CIM) {
         let componentTypes = ["cim:Terminal.ConnectivityNode", "cim:ConnectivityNode.ConnectivityNodeContainer"]
         let currentComponent = await findById(component.rdfId)
@@ -90,9 +106,10 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 let mrid = currentComponent[componentTypes[i]]["mRID"]
                 currentComponent = await findById(mrid)
             }
-            let voltageMrid = currentComponent["cim:VoltageLevel.Substation"]["mRID"]
+            let subStationMrid = currentComponent["cim:VoltageLevel.Substation"]["mRID"]
             let stationName = currentComponent["cim:VoltageLevel.Substation"]["cim:IdentifiedObject.name"]
-            console.log(voltageMrid + stationName)
+            findSubstationComponents(subStationMrid)
+            console.log(subStationMrid + stationName)
         }
         else {
             console.log("Du er ikke på en terminal gå riktig sted")
