@@ -91,7 +91,19 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                     compFinder(e, subStationComponents)
                 });
                 break;
-        
+            case "cim:PowerTransformer":
+                component["cim:ConductingEquipment.Terminals"]?.forEach(e => {
+                    subStationComponents.push(e)
+                    compFinder(e, subStationComponents)
+                });
+                
+                // subStationComponents.push(component)
+                // let terminal = await findById(component["cim:TransformerEnd.Terminal"]["mRID"])
+                // console.log(terminal)
+                // compFinder(terminal, subStationComponents)
+
+                break;
+
             default:
                 
                 break;
