@@ -48,6 +48,8 @@ export default async function Home() {
 				equipment={equipment}
 				otherData={{ color: undefined, expanded: false }}
 				handleExpand={handleExpand}
+				data={{ equipment: equipment, otherData: { color: undefined } }}
+				states={{ handleExpand: handleExpand, collapsed: false }}
 				presentation={presentation}
 			/>
 		)

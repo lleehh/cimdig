@@ -57,7 +57,6 @@ export default function BtnGroupComponent({equipment, otherData, handleExpand}: 
 
         {/* Description: controlled */}
         <Description
-          description={(equipment as any)?.description}
           open={openThing === "description"}
           onOpenChange={(open) =>
             setOpenThing((prev) => (open ? "description" : prev === "description" ? null : prev))

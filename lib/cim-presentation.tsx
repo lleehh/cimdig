@@ -10,16 +10,18 @@ import {
 } from "lucide-react"
 import { mediumComponentStyling, smallComponentStyling } from "../components/dig/flow-component"
 import { ComponentIcon } from "../components/component-icon";
+import { CIM, GeneratingUnit, NonConformLoad, PowerTransformer } from "./cim";
 
 export interface CimPresentation {
 	size: () => string
 	icon: ReactElement
+	showDescription?: boolean
 }
 
 export const cimPresentationMap: Record<string, CimPresentation> = {
 	"cim:ACLineSegment": {
 		size: mediumComponentStyling,
-		icon: <ComponentIcon icon="ledningssegment" />
+		icon: <ComponentIcon icon="ledningssegment" />,
 	},
 	"cim:Terminal": {
 		size: smallComponentStyling,
@@ -31,15 +33,18 @@ export const cimPresentationMap: Record<string, CimPresentation> = {
 	},
 	"cim:Breaker": {
 		size: mediumComponentStyling,
-		icon: <ComponentIcon icon="bryter" />
+		icon: <ComponentIcon icon="bryter" />,
+
 	},
 	"cim:GeneratingUnit": {
 		size: mediumComponentStyling,
-		icon: <ComponentIcon icon="generator" />
+		icon: <ComponentIcon icon="generator" />,
+		showDescription: true
 	},
 	"cim:NonConformLoad": {
 		size: mediumComponentStyling,
-		icon: <Factory />
+		icon: <Factory />,
+		showDescription: true
 	},
 	"cim:BusbarSection": {
 		size: mediumComponentStyling,
@@ -47,8 +52,8 @@ export const cimPresentationMap: Record<string, CimPresentation> = {
 	},
 	"cim:Bay": {
 		size: mediumComponentStyling,
-		icon: <LandPlot />
-
+		icon: <LandPlot />,
+		showDescription: true
 	},
 	"cim:Substation": {
 		size: mediumComponentStyling,
@@ -70,7 +75,8 @@ export const cimPresentationMap: Record<string, CimPresentation> = {
 
 	"cim:ConformLoad": {
 		size: mediumComponentStyling,
-		icon: <HousePlug />
+		icon: <HousePlug />,
+		showDescription: true
 	}
 }
 
