@@ -16,6 +16,8 @@ import { Circle, Factory, HousePlug, LandPlot, Shell, Square, SquareTerminal, Tr
 import { ComponentIcon } from "@/components/component-icon";
 import { cimPresentationMap, defaultCimPresentation } from "@/lib/cim-presentation";
 import { Fragment } from "react";
+import { componentDescriptionMap } from "@/lib/cim-presentation";
+import Description from "@/components/description-component";
 
 export default async function Home() {
 
@@ -39,7 +41,7 @@ export default async function Home() {
 	const handleExpand = async () => { 'use server' }
 
 	function renderGeneric(
-		equipment: CIM
+		equipment: CIM,
 	) {
 		const presentation =
 			cimPresentationMap[equipment.rdfType] ?? defaultCimPresentation
@@ -51,7 +53,7 @@ export default async function Home() {
 				states={{ handleExpand: handleExpand, collapsed: false }}
 				presentation={presentation}
 			/> 
-			<p>{equipment.description?.toString()}</p>
+			<p>{componentDescriptionMap.get(equipment.rdfType)}</p>
 			</Fragment>
 			
 		)
