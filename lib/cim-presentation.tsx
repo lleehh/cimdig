@@ -84,3 +84,19 @@ export const defaultCimPresentation: CimPresentation = {
 	size: mediumComponentStyling,
 	icon: <Triangle />
 }
+
+export const componentDescriptionMap =  new Map ([
+	["cim:ACLineSegment", "Represents a segment of an AC transmission or distribution line with electrical characteristics"],
+    ["cim:Terminal", "Connection point where conducting equipment connects to a connectivity node"],
+    ["cim:ConnectivityNode", "Point where multiple terminals are electrically connected together"],
+    ["cim:Breaker", "Switching device capable of making, carrying, and breaking currents under normal and fault conditions"],
+    ["cim:GeneratingUnit", "Power generation equipment that produces electrical energy"],
+    ["cim:NonConformLoad", "Load that does not follow standard load response patterns, such as industrial loads"],
+    ["cim:BusbarSection", "Conductor section used to connect multiple circuits at the same voltage level"],
+    ["cim:Bay", "Logical grouping of equipment within a substation serving a specific function"],
+    ["cim:Substation", "Facility where voltage is transformed and power is switched between transmission lines"],
+    ["cim:PowerTransformer", "Equipment that transforms voltage levels between different parts of the power system"],
+    ["cim:PowerTransformerEnd", "Winding or terminal end of a power transformer at a specific voltage level"],
+    ["cim:Line", "Transmission or distribution line connecting two substations or nodes"],
+    ["cim:ConformLoad", "Standard load that follows typical consumption patterns, such as residential loads"]
+]);
