@@ -16,7 +16,6 @@ import {Expand} from "lucide-react";
 import {useEffect, useState} from "react";
 import {useShallow} from "zustand/react/shallow";
 import BtnGroupComponent from "../btn-group-component";
-import { subscribe } from "diagnostics_channel";
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
@@ -79,29 +78,20 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         const wantedComponents = ["cim:Substation.VoltageLevels"]
         let subStationComponents: object[] = []
         let subStation = await findById(subStationId)
-        for (const key in subStation) {
-            if (wantedComponents.includes(key)) {
-                let substationComponentsIds = []
-                let component = subStation[key]
-                subStationComponents.push(component)
-                console.log(subStationComponents)
-            }
-        }
+
+
+        let list: [] = subStation["cim:EquipmentContainer.Equipments"]
+        
+        list?.forEach((e) => {
+            subStationComponents.push(e)
+        })
     }
 
     async function checkForVoltageLevel(component: CIM) {
         let componentTypes = ["cim:Terminal.ConnectivityNode", "cim:ConnectivityNode.ConnectivityNodeContainer"]
         let currentComponent = await findById(component.rdfId)
-        // for (const key in currentComponent) {
-        //     if (key == "rdfType") {
-        //         if (currentComponent[key] == "cim:Terminal") {
-        //             console.log("Yey")
-        //         }
-                
-        //     }
-        // }
 
-        if (currentComponent["rdfType"] == "cim:Terminal"){
+        if (currentComponent["rdfType"] == "cim:Terminal") {
             for (let i = 0; i < componentTypes.length; i ++){
                 let mrid = currentComponent[componentTypes[i]]["mRID"]
                 currentComponent = await findById(mrid)
