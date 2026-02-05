@@ -72,7 +72,7 @@ export default function Dig({ equipment }: DigProps) {
         fitView({ duration: 500, padding: 0.2 });
       });
     },
-    [nodes, edges, setNodes, setEdges, fitView],
+    [nodes, edges],
   );
 
   const focusNodeHandle = (nodeId: string) => {
@@ -115,7 +115,7 @@ export default function Dig({ equipment }: DigProps) {
       );
 
       setComputedMinZoom(prev =>
-        Math.abs(prev - desiredMinZoom) > 1e-6 ? desiredMinZoom : prev
+        Math.abs(prev - desiredMinZoom) > 1e-6 ? desiredMinZoom : prev // Checks if there was a large enough change
       );
 
       if (!hasAutoFitRunRef.current) {
