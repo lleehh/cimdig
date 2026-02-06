@@ -125,6 +125,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                 setFocusNode(newNodes[newNodes.length - 1].id)
             }
         }
+        // Will disable expand button in btn-group-component if all nodes connected to current CIM component already exists in flow.
         data.otherData.expanded = true
     }
 
