@@ -15,7 +15,6 @@ import {
 import useFlowStore, { OtherData, selector } from "@/lib/store/store-flow";
 import { useShallow } from "zustand/react/shallow";
 import { componentStatus } from "@/lib/flow-utils";
-import Description from "./description-component";
 
 interface BtnGroupComponentProps {
     handleExpand: () => void;
