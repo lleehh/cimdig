@@ -82,7 +82,7 @@ export default async function Home() {
 
         return (
             <div className="flex items-start w-full gap-10 ">
-                <div className="w-1/4 flex justify-end ">
+                <div className="w-1/4 flex justify-start pl-12">
                     <GenericComponent
                         data={{ equipment: equipment, otherData: { color: undefined } }}
                         states={{ handleExpand: handleExpand, collapsed: false }}
