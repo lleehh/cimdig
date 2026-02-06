@@ -54,7 +54,7 @@ export default function GenericComponent({ data, states, presentation }: Connect
 
 	return (
 		<div>
-			<BtnGroupComponent equipment={equipment} handleExpand={handleExpand} />
+			<BtnGroupComponent equipment={equipment} otherData={otherData} handleExpand={handleExpand} />
 			<Card className={size()} color={otherData.color ?? "black"}>
 				<CardHeader>
 					<CardTitle className="flex min-w-0 gap-2">

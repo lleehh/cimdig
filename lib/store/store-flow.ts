@@ -5,13 +5,14 @@ import {edgeTemplate} from "@/lib/flow-utils";
 
 export interface OtherData {
     color: string | undefined
+    expanded: boolean | undefined
 
     [key: string]: any;
 }
 
 export interface NodeData {
-    cimData: CIM  // - Data relating to the CIM component that the node is representing. Should NOT be altered.
-    otherData: OtherData // - Data relating to the node that is not stored in CIM, such as colors, whether or not it can be expanded, etc... Can be altered.
+    cimData: CIM  // - Data related to the CIM component that the node is representing. Should NOT be altered.
+    otherData: OtherData // - Data related to the node that is not stored in CIM, such as colors, whether or not it can be expanded, etc... Can be altered.
 
     [key: string]: any;
 }
