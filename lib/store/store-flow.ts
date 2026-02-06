@@ -86,12 +86,11 @@ const useFlowStore = create<FlowState>((set, get) => ({
         return get().nodes.find((node) => node.id === nodeId)?.data;
     },
     addNode: (node) => {
-        console.log("add node", node)
-        set((state) => {
-            return ({
-                nodes: [...state.nodes, node]
-            })
-        })
+        set((state) => ({
+            nodes: state.nodes.some(n => n.id === node.id) // checks if node already exists
+                ? state.nodes
+                : [...state.nodes, node]
+        }))
     },
     setFocusNode: (id) => {
         console.log("focus node", id)
