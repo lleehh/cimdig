@@ -25,12 +25,43 @@ import { useDebounce } from "use-debounce";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Item } from "@radix-ui/react-dropdown-menu";
 
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return false;
+    }
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updatePreference);
+    };
+  }, []);
+
+  return prefersReducedMotion;
+}
+
 export default function SearchBar() {
   const [isFocused, setIsFocused] = useState(false);
   const [input, setInput] = useState("");
   const [response, setResponse] = useState<SearchResult>([]);
   const [debouncedInput] = useDebounce(input, 200);
-  const [animationParent] = useAutoAnimate({ duration: 100 });
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [animationParent] = useAutoAnimate({
+    duration: 100,
+    enabled: !prefersReducedMotion,
+  });
 
   const { setNodes, setEdges } = useFlowStore();
 
