@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import { usePathname } from "next/navigation";
 import AdditionalCimLinks from "@/components/additional-cim-links-component";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ interface BtnGroupComponentProps {
     handleExpand: () => void;
     equipment: CIM;
     otherData: OtherData;
+    icon: ReactElement;
 }
 
 type OpenThing = "description" | "properties" | "links" | null;
@@ -28,6 +29,7 @@ export default function BtnGroupComponent({
     equipment,
     otherData,
     handleExpand,
+    icon,
 }: BtnGroupComponentProps) {
     // Avoid rendering this component on the gallery page.
     const pathname = usePathname();
@@ -59,8 +61,15 @@ export default function BtnGroupComponent({
         ).length > 0;
 
     return (
-        <div>
-            <div className="w-max h-max rounded-t-xl border-r border-t border-l bg-card text-card-foreground absolute -top-4 right-0">
+        <div className="flex h-max w-full justify-between border-x border-t rounded-t-lg overflow-hidden">
+            <div className="flex justify-start w-full">
+                <div
+                    className="min-h-[5px] min-w-[5px] "
+                    style={{ backgroundColor: otherData.color }}
+                />
+                <div className="shrink-1 pl-1 pt-[1px] text-gray-600">{icon}</div>
+            </div>
+            <div className=" flex flex-row pt-[1px] pb-[1px] justify-evenly bg-card text-card-foreground ">
                 {/* Properties: controlled */}
                 <DisplayProperty
                     data={propertyList}
