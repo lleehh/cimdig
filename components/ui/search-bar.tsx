@@ -59,8 +59,7 @@ export default function SearchBar() {
   const [debouncedInput] = useDebounce(input, 200);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [animationParent] = useAutoAnimate({
-    duration: 100,
-    enabled: !prefersReducedMotion,
+    duration: prefersReducedMotion ? 0 : 100,
   });
 
   const { setNodes, setEdges } = useFlowStore();
