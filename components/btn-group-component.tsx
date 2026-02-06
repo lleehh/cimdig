@@ -32,8 +32,7 @@ export default function BtnGroupComponent({
     icon,
 }: BtnGroupComponentProps) {
     // Avoid rendering this component on the gallery page.
-    const pathname = usePathname();
-    if (pathname === "/") {
+    if (otherData.color === undefined) {
         return null;
     }
     const refs = componentRefs(equipment);

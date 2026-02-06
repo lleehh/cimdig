@@ -32,6 +32,7 @@ export default function GenericComponent({ data, states, presentation }: Connect
     const { size, icon, showDescription = false } = presentation;
     const title = getTitle(data.equipment);
     const truncateClass = "truncate-text";
+    const hasButtonGroup = data.otherData.color ? true : false;
 
     if (collapsed)
         return (
@@ -54,7 +55,7 @@ export default function GenericComponent({ data, states, presentation }: Connect
                     icon={icon}
                 />
 
-                <CardHeader>
+                <CardHeader className={!hasButtonGroup ? "pt-[8px]" : "pl-[10px]"}>
                     <CardTitle className="flex min-w-0 gap-2">
                         <div className={`${truncateClass} text-sm font-medium`}>{title}</div>
                     </CardTitle>
