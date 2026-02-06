@@ -119,10 +119,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                         element.data.otherData.color = colors[i % colors.length]
                     });
                 }
-
-                else {
-
-                }
+                
                 setNodes([...nodes, ...newNodes])
                 setEdges([...edges, ...newEdges])
                 setFocusNode(newNodes[newNodes.length - 1].id)
