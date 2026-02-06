@@ -45,7 +45,6 @@ import { ComponentIcon } from "@/components/component-icon";
 import { cimPresentationMap, defaultCimPresentation } from "@/lib/cim-presentation";
 import { Fragment } from "react";
 import { componentDescriptionMap } from "@/lib/cim-presentation";
-import Description from "@/components/description-component";
 import { splitTitle } from "@/lib/utils";
 
 export default async function Home() {
@@ -84,7 +83,10 @@ export default async function Home() {
             <div className="flex items-start w-full gap-10 ">
                 <div className="w-1/4 flex justify-start pl-12">
                     <GenericComponent
-                        data={{ equipment: equipment, otherData: { color: undefined, expanded: false } }}
+                        data={{
+                            equipment: equipment,
+                            otherData: { color: undefined, expanded: false },
+                        }}
                         states={{ handleExpand: handleExpand, collapsed: false }}
                         presentation={presentation}
                     />
