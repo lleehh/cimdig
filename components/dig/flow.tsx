@@ -115,6 +115,8 @@ export default function Dig({ equipment }: DigProps) {
       );
 
       setComputedMinZoom(prev =>
+        // Ensure that zooming only happens when the difference between computedMinZoom and the previous value is above 1e-6.
+        // This prevents unnecessary zoom adjustments.
         Math.abs(prev - desiredMinZoom) > 1e-6 ? desiredMinZoom : prev // Checks if there was a large enough change
       );
 
