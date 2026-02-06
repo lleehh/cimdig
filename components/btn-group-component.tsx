@@ -62,12 +62,9 @@ export default function BtnGroupComponent({
 
     return (
         <div className="flex h-max w-full justify-between border-x border-t rounded-t-lg overflow-hidden">
-            <div className="flex justify-start w-full">
-                <div
-                    className="min-h-[5px] min-w-[5px] "
-                    style={{ backgroundColor: otherData.color }}
-                />
-                <div className="shrink-1 pl-1 pt-[1px] text-gray-600">{icon}</div>
+            <div className="flex justify-start w-full items-center gap-1">
+                <div className="h-full w-[5px] " style={{ backgroundColor: otherData.color }} />
+                <div className="shrink-1 w-min h-min text-gray-600">{icon}</div>
             </div>
             <div className=" flex flex-row pt-[1px] pb-[1px] justify-evenly bg-card text-card-foreground ">
                 {/* Properties: controlled */}
