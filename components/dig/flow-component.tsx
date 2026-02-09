@@ -1,22 +1,23 @@
 'use client'
 import CimComponent from "@/components/dig/cim-component";
-import {Button} from "@/components/ui/button";
 import {
+    ACLineSegment,
     CIM,
+    ConnectivityNode,
+    EquipmentContainer,
     isConductingEquipment,
     isConnectivityNode,
     isTerminal, PowerTransformerEnd,
-    Substation
+    Substation,
+    Terminal,
+    VoltageLevel
 } from "@/lib/cim";
 import {createEdge, createNode, doesEquipmentExistsInFlow} from "@/lib/flow-utils";
 import {findById, getComponentById} from "@/lib/store/model-repository";
 import useFlowStore, {CimNode, selector} from "@/lib/store/store-flow";
 import {Edge, Handle, NodeProps, Position, useStore,} from "@xyflow/react";
-import {Expand} from "lucide-react";
 import {useEffect, useState} from "react";
 import {useShallow} from "zustand/react/shallow";
-import BtnGroupComponent from "../btn-group-component";
-import ConnectivityNodeComponent from "../equipment/connectivety-node-component";
 
 const zoomSelector = (s: { transform: number[]; }) => s.transform[2] >= 0.6;
 
@@ -75,87 +76,83 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         
     }, []);
 
-    // async function findSubstationComponents(subStationId: string) {
-    //     const wantedComponents = ["cim:Substation.VoltageLevels"]
-    //     let fullSubstation: object[] = []
-        
-    //     let subStation = await findById(subStationId)
-    //     compFinder(subStation, fullSubstation)
-    // }
+    async function checkSaveAndContinue(component, fullSubstation) {
+        if (!fullSubstation.some(x => x.mRID === component.mRID)) {
+            fullSubstation.push(component)
+            await compFinder(component, fullSubstation)
+            console.log(fullSubstation)
+        }
+    }
 
     async function compFinder(component: object, fullSubstation) {
-        // console.log(component)
+        // console.log("finding components under: ")
         switch (component["rdfType"]) {
-
-
             case "cim:Substation":
+                fullSubstation.push(component["cim:IdentifiedObject.name"])
                 for (const e of component["cim:EquipmentContainer.Equipments"] ?? []) {
                     let substationEquipment = await findById(e["mRID"])
-                    if (!fullSubstation.some(x => x.mRID === substationEquipment.mRID)){
-                        fullSubstation.push(substationEquipment)
-                        await compFinder(substationEquipment, fullSubstation)
-                    }
+                    checkSaveAndContinue(substationEquipment, fullSubstation)
                 }
-                break;
             case "cim:PowerTransformer":
                 for (const e of component["cim:ConductingEquipment.Terminals"] ?? []) {
                     let terminal = await findById(e["mRID"])
-                    if (!fullSubstation.some(x => x.mRID === terminal.mRID)){
-                        fullSubstation.push(terminal)
-                        await compFinder(terminal, fullSubstation)
-                    }
+                    checkSaveAndContinue(terminal, fullSubstation)
                 }
-                break;
             case "cim:Terminal":
                 const mRID = component["cim:Terminal.ConnectivityNode"]?.mRID;
-
                 if (mRID) {
-                    const ConnectivityNode = await findById(mRID);
-                    if (!fullSubstation.some(x => x.mRID === ConnectivityNode.mRID)){
-                        fullSubstation.push(ConnectivityNode); 
-                        console.log(fullSubstation)
-                        await compFinder(ConnectivityNode, fullSubstation);
-                    }
+                    const connectivityNode = await findById(mRID);
+                    checkSaveAndContinue(connectivityNode, fullSubstation)
                 }
-
-                break;
             case "cim:ConnectivityNode":
-        
                 for (const e of component["cim:ConnectivityNode.Terminals"] ?? []) {
                     let terminal = await findById(e["mRID"])
-                    if (!fullSubstation.some(x => x.mRID === terminal.mRID)){
-                        fullSubstation.push(terminal)
-                        await compFinder(terminal, fullSubstation)
-                    }  
+                    checkSaveAndContinue(terminal, fullSubstation)
                 }
-
-
-
-
             default:
-                
                 break;
         }
     }
     
     async function findClosestSubstation(component: CIM) {
-        let componentTypes = ["cim:Terminal.ConnectivityNode", "cim:ConnectivityNode.ConnectivityNodeContainer"]
-        let currentComponent = await findById(component.rdfId)
-        let fullSubstation: object[] = []
 
-        if (currentComponent["rdfType"] == "cim:Terminal") {
-            for (let i = 0; i < componentTypes.length; i ++){
-                let mrid = currentComponent[componentTypes[i]]["mRID"]
-                currentComponent = await findById(mrid)
-            }
-            let subStationMrid = currentComponent["cim:VoltageLevel.Substation"]["mRID"]
-            let stationName = currentComponent["cim:VoltageLevel.Substation"]["cim:IdentifiedObject.name"]
 
-            compFinder(await findById(subStationMrid), fullSubstation)
-            console.log(subStationMrid + stationName)
-        }
-        else {
-            console.log("Du er ikke på en terminal")
+        switch (component.rdfType) {
+            case "cim:ACLineSegment":
+                let acLineSegment: ACLineSegment | null = await getComponentById(component.rdfId)
+                if (acLineSegment != null) {
+                    for (const e of acLineSegment.terminals) {
+                        let terminal: Terminal | null = await getComponentById(e.mRID)
+                        if (terminal != null) {
+                            findClosestSubstation(terminal)
+                        }
+                    }
+                }
+                break;
+            case "cim:Terminal":
+                let terminal: Terminal | null = await getComponentById(component.rdfId)
+                let fullSubstation: object[] = []
+                if (terminal != null) {
+                    const cn: ConnectivityNode | null = await getComponentById(terminal.connectivityNode.mRID)
+                    if (cn != null) {
+                        const cnContainer: EquipmentContainer | null = await getComponentById(cn.connectivityNodeContainer.mRID)
+                        if (cnContainer != null) {                            
+                            const voltageLevel: VoltageLevel | null = await getComponentById(cnContainer?.mRID)
+                            if (voltageLevel != null) {
+                                const subStation: Substation | null = await getComponentById(voltageLevel.substation.mRID)
+                                if (subStation != null) {
+                                    let subStationMrid = subStation.mRID
+                                    let stationName = subStation.name
+                    
+                                    compFinder(await getComponentById(subStationMrid), fullSubstation)
+                                    console.log("Closest substation is: " + stationName + subStationMrid)
+                                }
+                            }
+                        }
+                    }
+                }
+            default:
+                break;
         }
     }
     
@@ -189,13 +186,13 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
 
         if (node && component) {
 
-            switch (component.rdfType) {
-                case "cim:Substation":
-                    console.log("Yippiee")
-                case "cim:Terminal":
-                    findClosestSubstation(component)
+            // switch (component.rdfType) {
+            //     case "cim:Substation":
+            //         console.log("Yippiee")
+            //     case "cim:Terminal":
+            //         findClosestSubstation(component)
 
-            }
+            // }
 
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
