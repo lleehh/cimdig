@@ -5,13 +5,14 @@ import {edgeTemplate} from "@/lib/flow-utils";
 
 export interface OtherData {
     color: string | undefined
+    expanded: boolean | undefined
 
     [key: string]: any;
 }
 
 export interface NodeData {
-    cimData: CIM  // - Data relating to the CIM component that the node is representing. Should NOT be altered.
-    otherData: OtherData // - Data relating to the node that is not stored in CIM, such as colors, whether or not it can be expanded, etc... Can be altered.
+    cimData: CIM  // - Data related to the CIM component that the node is representing. Should NOT be altered.
+    otherData: OtherData // - Data related to the node that is not stored in CIM, such as colors, whether or not it can be expanded, etc... Can be altered.
 
     [key: string]: any;
 }
@@ -86,12 +87,11 @@ const useFlowStore = create<FlowState>((set, get) => ({
         return get().nodes.find((node) => node.id === nodeId)?.data;
     },
     addNode: (node) => {
-        console.log("add node", node)
-        set((state) => {
-            return ({
-                nodes: [...state.nodes, node]
-            })
-        })
+        set((state) => ({
+            nodes: state.nodes.some(n => n.id === node.id) // checks if node already exists
+                ? state.nodes
+                : [...state.nodes, node]
+        }))
     },
     setFocusNode: (id) => {
         console.log("focus node", id)

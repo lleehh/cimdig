@@ -1,31 +1,36 @@
-import * as React from "react"
+import * as React from "react";
 
 import {
     Sidebar,
     SidebarContent,
-    SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-    SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
     SidebarRail,
-} from "@/components/ui/sidebar"
-import {Command, GalleryHorizontal, SpadeIcon} from "lucide-react"
+} from "@/components/ui/sidebar";
+import { Command, GalleryHorizontal, icons, SpadeIcon } from "lucide-react";
+import { title } from "process";
+import { url } from "inspector";
 
 // This is sample data.
 const items = [
     {
-        title: "Gallery",
-        url: "/",
-        icon: GalleryHorizontal,
-    },
-
-    {
         title: "Cim Dig",
-        url: "/dig",
+        url: "/",
         icon: SpadeIcon,
     },
-]
+    {
+        title: "Gallery",
+        url: "/gallery",
+        icon: GalleryHorizontal,
+    },
+];
 
-export async function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
-
+export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
@@ -33,9 +38,8 @@ export async function AppSidebar({...props}: React.ComponentProps<typeof Sidebar
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <a href="#">
-                                <div
-                                    className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                    <Command className="size-4"/>
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                    <Command className="size-4" />
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate font-semibold">TUS</span>
@@ -55,7 +59,7 @@ export async function AppSidebar({...props}: React.ComponentProps<typeof Sidebar
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
                                         <a href={item.url}>
-                                            <item.icon/>
+                                            <item.icon />
                                             <span>{item.title}</span>
                                         </a>
                                     </SidebarMenuButton>
@@ -65,7 +69,8 @@ export async function AppSidebar({...props}: React.ComponentProps<typeof Sidebar
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarRail/>
+            <SidebarRail />
         </Sidebar>
-    )
+    );
 }
+

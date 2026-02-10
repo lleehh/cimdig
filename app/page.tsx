@@ -1,5 +1,5 @@
 import {getComponentById} from "@/lib/store/model-repository";
-import {ACLineSegment, Breaker, ConnectivityNode, GeneratingUnit, Terminal, BusbarSection, NonConformLoad, PowerTransformer, PowerTransformerEnd, Bay, Substation, Line, ConformLoad} from "@/lib/cim";
+import {ACLineSegment, Breaker} from "@/lib/cim";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
 import {Separator} from "@/components/ui/separator";
@@ -10,21 +10,14 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import BreakerComponent from "@/components/equipment/breaker-component";
-import GeneratorComponent from "@/components/equipment/generator-component";
-import ACLineSegmentComponent from "@/components/equipment/aclinesegment-component";
-import ConnectivityNodeComponent from "@/components/equipment/connectivety-node-component";
-import TerminalComponent from "@/components/equipment/terminal-component";
-import BusbarComponent from "@/components/equipment/busbarsection-component";
-import PowerTransformerComponent from "@/components/equipment/powertransformer-component";
-import PowerTransformerEndComponent from "@/components/equipment/powertransformer-end-component";
-import NonConformLoadComponent from "@/components/equipment/nonconformload-component";
-import Substationcomponent from "@/components/equipment/substation-component";
-import Baycomponent from "@/components/equipment/bay-component";
-import LineComponent from "@/components/equipment/line-component";
-import ConformLoadComponent from "@/components/equipment/conformload-component";
+import Dig from "@/components/dig/flow";
+import FlowRoot from "@/components/dig/flow_root";
+import { Sub } from "@radix-ui/react-dropdown-menu";
+import { Power } from "lucide-react";
+
 
 export default async function Home() {
+
 
     const acLineSegmentId = "f1769cf8-9aeb-11e5-91da-b8763fd99c5f"
     const breakerId = "22e5ddcf-ac23-b449-bc4f-83336535f7c2"
@@ -32,18 +25,6 @@ export default async function Home() {
 
     const acLineSegment = await getComponentById<ACLineSegment>(acLineSegmentId)
     const breaker = await getComponentById<Breaker>(breakerId)
-    const generator = await getComponentById<GeneratingUnit>("f1769915-9aeb-11e5-91da-b8763fd99c5f")
-    const cn = await getComponentById<ConnectivityNode>("f176969d-9aeb-11e5-91da-b8763fd99c5f")
-    const terminal = await getComponentById<Terminal>("2dd903ab-bdfb-11e5-94fa-c8f73332c8f4")
-    const busbarSection = await getComponentById<BusbarSection>("2dd90172-bdfb-11e5-94fa-c8f73332c8f4")
-    const powerTransformer = await getComponentById<PowerTransformer>("f1769da0-9aeb-11e5-91da-b8763fd99c5f")
-    const PowerTransformerEnd = await getComponentById<PowerTransformerEnd>("2dd9044c-bdfb-11e5-94fa-c8f73332c8f4")
-    const loadProp = await getComponentById<NonConformLoad>("f17697f4-9aeb-11e5-91da-b8763fd99c5f")
-    const Substation = await getComponentById<Substation>("f1769604-9aeb-11e5-91da-b8763fd99c5f")
-    const Bay = await getComponentById<Bay>("f72994d8-9857-b349-a4ae-2e3c9652d5bc")
-    const Line = await getComponentById<Line>("5e7d0b4c-fa65-1d40-aef6-779298018c7e")
-    const ConformLoad = await getComponentById<ConformLoad>("f1769746-9aeb-11e5-91da-b8763fd99c5f")
-    const handleExpand = async()=>{'use server'}
 
     return (
         <SidebarProvider>
@@ -58,7 +39,7 @@ export default async function Home() {
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
                                     <BreadcrumbLink href="#">
-                                        Gallery
+                                        CimDig
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block"/>
@@ -68,26 +49,10 @@ export default async function Home() {
                         </div>
                     </div>
                 </header>
-                <div
-                    className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-                    <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                        {acLineSegment && <ACLineSegmentComponent equipment={acLineSegment} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {breaker && <BreakerComponent  equipment={breaker} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {generator && <GeneratorComponent equipment={generator} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {cn && <ConnectivityNodeComponent equipment={cn} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {terminal && <TerminalComponent equipment={terminal} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {busbarSection && <BusbarComponent equipment={busbarSection} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {powerTransformer && <PowerTransformerComponent equipment={powerTransformer} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {PowerTransformerEnd && <PowerTransformerEndComponent equipment={PowerTransformerEnd} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {loadProp && <NonConformLoadComponent equipment={loadProp} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Substation && <Substationcomponent equipment={Substation} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Bay && <Baycomponent equipment={Bay} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {Line && <LineComponent equipment={Line} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                        {ConformLoad && <ConformLoadComponent equipment={ConformLoad} otherData={{color: undefined}} handleExpand={handleExpand}/>}
-                    </main>
-                </div>
+                <FlowRoot>
+                    <Dig equipment={acLineSegment}/>
+                </FlowRoot>
             </SidebarInset>
-
         </SidebarProvider>
-    );  
+    );
 }

@@ -32,12 +32,76 @@ export const edgeTemplate = {
     }
 }
 
+interface NodeInfo {
+    id: string
+    data: CIM
+}
+
+interface EdgeInfo {
+    sourceId: string
+    targetId: string
+    fromSource: boolean
+}
+
+export function checkNodesForConnections(nodes: CimNode[], component: CIM) {
+    const newNodesInfo: NodeInfo[] = []
+    const newEdgesInfo: EdgeInfo[] = []
+
+    if (isTerminal(component)) {
+        if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
+            newNodesInfo.push({id: component.connectivityNode.rdfId, data: component.connectivityNode})
+            newEdgesInfo.push({sourceId: component.rdfId, targetId: component.connectivityNode.rdfId, fromSource: true})
+        }
+
+        if (!doesEquipmentExistsInFlow(component.conductingEquipment.rdfId, nodes)) {
+            newNodesInfo.push({id: component.conductingEquipment.rdfId, data: component.conductingEquipment})
+            newEdgesInfo.push({sourceId: component.rdfId, targetId: component.conductingEquipment.rdfId, fromSource: true})
+        }
+    }
+
+    if (isConnectivityNode(component) || isConductingEquipment(component)) {
+        const rdfId = component.rdfId
+        let terminals = component.terminals || []
+        if(terminals.length == 0 && (component as PowerTransformerEnd).terminal != undefined)
+            terminals = [(component as PowerTransformerEnd).terminal]
+        terminals.forEach(terminal => {
+            if (!doesEquipmentExistsInFlow(terminal.rdfId, nodes)) {
+                newNodesInfo.push({id: terminal.rdfId, data: terminal})
+                newEdgesInfo.push({sourceId: terminal.rdfId, targetId: rdfId, fromSource: false})
+            }
+        })
+    }
+
+    return {newNodesInfo, newEdgesInfo}
+}
+
+export function createConnectingNodes(nodes: CimNode[], component: CIM) {
+    const newNodes: CimNode[] = []
+    const newEdges: Edge[] = []
+
+    const {newNodesInfo, newEdgesInfo} = checkNodesForConnections(nodes, component)
+
+    newNodesInfo.forEach((info) => {
+        newNodes.push(createNode(info.id, info.data, 0, 0))
+    })
+
+    newEdgesInfo.forEach((info) => {
+        newEdges.push(createEdge(info.sourceId, info.targetId, info.fromSource))
+    })
+
+    return {newNodes, newEdges}
+}
+
+
+
+
 export function createNode(id: string, data: CIM, x: number, y: number, color?: string): CimNode {
+
     return {
         id: id,
         type: 'flowComponent',
         position: {x: x, y: y},
-        data: {cimData: {...data}, otherData: {color}}
+        data: {cimData: {...data}, otherData: {color: color || "gray", expanded: false}}
     } as CimNode
 }
 
@@ -54,10 +118,12 @@ export function createEdge(sourceId: string, targetId: string, fromSource: boole
 
 export const createNodesAndEdges = async (component: CIM): Promise<{ nodes: CimNode[]; edges: Edge[]; }> => {
 
+
     console.log(component.rdfId, component.rdfType)
 
-    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "#a6a6a6")]
+    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "#ff9e9e")]
     const edges: Edge[] = [];
+
     if (isConductingEquipment(component) && component.terminals?.length) {
         let firstTerminal = true;
         const terminals = (component.terminals ?? []).sort((a, b) => (a.sequenceNumber ?? 0) - (b.sequenceNumber ?? 0))
@@ -122,6 +188,16 @@ export type ComponentStatus = {
     equipment: CIM
 }
 
+/**
+ * @param equipment The actual CIM component checked
+ * @param nodes List of all nodes in the current canvas
+ * @param edges List of all edges in the current canvas
+ * 
+ * @returns An array of objects with these three properties:
+ * - exists: boolean - if component exists in the flow
+ * - connected: boolean - If any edges are connected to the component
+ * - equipment: CIM - reference to the "equipment" parameter
+ */
 export function componentStatus(equipment: CIM, nodes: CimNode[], edges: Edge[]): ComponentStatus[] {
 
     const refs = componentRefs(equipment)
