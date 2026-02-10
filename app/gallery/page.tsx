@@ -91,8 +91,11 @@ export default async function Home() {
                         presentation={presentation}
                     />
                 </div>
-                <div className="w-3/4 mt-[10px]">
-                    <span className="font-bold">{splitTitle(equipment.rdfType)}</span>
+                <div className="w-3/4">
+                    <span className="font-bold flex w-full gap-2">
+                        {presentation.icon}
+                        {splitTitle(equipment.rdfType)}
+                    </span>
                     <p>{componentDescriptionMap.get(equipment.rdfType)}</p>
                 </div>
             </div>
