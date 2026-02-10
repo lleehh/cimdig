@@ -1,23 +1,32 @@
- import {addEdge, applyEdgeChanges, applyNodeChanges, Edge, Node, OnConnect, OnEdgesChange, OnNodesChange} from "@xyflow/react";
-import {create} from "zustand";
-import {CIM, RdfValue} from "@/lib/cim";
-import {edgeTemplate} from "@/lib/flow-utils";
+import {
+    addEdge,
+    applyEdgeChanges,
+    applyNodeChanges,
+    Edge,
+    Node,
+    OnConnect,
+    OnEdgesChange,
+    OnNodesChange,
+} from "@xyflow/react";
+import { create } from "zustand";
+import { CIM, RdfValue } from "@/lib/cim";
+import { edgeTemplate } from "@/lib/flow-utils";
 
 export interface OtherData {
-    color: string | undefined
-    expanded: boolean | undefined
+    color: string | undefined;
+    expanded: boolean | undefined;
 
     [key: string]: any;
 }
 
 export interface NodeData {
-    cimData: CIM  // - Data related to the CIM component that the node is representing. Should NOT be altered.
-    otherData: OtherData // - Data related to the node that is not stored in CIM, such as colors, whether or not it can be expanded, etc... Can be altered.
+    cimData: CIM; // - Data related to the CIM component that the node is representing. Should NOT be altered.
+    otherData: OtherData; // - Data related to the node that is not stored in CIM, such as colors, whether or not it can be expanded, etc... Can be altered.
 
     [key: string]: any;
 }
 
-export type CimNode = Node<NodeData, 'flowComponent'>
+export type CimNode = Node<NodeData, string>;
 
 export type FlowState = {
     nodes: CimNode[];
@@ -54,7 +63,6 @@ export const selector = (state: FlowState) => ({
     setFocusNode: state.setFocusNode,
 });
 
-
 const useFlowStore = create<FlowState>((set, get) => ({
     nodes: [],
     edges: [],
@@ -70,37 +78,37 @@ const useFlowStore = create<FlowState>((set, get) => ({
         });
     },
     onConnect: (connection) => {
-        const edge = {...connection, ...edgeTemplate};
+        const edge = { ...connection, ...edgeTemplate };
         //@ts-ignore
         set({
             edges: addEdge(edge, get().edges),
         });
     },
     setNodes: (nodes) => {
-        set({nodes});
+        set({ nodes });
     },
     setEdges: (edges) => {
-        set({edges});
+        set({ edges });
     },
     getNodeData: (nodeId) => {
-        console.log("get node data", nodeId, get().nodes)
+        console.log("get node data", nodeId, get().nodes);
         return get().nodes.find((node) => node.id === nodeId)?.data;
     },
     addNode: (node) => {
         set((state) => ({
-            nodes: state.nodes.some(n => n.id === node.id) // checks if node already exists
+            nodes: state.nodes.some((n) => n.id === node.id) // checks if node already exists
                 ? state.nodes
-                : [...state.nodes, node]
-        }))
+                : [...state.nodes, node],
+        }));
     },
     setFocusNode: (id) => {
-        console.log("focus node", id)
+        console.log("focus node", id);
         set((state) => {
-            return ({
-                focusNodeId: id
-            })
-        })
-    }
+            return {
+                focusNodeId: id,
+            };
+        });
+    },
 }));
 
 export default useFlowStore;
