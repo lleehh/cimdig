@@ -37,11 +37,14 @@ export default function Dig({equipment}: DigProps) {
     );
 
     useEffect(() => {
-        if (equipment) {
-            const {nodes, edges} = createNodesAndEdges(equipment)
-            setNodes(nodes)
-            setEdges(edges)
+        async function updateNodesAndEdges() {
+            if (equipment) {
+                const {nodes, edges} = await createNodesAndEdges(equipment)
+                setNodes(nodes)
+                setEdges(edges)
+            }
         }
+        updateNodesAndEdges()
     }, []);
 
     useEffect(() => {

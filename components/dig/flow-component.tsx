@@ -5,6 +5,7 @@ import {
     CIM,
     ConnectivityNode,
     EquipmentContainer,
+    IdentifiedObject,
     isConductingEquipment,
     isConnectivityNode,
     isTerminal, PowerTransformerEnd,
@@ -84,7 +85,7 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
         }
     }
 
-    async function compFinder(component: object, fullSubstation) {
+    async function compFinder(component: IdentifiedObject, fullSubstation) {
         // console.log("finding components under: ")
         switch (component["rdfType"]) {
             case "cim:Substation":
@@ -143,8 +144,8 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
                                 if (subStation != null) {
                                     let subStationMrid = subStation.mRID
                                     let stationName = subStation.name
-                    
-                                    compFinder(await getComponentById(subStationMrid), fullSubstation)
+                                    
+                                    compFinder(subStation, fullSubstation)
                                     console.log("Closest substation is: " + stationName + subStationMrid)
                                 }
                             }
@@ -185,15 +186,6 @@ export default function FlowComponent({data}: NodeProps<CimNode>) {
 
 
         if (node && component) {
-
-            // switch (component.rdfType) {
-            //     case "cim:Substation":
-            //         console.log("Yippiee")
-            //     case "cim:Terminal":
-            //         findClosestSubstation(component)
-
-            // }
-
             if (isTerminal(component)) {
                 if (!doesEquipmentExistsInFlow(component.connectivityNode.rdfId, nodes)) {
                     newNodes.push(createNode(component.connectivityNode.rdfId, component.connectivityNode, 0, 0, data.otherData.color))
