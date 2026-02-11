@@ -56,7 +56,7 @@ export default function SearchBar() {
     let equipment = await getComponentById(id);
     setIsFocused(false);
     if (equipment) {
-      const { nodes, edges } = createNodesAndEdges(equipment);
+      const { nodes, edges } = await createNodesAndEdges(equipment);
       setNodes(nodes);
       setEdges(edges);
     }

@@ -46,6 +46,7 @@ export interface EquipmentContainer extends IdentifiedObject {
 
 export interface VoltageLevel extends EquipmentContainer {
     rdfType: "cim:VoltageLevel";
+    substation: VoltageLevelSubstation
 }
 
 export interface BaseVoltage extends IdentifiedObject {
@@ -106,6 +107,11 @@ export interface Bay extends EquipmentContainer {
 }
 
 export interface Substation extends EquipmentContainer {
+    rdfType: "cim:Substation";
+    substation: "cim:VoltageLevel.Substation";
+}
+
+export interface VoltageLevelSubstation extends EquipmentContainer {
     rdfType: "cim:Substation";
 }
 
