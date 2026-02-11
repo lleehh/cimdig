@@ -1,16 +1,22 @@
-export type RdfValue = string | number | boolean | IdentifiedObject | IdentifiedObject[] | undefined;
+export type RdfValue =
+    | string
+    | number
+    | boolean
+    | IdentifiedObject
+    | IdentifiedObject[]
+    | undefined;
 
 export interface CIM {
-    rdfId: string
-    rdfType: string
+    rdfId: string;
+    rdfType: string;
 
     [key: string]: RdfValue;
 }
 
 export interface IdentifiedObject extends CIM {
-    mRID: string
-    name: string
-    description?: string
+    mRID: string;
+    name: string;
+    description?: string;
 }
 
 export interface Equipment extends IdentifiedObject {
@@ -20,13 +26,15 @@ export interface Equipment extends IdentifiedObject {
 }
 
 export interface ConductingEquipment extends Equipment {
-    baseVoltage: BaseVoltage
-    terminals: Terminal[]
+    baseVoltage: BaseVoltage;
+    terminals: Terminal[];
 }
 
 export function isConductingEquipment(equipment: CIM): equipment is ConductingEquipment {
-    return (equipment as ConductingEquipment).baseVoltage !== undefined
-        || (equipment as ConductingEquipment).terminals !== undefined;
+    return (
+        (equipment as ConductingEquipment).baseVoltage !== undefined ||
+        (equipment as ConductingEquipment).terminals !== undefined
+    );
 }
 
 export interface ACLineSegment extends ConductingEquipment {
@@ -40,13 +48,11 @@ export interface Breaker extends ConductingEquipment {
     equipmentContainer: EquipmentContainer;
 }
 
-export interface EquipmentContainer extends IdentifiedObject {
-
-}
+export interface EquipmentContainer extends IdentifiedObject {}
 
 export interface VoltageLevel extends EquipmentContainer {
     rdfType: "cim:VoltageLevel";
-    substation: VoltageLevelSubstation
+    substation: VoltageLevelSubstation;
 }
 
 export interface BaseVoltage extends IdentifiedObject {
@@ -69,7 +75,6 @@ export interface ConnectivityNode extends IdentifiedObject {
 export function isConnectivityNode(equipment: CIM): equipment is ConnectivityNode {
     return (equipment as ConnectivityNode).connectivityNodeContainer !== undefined;
 }
-
 
 export interface Terminal extends IdentifiedObject {
     rdfType: "cim:Terminal";
@@ -96,10 +101,14 @@ export interface PowerTransformer extends ConductingEquipment {
     connectivityNodeContainer: EquipmentContainer;
 }
 
+export function isPowerTransformer(component: IdentifiedObject): component is PowerTransformer {
+    return component.rdfType === "cim:Substation";
+}
+
 export interface PowerTransformerEnd extends ConductingEquipment {
     rdfType: "cim:PowerTransformerEnd";
     transformer: PowerTransformer;
-    terminal: Terminal
+    terminal: Terminal;
 }
 
 export interface Bay extends EquipmentContainer {
@@ -109,19 +118,20 @@ export interface Bay extends EquipmentContainer {
 export interface Substation extends EquipmentContainer {
     rdfType: "cim:Substation";
     substation: "cim:VoltageLevel.Substation";
+    equipments: Equipment[];
+}
+
+export function isSubstation(component: IdentifiedObject): component is Substation {
+    return component.rdfType === "cim:Substation";
 }
 
 export interface VoltageLevelSubstation extends EquipmentContainer {
     rdfType: "cim:Substation";
 }
 
-export interface Line extends EquipmentContainer {
-    
-}
+export interface Line extends EquipmentContainer {}
 
-export interface ConformLoad extends ConductingEquipment {
-    
-}
+export interface ConformLoad extends ConductingEquipment {}
 
 /*
 
