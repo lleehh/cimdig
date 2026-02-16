@@ -70,7 +70,7 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
             const loadComponent = async () => {
                 let comp = await getComponentById(data.cimData.rdfId);
                 if (comp != null) {
-                    findClosestSubstation(comp);
+                    // findClosestSubstation(comp);
                 }
 
                 createComponentData(comp);
@@ -79,94 +79,94 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
         }
     }, []);
 
-    async function checkSaveAndContinue(component, fullSubstation) {
-        if (!fullSubstation.some((x) => x.mRID === component.mRID)) {
-            fullSubstation.push(component);
-            await compFinder(component, fullSubstation);
-            console.log(fullSubstation);
-        }
-    }
-
-    async function compFinder(component: IdentifiedObject, fullSubstation) {
-        // console.log("finding components under: ")
-        switch (component["rdfType"]) {
-            case "cim:Substation":
-                fullSubstation.push(component["cim:IdentifiedObject.name"]);
-                for (const e of component["cim:EquipmentContainer.Equipments"] ?? []) {
-                    let substationEquipment = await findById(e["mRID"]);
-                    checkSaveAndContinue(substationEquipment, fullSubstation);
-                }
-            case "cim:PowerTransformer":
-                for (const e of component["cim:ConductingEquipment.Terminals"] ?? []) {
-                    let terminal = await findById(e["mRID"]);
-                    checkSaveAndContinue(terminal, fullSubstation);
-                }
-            case "cim:Terminal":
-                const mRID = component["cim:Terminal.ConnectivityNode"]?.mRID;
-                if (mRID) {
-                    const connectivityNode = await findById(mRID);
-                    checkSaveAndContinue(connectivityNode, fullSubstation);
-                }
-            case "cim:ConnectivityNode":
-                for (const e of component["cim:ConnectivityNode.Terminals"] ?? []) {
-                    let terminal = await findById(e["mRID"]);
-                    checkSaveAndContinue(terminal, fullSubstation);
-                }
-            default:
-                break;
-        }
-    }
-
-    async function findClosestSubstation(component: CIM) {
-        switch (component.rdfType) {
-            case "cim:ACLineSegment":
-                let acLineSegment: ACLineSegment | null = await getComponentById(component.rdfId);
-                if (acLineSegment != null) {
-                    for (const e of acLineSegment.terminals) {
-                        let terminal: Terminal | null = await getComponentById(e.mRID);
-                        if (terminal != null) {
-                            findClosestSubstation(terminal);
-                        }
-                    }
-                }
-                break;
-            case "cim:Terminal":
-                let terminal: Terminal | null = await getComponentById(component.rdfId);
-                let fullSubstation: object[] = [];
-                if (terminal != null) {
-                    const cn: ConnectivityNode | null = await getComponentById(
-                        terminal.connectivityNode.mRID
-                    );
-                    if (cn != null) {
-                        const cnContainer: EquipmentContainer | null = await getComponentById(
-                            cn.connectivityNodeContainer.mRID
-                        );
-                        if (cnContainer != null) {
-                            const voltageLevel: VoltageLevel | null = await getComponentById(
-                                cnContainer?.mRID
-                            );
-                            if (voltageLevel != null) {
-                                const subStation: Substation | null = await getComponentById(
-                                    voltageLevel.substation.mRID
-                                );
-                                if (subStation != null) {
-                                    let subStationMrid = subStation.mRID;
-                                    let stationName = subStation.name;
-
-                                    compFinder(subStation, fullSubstation);
-                                    console.log(
-                                        "Closest substation is: " + stationName + subStationMrid
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-            default:
-                break;
-        }
-    }
-
+    // async function checkSaveAndContinue(component, fullSubstation) {
+    //     if (!fullSubstation.some((x) => x.mRID === component.mRID)) {
+    //         fullSubstation.push(component);
+    //         await compFinder(component, fullSubstation);
+    //         console.log(fullSubstation);
+    //     }
+    // }
+    //
+    // async function compFinder(component: IdentifiedObject, fullSubstation) {
+    //     // console.log("finding components under: ")
+    //     switch (component["rdfType"]) {
+    //         case "cim:Substation":
+    //             fullSubstation.push(component["cim:IdentifiedObject.name"]);
+    //             for (const e of component["cim:EquipmentContainer.Equipments"] ?? []) {
+    //                 let substationEquipment = await findById(e["mRID"]);
+    //                 checkSaveAndContinue(substationEquipment, fullSubstation);
+    //             }
+    //         case "cim:PowerTransformer":
+    //             for (const e of component["cim:ConductingEquipment.Terminals"] ?? []) {
+    //                 let terminal = await findById(e["mRID"]);
+    //                 checkSaveAndContinue(terminal, fullSubstation);
+    //             }
+    //         case "cim:Terminal":
+    //             const mRID = component["cim:Terminal.ConnectivityNode"]?.mRID;
+    //             if (mRID) {
+    //                 const connectivityNode = await findById(mRID);
+    //                 checkSaveAndContinue(connectivityNode, fullSubstation);
+    //             }
+    //         case "cim:ConnectivityNode":
+    //             for (const e of component["cim:ConnectivityNode.Terminals"] ?? []) {
+    //                 let terminal = await findById(e["mRID"]);
+    //                 checkSaveAndContinue(terminal, fullSubstation);
+    //             }
+    //         default:
+    //             break;
+    //     }
+    // }
+    //
+    // async function findClosestSubstation(component: CIM) {
+    //     switch (component.rdfType) {
+    //         case "cim:ACLineSegment":
+    //             let acLineSegment: ACLineSegment | null = await getComponentById(component.rdfId);
+    //             if (acLineSegment != null) {
+    //                 for (const e of acLineSegment.terminals) {
+    //                     let terminal: Terminal | null = await getComponentById(e.mRID);
+    //                     if (terminal != null) {
+    //                         findClosestSubstation(terminal);
+    //                     }
+    //                 }
+    //             }
+    //             break;
+    //         case "cim:Terminal":
+    //             let terminal: Terminal | null = await getComponentById(component.rdfId);
+    //             let fullSubstation: object[] = [];
+    //             if (terminal != null) {
+    //                 const cn: ConnectivityNode | null = await getComponentById(
+    //                     terminal.connectivityNode.mRID
+    //                 );
+    //                 if (cn != null) {
+    //                     const cnContainer: EquipmentContainer | null = await getComponentById(
+    //                         cn.connectivityNodeContainer.mRID
+    //                     );
+    //                     if (cnContainer != null) {
+    //                         const voltageLevel: VoltageLevel | null = await getComponentById(
+    //                             cnContainer?.mRID
+    //                         );
+    //                         if (voltageLevel != null) {
+    //                             const subStation: Substation | null = await getComponentById(
+    //                                 voltageLevel.substation.mRID
+    //                             );
+    //                             if (subStation != null) {
+    //                                 let subStationMrid = subStation.mRID;
+    //                                 let stationName = subStation.name;
+    //
+    //                                 compFinder(subStation, fullSubstation);
+    //                                 console.log(
+    //                                     "Closest substation is: " + stationName + subStationMrid
+    //                                 );
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         default:
+    //             break;
+    //     }
+    // }
+    //
     const handleExpand = async () => {
         console.log("Nodes:", nodes);
 
@@ -212,13 +212,6 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
                 position={Position.Left}
                 className="!w-3 !h-3 !rounded-none !bg-stone-400"
             />
-            <Handle
-                type="target"
-                isConnectable={false}
-                position={Position.Left}
-                className="!w-3 !h-3 !rounded-none !bg-stone-400"
-                id="bottomHandle"
-            />
             <div>
                 <CimComponent
                     equipment={component || data.cimData}
@@ -232,13 +225,6 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
                 position={Position.Right}
                 className="!w-3 !h-3 !rounded-none !bg-stone-400"
                 id=""
-            />
-            <Handle
-                type="source"
-                isConnectable={false}
-                position={Position.Right}
-                className="!w-3 !h-3 !rounded-none !bg-stone-400"
-                id="topHandle"
             />
         </div>
     );

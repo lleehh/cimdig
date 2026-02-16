@@ -147,8 +147,8 @@ export function createGroupNode(
     id: string,
     x: number,
     y: number,
-    width: 300,
-    height: 200
+    width: number,
+    height: number
 ): CimNode {
     return {
         id,
@@ -188,7 +188,7 @@ export const createNodesAndEdges = async (
 ): Promise<{ nodes: CimNode[]; edges: Edge[] }> => {
     console.log(component.rdfId, component.rdfType);
 
-    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, "#ff9e9e")];
+    const nodes: CimNode[] = [createNode(component.rdfId, component, 350, 0, undefined, "#ff9e9e")];
     const edges: Edge[] = [];
 
     if (isConductingEquipment(component) && component.terminals?.length) {
@@ -201,14 +201,40 @@ export const createNodesAndEdges = async (
             const substation = await findClosestSubstation(terminal);
             if (substation != null) {
                 const groupId = `group-${substation.rdfId}`;
-                const componentsInSubStation = await compFinder(substation);
+                const componentsInSubStation = await collectSubstation(substation);
 
-                nodes.push(createGroupNode(groupId, 200, 200, 300, 200));
-                edges.push(createEdge(groupId, component.rdfId, firstTerminal));
+                nodes.push(createGroupNode(groupId, 0, 0, 600, 300));
+                let offsetY = 40;
+
                 componentsInSubStation.forEach((subStationComp) => {
-                    nodes.push(createNode(subStationComp.rdfId, subStationComp, 300, 300, groupId));
-                    edges.push(createEdge(groupId, subStationComp.rdfId, false));
+                    nodes.push(
+                        createNode(
+                            subStationComp.rdfId,
+
+                            subStationComp,
+                            20,
+                            offsetY,
+                            groupId,
+                            undefined,
+                            "parent"
+                        )
+                    );
+                    offsetY += 80;
                 });
+
+                for (const substationComp of componentsInSubStation) {
+                    const { newEdges } = createConnectingNodes(nodes, substationComp);
+                    newEdges.forEach((edge) => {
+                        // Only add edge if both nodes exist in this group
+                        const sourceExists = nodes.find((n) => n.id === edge.source);
+
+                        const targetExists = nodes.find((n) => n.id === edge.target);
+
+                        if (sourceExists && targetExists) {
+                            edges.push(edge);
+                        }
+                    });
+                }
                 firstTerminal = false;
             }
         }
@@ -307,52 +333,47 @@ export function componentStatus(
     return filteredComponentRefs;
 }
 
-async function checkSaveAndContinue(component, fullSubstation) {
-    if (!fullSubstation.some((x) => x.mRID === component.mRID)) {
-        fullSubstation.push(component);
-        await compFinder(component);
-        console.log(fullSubstation);
-    }
-}
+async function collectSubstation(substation: IdentifiedObject): Promise<CIM[]> {
+    const result: CIM[] = [];
 
-async function compFinder(component: IdentifiedObject): Promise<CIM[]> {
-    // console.log("finding components under: ")
-    let fullSubstation: CIM[] = [];
+    async function traverse(component: IdentifiedObject | null) {
+        if (!component) return;
 
-    switch (component.rdfType) {
-        case "cim:Substation":
-            if (isSubstation(component)) {
-                for (const e of component.equipments ?? []) {
-                    let substationEquipment = await getComponentById(e["mRID"]);
-                    checkSaveAndContinue(substationEquipment, fullSubstation);
+        result.push(component);
+
+        switch (component.rdfType) {
+            case "cim:Substation":
+                for (const vl of component.voltageLevels ?? []) {
+                    await traverse(await getComponentById(vl.mRID));
                 }
-            }
-        case "cim:PowerTransformer":
-            if (isPowerTransformer(component)) {
-                for (const e of component.terminals ?? []) {
-                    let terminal = await getComponentById(e["mRID"]);
-                    checkSaveAndContinue(terminal, fullSubstation);
+                break;
+
+            case "cim:VoltageLevel":
+                for (const bay of component.bays ?? []) {
+                    await traverse(await getComponentById(bay.mRID));
                 }
-            }
-        case "cim:Terminal":
-            if (isTerminal(component)) {
-                const mRID = component.connectivityNode.mRID;
-                if (mRID) {
-                    const connectivityNode = await getComponentById(mRID);
-                    checkSaveAndContinue(connectivityNode, fullSubstation);
+                break;
+
+            case "cim:Bay":
+                for (const eq of component.equipments ?? []) {
+                    await traverse(await getComponentById(eq.mRID));
                 }
-            }
-        case "cim:ConnectivityNode":
-            if (isConnectivityNode(component)) {
-                for (const e of component.terminals ?? []) {
-                    let terminal = await getComponentById(e["mRID"]);
-                    checkSaveAndContinue(terminal, fullSubstation);
+                break;
+
+            case "cim:Equipment":
+                for (const t of component.terminals ?? []) {
+                    await traverse(await getComponentById(t.mRID));
                 }
-            }
-        default:
-            break;
+                break;
+
+            case "cim:Terminal":
+                break;
+        }
     }
-    return fullSubstation;
+
+    await traverse(substation);
+
+    return result;
 }
 
 async function findClosestSubstation(component: CIM): Promise<Substation | null> {
