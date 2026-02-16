@@ -204,41 +204,31 @@ export const createNodesAndEdges = async (
                 const componentsInSubStation = await collectSubstation(substation);
 
                 nodes.push(createGroupNode(groupId, 0, 0, 600, 300));
-                let offsetY = 40;
+                edges.push(createEdge(groupId, component.rdfId, firstTerminal));
 
-                componentsInSubStation.forEach((subStationComp) => {
+                componentsInSubStation.forEach((subStationComp, index) => {
                     nodes.push(
                         createNode(
                             subStationComp.rdfId,
-
                             subStationComp,
-                            20,
-                            offsetY,
+                            0,
+                            0,
                             groupId,
                             undefined,
                             "parent"
                         )
                     );
-                    offsetY += 80;
+                    if (index > 0) {
+                        const prevComp = componentsInSubStation[index - 1];
+                        edges.push(createEdge(prevComp.rdfId, subStationComp.rdfId, true));
+                    }
                 });
 
-                for (const substationComp of componentsInSubStation) {
-                    const { newEdges } = createConnectingNodes(nodes, substationComp);
-                    newEdges.forEach((edge) => {
-                        // Only add edge if both nodes exist in this group
-                        const sourceExists = nodes.find((n) => n.id === edge.source);
-
-                        const targetExists = nodes.find((n) => n.id === edge.target);
-
-                        if (sourceExists && targetExists) {
-                            edges.push(edge);
-                        }
-                    });
-                }
                 firstTerminal = false;
             }
         }
     }
+    // getLayoutedElements(nodes, edges, { direction: "LR" });
     return { nodes: nodes, edges: edges };
 };
 
