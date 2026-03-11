@@ -63,7 +63,7 @@ export default function SearchBar() {
             // For substations: load and expand the full internal hierarchy
             const substationData = await getSubstationComponents(id);
             if (substationData) {
-                const { nodes, edges } = createSubstationNodesAndEdges(substationData, "TB");
+                const { nodes, edges } = await createSubstationNodesAndEdges(substationData, "TB");
                 setNodes(nodes);
                 setEdges(edges);
             }

@@ -7,6 +7,7 @@ import {
     Background,
     Panel,
     NodeTypes,
+    Edge,
     useReactFlow,
 } from "@xyflow/react";
 
@@ -15,11 +16,18 @@ import { Button } from "@/components/ui/button";
 import FlowComponent from "@/components/dig/flow-component";
 import SubstationGroupNode from "@/components/dig/substation-group-node";
 import SearchBar from "@/components/ui/search-bar";
-import useFlowStore, { selector } from "@/lib/store/store-flow";
+import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
 import { useShallow } from "zustand/react/shallow";
 import { CIM } from "@/lib/cim";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createNodesAndEdges, getLayoutedElements, layoutSubstationGraph } from "@/lib/flow-utils";
+import {
+    createNodesAndEdges,
+    getLayoutedElements,
+    layoutSubstationGraph,
+    relayoutWithElk,
+    collapseTerminals,
+    LayoutEngine,
+} from "@/lib/flow-utils";
 
 import {
     getBoundingBox,
@@ -58,12 +66,20 @@ export default function Dig({ equipment }: DigProps) {
     const hasAutoFitRunRef = useRef<boolean>(false);
     const [computedMinZoom, setComputedMinZoom] = useState<number>(0.05);
     const [layoutDirection, setLayoutDirection] = useState<"LR" | "TB">("LR");
+    const [layoutEngine, setLayoutEngine] = useState<LayoutEngine>("dagre");
+    const [terminalsHidden, setTerminalsHidden] = useState(false);
+
+    // Store the full (uncollapsed) graph so we can restore terminals when toggling back
+    const fullGraphRef = useRef<{ nodes: CimNode[]; edges: Edge[] } | null>(null);
 
     useEffect(() => {
         if (equipment) {
             const { nodes: newNodes, edges: newEdges } = createNodesAndEdges(equipment);
             setNodes(newNodes);
             setEdges(newEdges);
+            // Reset view options when a new component is loaded
+            setTerminalsHidden(false);
+            fullGraphRef.current = null;
         }
     }, [equipment]);
 
@@ -75,87 +91,246 @@ export default function Dig({ equipment }: DigProps) {
 
     /** Check if the current graph is a substation (has a group node) */
     const hasSubstationGroup = nodes.some((n) => n.type === "substationGroup");
+    const substationGroupId = nodes.find(
+        (n) => n.type === "substationGroup" && n.data?.groupType === "substation"
+    )?.id;
+    const prevSubstationIdRef = useRef<string | undefined>(undefined);
+
+    // Reset terminal visibility when a different substation is loaded
+    useEffect(() => {
+        if (substationGroupId !== prevSubstationIdRef.current) {
+            prevSubstationIdRef.current = substationGroupId;
+            setTerminalsHidden(false);
+            fullGraphRef.current = null;
+        }
+    }, [substationGroupId]);
 
     const onLayout = useCallback(
-        (direction: "LR" | "TB") => {
+        async (direction: "LR" | "TB", engine?: LayoutEngine) => {
+            const activeEngine = engine ?? layoutEngine;
             setLayoutDirection(direction);
+            if (engine) setLayoutEngine(engine);
 
-            if (hasSubstationGroup) {
-                // For substation graphs: re-layout only the child nodes,
-                // then recompute the group bounding box
-                const groupNode = nodes.find((n) => n.type === "substationGroup");
-                const childNodes = nodes.filter((n) => n.type !== "substationGroup");
+            // When terminals are hidden, operate on the stored full graph
+            const workingNodes =
+                terminalsHidden && fullGraphRef.current ? fullGraphRef.current.nodes : nodes;
+            const workingEdges =
+                terminalsHidden && fullGraphRef.current ? fullGraphRef.current.edges : edges;
 
-                // Convert child positions back to absolute for re-layout
-                const absoluteChildren = childNodes.map((n) => ({
-                    ...n,
-                    position: groupNode
-                        ? {
-                              x: n.position.x + (groupNode.position?.x ?? 0),
-                              y: n.position.y + (groupNode.position?.y ?? 0),
-                          }
-                        : n.position,
-                    parentId: undefined,
-                    extent: undefined,
-                }));
+            // Check substation group in the working set (full graph always has it if visible does)
+            const workingHasSubstationGroup = workingNodes.some(
+                (n) => n.type === "substationGroup"
+            );
 
-                const layouted = layoutSubstationGraph(absoluteChildren, edges, direction);
+            let resultNodes: CimNode[] = [];
+            let resultEdges: Edge[] = [];
 
-                // Recompute group bounding box
+            if (workingHasSubstationGroup && activeEngine === "elk") {
+                // Use ELK for hierarchical re-layout
+                const result = await relayoutWithElk(workingNodes, workingEdges, direction);
+                resultNodes = result.nodes;
+                resultEdges = result.edges;
+            } else if (workingHasSubstationGroup) {
+                // For substation graphs with nested VL groups:
+                // 1. Extract leaf nodes (not group nodes)
+                // 2. Convert their positions back to absolute
+                // 3. Re-layout with Dagre
+                // 4. Recompute VL group bounding boxes, then substation group bounding box
+                const substationGroup = workingNodes.find(
+                    (n) => n.type === "substationGroup" && n.data?.groupType === "substation"
+                );
+                const vlGroups = workingNodes.filter(
+                    (n) => n.type === "substationGroup" && n.data?.groupType === "voltageLevel"
+                );
+                const leafNodes = workingNodes.filter((n) => n.type !== "substationGroup");
+
+                // Convert leaf node positions back to absolute
+                const absoluteLeaves = leafNodes.map((n) => {
+                    let absX = n.position.x;
+                    let absY = n.position.y;
+
+                    // If this leaf is in a VL group, add VL group position
+                    const vlParent = vlGroups.find((vl) => vl.id === n.parentId);
+                    if (vlParent && substationGroup) {
+                        absX += vlParent.position.x + substationGroup.position.x;
+                        absY += vlParent.position.y + substationGroup.position.y;
+                    } else if (substationGroup && n.parentId === substationGroup.id) {
+                        absX += substationGroup.position.x;
+                        absY += substationGroup.position.y;
+                    }
+
+                    return {
+                        ...n,
+                        position: { x: absX, y: absY },
+                        parentId: undefined,
+                        extent: undefined,
+                    };
+                });
+
+                const layouted = layoutSubstationGraph(absoluteLeaves, workingEdges, direction);
+
+                // Build VL membership map from original parentId relationships
+                const nodeVlMap: Record<string, string> = {};
+                for (const leaf of leafNodes) {
+                    const vlParent = vlGroups.find((vl) => vl.id === leaf.parentId);
+                    if (vlParent) {
+                        nodeVlMap[leaf.id] = vlParent.id;
+                    }
+                }
+
+                // Recompute VL group bounding boxes
+                const VL_PADDING = 30;
+                const VL_LABEL_HEIGHT = 30;
                 const GROUP_PADDING = 60;
                 const LABEL_HEIGHT = 40;
+
+                const updatedVlGroups: typeof vlGroups = [];
+                const vlChildMap: Record<string, typeof layouted.nodes> = {};
+                const noVlLeaves: typeof layouted.nodes = [];
+
+                for (const node of layouted.nodes) {
+                    const vlGroupId = nodeVlMap[node.id];
+                    if (vlGroupId) {
+                        if (!vlChildMap[vlGroupId]) vlChildMap[vlGroupId] = [];
+                        vlChildMap[vlGroupId].push(node);
+                    } else {
+                        noVlLeaves.push(node);
+                    }
+                }
+
+                const dagreResultNodes: CimNode[] = [];
+
+                for (const vlg of vlGroups) {
+                    const children = vlChildMap[vlg.id] || [];
+                    if (children.length === 0) continue;
+
+                    let minX = Infinity,
+                        minY = Infinity,
+                        maxX = -Infinity,
+                        maxY = -Infinity;
+                    for (const c of children) {
+                        minX = Math.min(minX, c.position.x);
+                        minY = Math.min(minY, c.position.y);
+                        maxX = Math.max(maxX, c.position.x + (c.measured?.width ?? 180));
+                        maxY = Math.max(maxY, c.position.y + (c.measured?.height ?? 40));
+                    }
+
+                    const vlGx = minX - VL_PADDING;
+                    const vlGy = minY - VL_PADDING - VL_LABEL_HEIGHT;
+                    const vlGw = maxX - minX + VL_PADDING * 2;
+                    const vlGh = maxY - minY + VL_PADDING * 2 + VL_LABEL_HEIGHT;
+
+                    updatedVlGroups.push({
+                        ...vlg,
+                        position: { x: vlGx, y: vlGy },
+                        style: { ...vlg.style, width: vlGw, height: vlGh },
+                    });
+
+                    for (const c of children) {
+                        dagreResultNodes.push({
+                            ...c,
+                            position: { x: c.position.x - vlGx, y: c.position.y - vlGy },
+                            parentId: vlg.id,
+                            extent: "parent" as const,
+                        });
+                    }
+                }
+
+                // Compute substation group bounding box from VL groups + unparented leaves
+                const topLevel = [...updatedVlGroups, ...noVlLeaves];
                 let minX = Infinity,
                     minY = Infinity,
                     maxX = -Infinity,
                     maxY = -Infinity;
-                for (const node of layouted.nodes) {
-                    const x = node.position.x;
-                    const y = node.position.y;
-                    const w = node.measured?.width ?? 180;
-                    const h = node.measured?.height ?? 40;
-                    minX = Math.min(minX, x);
-                    minY = Math.min(minY, y);
-                    maxX = Math.max(maxX, x + w);
-                    maxY = Math.max(maxY, y + h);
+                for (const t of topLevel) {
+                    const w = (t.style as any)?.width ?? t.measured?.width ?? 180;
+                    const h = (t.style as any)?.height ?? t.measured?.height ?? 40;
+                    minX = Math.min(minX, t.position.x);
+                    minY = Math.min(minY, t.position.y);
+                    maxX = Math.max(maxX, t.position.x + w);
+                    maxY = Math.max(maxY, t.position.y + h);
                 }
 
-                if (groupNode && isFinite(minX)) {
+                if (substationGroup && isFinite(minX)) {
                     const gx = minX - GROUP_PADDING;
                     const gy = minY - GROUP_PADDING - LABEL_HEIGHT;
                     const gw = maxX - minX + GROUP_PADDING * 2;
                     const gh = maxY - minY + GROUP_PADDING * 2 + LABEL_HEIGHT;
 
                     const updatedGroup = {
-                        ...groupNode,
+                        ...substationGroup,
                         position: { x: gx, y: gy },
-                        style: { ...groupNode.style, width: gw, height: gh },
+                        style: { ...substationGroup.style, width: gw, height: gh },
                     };
 
-                    const adjustedChildren = layouted.nodes.map((n) => ({
-                        ...n,
-                        position: {
-                            x: n.position.x - gx,
-                            y: n.position.y - gy,
-                        },
-                        parentId: groupNode.id,
+                    const adjustedVlGroups = updatedVlGroups.map((vlg) => ({
+                        ...vlg,
+                        position: { x: vlg.position.x - gx, y: vlg.position.y - gy },
+                        parentId: updatedGroup.id,
                         extent: "parent" as const,
                     }));
 
-                    setNodes([updatedGroup, ...adjustedChildren]);
-                    setEdges([...layouted.edges]);
+                    const adjustedNoVlLeaves = noVlLeaves.map((n) => ({
+                        ...n,
+                        position: { x: n.position.x - gx, y: n.position.y - gy },
+                        parentId: updatedGroup.id,
+                        extent: "parent" as const,
+                    }));
+
+                    resultNodes = [
+                        updatedGroup,
+                        ...adjustedVlGroups,
+                        ...dagreResultNodes,
+                        ...adjustedNoVlLeaves,
+                    ];
+                    resultEdges = [...layouted.edges];
                 }
             } else {
-                const layouted = getLayoutedElements(nodes, edges, { direction });
-                setNodes([...layouted.nodes]);
-                setEdges([...layouted.edges]);
+                const layouted = getLayoutedElements(workingNodes, workingEdges, { direction });
+                resultNodes = [...layouted.nodes];
+                resultEdges = [...layouted.edges];
+            }
+
+            // Apply results: if terminals are hidden, save the full graph and collapse
+            if (terminalsHidden && resultNodes.length > 0) {
+                fullGraphRef.current = { nodes: resultNodes, edges: resultEdges };
+                const collapsed = collapseTerminals(resultNodes, resultEdges);
+                setNodes(collapsed.nodes);
+                setEdges(collapsed.edges);
+            } else if (resultNodes.length > 0) {
+                setNodes(resultNodes);
+                setEdges(resultEdges);
             }
 
             window.requestAnimationFrame(() => {
                 fitView({ duration: 500, padding: 0.2 });
             });
         },
-        [nodes, edges, hasSubstationGroup]
+        [nodes, edges, hasSubstationGroup, terminalsHidden, layoutEngine]
     );
+
+    const onToggleTerminals = useCallback(() => {
+        if (!terminalsHidden) {
+            // Hiding terminals: save current full graph, then collapse
+            fullGraphRef.current = { nodes: [...nodes], edges: [...edges] };
+            const collapsed = collapseTerminals(nodes, edges);
+            setNodes(collapsed.nodes);
+            setEdges(collapsed.edges);
+            setTerminalsHidden(true);
+        } else {
+            // Showing terminals: restore from saved full graph
+            if (fullGraphRef.current) {
+                setNodes(fullGraphRef.current.nodes);
+                setEdges(fullGraphRef.current.edges);
+                fullGraphRef.current = null;
+            }
+            setTerminalsHidden(false);
+        }
+
+        window.requestAnimationFrame(() => {
+            fitView({ duration: 500, padding: 0.2 });
+        });
+    }, [nodes, edges, terminalsHidden, setNodes, setEdges, fitView]);
 
     const focusNodeHandle = (nodeId: string) => {
         const layouted = getLayoutedElements(
@@ -284,6 +459,40 @@ export default function Dig({ equipment }: DigProps) {
                                 Single-Line
                             </Button>
                         </div>
+                        {hasSubstationGroup && (
+                            <div className="flex space-x-2">
+                                <Button
+                                    variant={layoutEngine === "dagre" ? "default" : "outline"}
+                                    onClick={() => onLayout(layoutDirection, "dagre")}
+                                    size="sm"
+                                    title="Dagre layout engine"
+                                >
+                                    Dagre
+                                </Button>
+                                <Button
+                                    variant={layoutEngine === "elk" ? "default" : "outline"}
+                                    onClick={() => onLayout(layoutDirection, "elk")}
+                                    size="sm"
+                                    title="ELK layout engine (better for hierarchical diagrams)"
+                                >
+                                    ELK
+                                </Button>
+                            </div>
+                        )}
+                        {hasSubstationGroup && (
+                            <Button
+                                variant={terminalsHidden ? "default" : "outline"}
+                                onClick={onToggleTerminals}
+                                size="sm"
+                                title={
+                                    terminalsHidden
+                                        ? "Show terminal nodes"
+                                        : "Hide terminals and connect equipment directly to connectivity nodes"
+                                }
+                            >
+                                {terminalsHidden ? "Show Terminals" : "Hide Terminals"}
+                            </Button>
+                        )}
                     </div>
                 </Panel>
 

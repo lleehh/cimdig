@@ -43,7 +43,7 @@ export default function BtnGroupComponent({
     const [openThing, setOpenThing] = useState<OpenThing>(null);
 
     const { nodes, edges } = useFlowStore(useShallow(selector));
-    const expandable = isEquipmentExpandable(equipment);
+    const expandable = isEquipmentExpandable(equipment) || otherData.isOutgoingLine;
 
     const onExpand = () => {
         setOpenThing(null);
