@@ -1,5 +1,5 @@
-import {CIM, ConductingEquipment, IdentifiedObject, RdfValue} from "@/lib/cim";
-import {JsonData} from "@/lib/store/model-repository";
+import { CIM, ConductingEquipment, IdentifiedObject, RdfValue } from "@/lib/cim";
+import { JsonData } from "@/lib/store/model-repository";
 
 function setFirstCharToLowercase(str: string): string {
     if (!str) return str;
@@ -14,19 +14,20 @@ function setFirstCharToLowercase(str: string): string {
  * @returns A structured BaseNode object.
  */
 export function convertToCimObject<T extends IdentifiedObject>(rdfId: string, data: JsonData): T {
-    const node: CIM = {rdfId, rdfType: data["rdfType"]};
+    const node: CIM = { rdfId, rdfType: data["rdfType"] };
 
     // Define rules for specific key patterns
     const keyProcessors: Record<string, (value: string) => RdfValue> = {
-        "aggregate|normallyInService": (value: string) => value === "true", // Convert to boolean
-        "bch|r|x|length|sequenceNumber|nominalVoltage": (value: string) => parseFloat(value), // Convert to number
+        "aggregate|normallyInService|normalOpen|retained|ltcFlag": (value: string) =>
+            value === "true", // Convert to boolean
+        "bch|r|x|length|sequenceNumber|nominalVoltage|maxQ|minQ|maxU|minU|qPercent|ratedS|bPerSection|gPerSection|maximumSections|nomU|normalSections|stepVoltageIncrement|highStep|lowStep|neutralStep|neutralU|normalStep|value|normalValue|pfixed|qfixed|maxOperatingP|minOperatingP":
+            (value: string) => parseFloat(value), // Convert to number
     };
-
 
     for (const [key, value] of Object.entries(data)) {
         // Strip prefix (e.g., "cim:")
         const strippedKey =
-            key.includes(":") && !key.startsWith("rdf") && !key.startsWith("mRID")// Don't strip if it's `rdfType`
+            key.includes(":") && !key.startsWith("rdf") && !key.startsWith("mRID") // Don't strip if it's `rdfType`
                 ? key.replace(/^cim:[^:]*\./, "") // Removes the prefix and first segment (e.g., `cim:ACLineSegment.` -> `description`)
                 : key;
         const parameter = setFirstCharToLowercase(strippedKey);
@@ -38,9 +39,9 @@ export function convertToCimObject<T extends IdentifiedObject>(rdfId: string, da
         if (typeof value === "object" && !Array.isArray(value)) {
             node[parameter] = convertToCimObject(value["mRID"], value as JsonData); // Recursively convert nested objects
         } else if (Array.isArray(value)) {
-            const values: IdentifiedObject[] = []
+            const values: IdentifiedObject[] = [];
             for (const item of value) {
-                values.push(convertToCimObject(item["mRID"], item as JsonData))
+                values.push(convertToCimObject(item["mRID"], item as JsonData));
             }
             node[parameter] = values;
         } else if (processor) {
@@ -54,4 +55,3 @@ export function convertToCimObject<T extends IdentifiedObject>(rdfId: string, da
 
     return node as T;
 }
-

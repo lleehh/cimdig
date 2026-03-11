@@ -1,16 +1,22 @@
-export type RdfValue = string | number | boolean | IdentifiedObject | IdentifiedObject[] | undefined;
+export type RdfValue =
+    | string
+    | number
+    | boolean
+    | IdentifiedObject
+    | IdentifiedObject[]
+    | undefined;
 
 export interface CIM {
-    rdfId: string
-    rdfType: string
+    rdfId: string;
+    rdfType: string;
 
     [key: string]: RdfValue;
 }
 
 export interface IdentifiedObject extends CIM {
-    mRID: string
-    name: string
-    description?: string
+    mRID: string;
+    name: string;
+    description?: string;
 }
 
 export interface Equipment extends IdentifiedObject {
@@ -20,13 +26,15 @@ export interface Equipment extends IdentifiedObject {
 }
 
 export interface ConductingEquipment extends Equipment {
-    baseVoltage: BaseVoltage
-    terminals: Terminal[]
+    baseVoltage: BaseVoltage;
+    terminals: Terminal[];
 }
 
 export function isConductingEquipment(equipment: CIM): equipment is ConductingEquipment {
-    return (equipment as ConductingEquipment).baseVoltage !== undefined
-        || (equipment as ConductingEquipment).terminals !== undefined;
+    return (
+        (equipment as ConductingEquipment).baseVoltage !== undefined ||
+        (equipment as ConductingEquipment).terminals !== undefined
+    );
 }
 
 export interface ACLineSegment extends ConductingEquipment {
@@ -40,9 +48,7 @@ export interface Breaker extends ConductingEquipment {
     equipmentContainer: EquipmentContainer;
 }
 
-export interface EquipmentContainer extends IdentifiedObject {
-
-}
+export interface EquipmentContainer extends IdentifiedObject {}
 
 export interface VoltageLevel extends EquipmentContainer {
     rdfType: "cim:VoltageLevel";
@@ -68,7 +74,6 @@ export interface ConnectivityNode extends IdentifiedObject {
 export function isConnectivityNode(equipment: CIM): equipment is ConnectivityNode {
     return (equipment as ConnectivityNode).connectivityNodeContainer !== undefined;
 }
-
 
 export interface Terminal extends IdentifiedObject {
     rdfType: "cim:Terminal";
@@ -98,7 +103,7 @@ export interface PowerTransformer extends ConductingEquipment {
 export interface PowerTransformerEnd extends ConductingEquipment {
     rdfType: "cim:PowerTransformerEnd";
     transformer: PowerTransformer;
-    terminal: Terminal
+    terminal: Terminal;
 }
 
 export interface Bay extends EquipmentContainer {
@@ -109,12 +114,111 @@ export interface Substation extends EquipmentContainer {
     rdfType: "cim:Substation";
 }
 
-export interface Line extends EquipmentContainer {
-    
+export interface Line extends EquipmentContainer {}
+
+export interface ConformLoad extends ConductingEquipment {}
+
+/*Reference: https://ontology.tno.nl/IEC_CIM/cim_SynchronousMachine.html */
+export interface SynchronousMachine extends ConductingEquipment {
+    rdfType: "cim:SynchronousMachine";
+    maxQ: number;
+    minQ: number;
+    maxU: number;
+    minU: number;
+    qPercent: number;
+    r: number;
+    type: string;
+    ratedS: number;
+    generatingUnit: GeneratingUnit;
+    regulatingControl: IdentifiedObject;
 }
 
-export interface ConformLoad extends ConductingEquipment {
-    
+export interface Disconnector extends ConductingEquipment {
+    rdfType: "cim:Disconnector";
+    normalOpen: boolean;
+    retained: boolean;
+}
+
+/*Reference: https://ontology.tno.nl/IEC_CIM/cim_LinearShuntCompensator.html */
+export interface LinearShuntCompensator extends ConductingEquipment {
+    rdfType: "cim:LinearShuntCompensator";
+    bPerSection: number;
+    gPerSection: number;
+    maximumSections: number;
+    nomU: number;
+    normalSections: number;
+}
+
+/*Reference: https://ontology.tno.nl/IEC_CIM/cim_RatioTapChanger.html */
+export interface RatioTapChanger extends IdentifiedObject {
+    rdfType: "cim:RatioTapChanger";
+    stepVoltageIncrement: number;
+    tculControlMode: string;
+    highStep: number;
+    lowStep: number;
+    neutralStep: number;
+    neutralU: number;
+    normalStep: number;
+    ltcFlag: boolean;
+    transformerEnd: PowerTransformerEnd;
+    tapChangerControl: IdentifiedObject;
+}
+
+/*Reference: https://ontology.tno.nl/IEC_CIM/cim_RegulatingControl.html */
+export interface RegulatingControl extends IdentifiedObject {
+    rdfType: "cim:RegulatingControl";
+    mode: string;
+    terminal: Terminal;
+}
+
+export interface CurrentLimit extends IdentifiedObject {
+    rdfType: "cim:CurrentLimit";
+    value: number;
+    normalValue: number;
+    operationalLimitSet: IdentifiedObject;
+    operationalLimitType: IdentifiedObject;
+}
+
+export interface VoltageLimit extends IdentifiedObject {
+    rdfType: "cim:VoltageLimit";
+    value: number;
+    normalValue: number;
+    operationalLimitSet: IdentifiedObject;
+    operationalLimitType: IdentifiedObject;
+}
+
+export interface OperationalLimitSet extends IdentifiedObject {
+    rdfType: "cim:OperationalLimitSet";
+    terminal: Terminal;
+}
+
+export interface GeographicalRegion extends IdentifiedObject {
+    rdfType: "cim:GeographicalRegion";
+    regions: IdentifiedObject[];
+}
+
+export interface SubGeographicalRegion extends IdentifiedObject {
+    rdfType: "cim:SubGeographicalRegion";
+    region: GeographicalRegion;
+    lines: IdentifiedObject[];
+    substations: IdentifiedObject[];
+}
+
+export interface ConformLoadGroup extends IdentifiedObject {
+    rdfType: "cim:ConformLoadGroup";
+    subLoadArea: IdentifiedObject;
+    energyConsumers: IdentifiedObject[];
+}
+
+export interface ControlArea extends IdentifiedObject {
+    rdfType: "cim:ControlArea";
+    type: string;
+    energyArea: IdentifiedObject;
+}
+
+export interface LoadArea extends IdentifiedObject {
+    rdfType: "cim:LoadArea";
+    subLoadAreas: IdentifiedObject[];
 }
 
 /*

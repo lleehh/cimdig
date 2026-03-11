@@ -14,6 +14,20 @@ import {
     Line,
     ConformLoad,
     CIM,
+    SynchronousMachine,
+    Disconnector,
+    LinearShuntCompensator,
+    RatioTapChanger,
+    RegulatingControl,
+    CurrentLimit,
+    VoltageLimit,
+    OperationalLimitSet,
+    GeographicalRegion,
+    SubGeographicalRegion,
+    VoltageLevel,
+    ConformLoadGroup,
+    ControlArea,
+    LoadArea,
 } from "@/lib/cim";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -72,6 +86,44 @@ export default async function Home() {
     const Bay = await getComponentById<Bay>("f72994d8-9857-b349-a4ae-2e3c9652d5bc");
     const Line = await getComponentById<Line>("5e7d0b4c-fa65-1d40-aef6-779298018c7e");
     const ConformLoad = await getComponentById<ConformLoad>("f1769746-9aeb-11e5-91da-b8763fd99c5f");
+    const synchronousMachine = await getComponentById<SynchronousMachine>(
+        "f1769919-9aeb-11e5-91da-b8763fd99c5f"
+    );
+    const disconnector = await getComponentById<Disconnector>(
+        "4e7aa43e-f1a3-0046-8cbb-19f29bfdeab6"
+    );
+    const linearShuntCompensator = await getComponentById<LinearShuntCompensator>(
+        "2dd90408-bdfb-11e5-94fa-c8f73332c8f4"
+    );
+    const ratioTapChanger = await getComponentById<RatioTapChanger>(
+        "f1769d98-9aeb-11e5-91da-b8763fd99c5f"
+    );
+    const regulatingControl = await getComponentById<RegulatingControl>(
+        "f1769918-9aeb-11e5-91da-b8763fd99c5f"
+    );
+    const currentLimit = await getComponentById<CurrentLimit>(
+        "0f6d2d4a-4998-478d-a90a-17edb799a0ae"
+    );
+    const voltageLimit = await getComponentById<VoltageLimit>(
+        "f1769e57-9aeb-11e5-91da-b8763fd99c5f"
+    );
+    const operationalLimitSet = await getComponentById<OperationalLimitSet>(
+        "f802a83f-b9fb-48fb-9dde-0f5132e5f886"
+    );
+    const geographicalRegion = await getComponentById<GeographicalRegion>(
+        "2dd9048c-bdfb-11e5-94fa-c8f73332c8f4"
+    );
+    const subGeographicalRegion = await getComponentById<SubGeographicalRegion>(
+        "f17696b3-9aeb-11e5-91da-b8763fd99c5f"
+    );
+    const voltageLevel = await getComponentById<VoltageLevel>(
+        "f1769600-9aeb-11e5-91da-b8763fd99c5f"
+    );
+    const conformLoadGroup = await getComponentById<ConformLoadGroup>(
+        "2dd901f8-bdfb-11e5-94fa-c8f73332c8f4"
+    );
+    const controlArea = await getComponentById<ControlArea>("f17696b0-9aeb-11e5-91da-b8763fd99c5f");
+    const loadArea = await getComponentById<LoadArea>("2dd901b5-bdfb-11e5-94fa-c8f73332c8f4");
     const handleExpand = async () => {
         "use server";
     };
@@ -137,6 +189,20 @@ export default async function Home() {
                         {Bay && renderGeneric(Bay)}
                         {Line && renderGeneric(Line)}
                         {ConformLoad && renderGeneric(ConformLoad)}
+                        {synchronousMachine && renderGeneric(synchronousMachine)}
+                        {disconnector && renderGeneric(disconnector)}
+                        {linearShuntCompensator && renderGeneric(linearShuntCompensator)}
+                        {ratioTapChanger && renderGeneric(ratioTapChanger)}
+                        {regulatingControl && renderGeneric(regulatingControl)}
+                        {currentLimit && renderGeneric(currentLimit)}
+                        {voltageLimit && renderGeneric(voltageLimit)}
+                        {operationalLimitSet && renderGeneric(operationalLimitSet)}
+                        {geographicalRegion && renderGeneric(geographicalRegion)}
+                        {subGeographicalRegion && renderGeneric(subGeographicalRegion)}
+                        {voltageLevel && renderGeneric(voltageLevel)}
+                        {conformLoadGroup && renderGeneric(conformLoadGroup)}
+                        {controlArea && renderGeneric(controlArea)}
+                        {loadArea && renderGeneric(loadArea)}
                     </main>
                 </div>
             </SidebarInset>
