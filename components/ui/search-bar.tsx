@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getComponentById, searchByName, SearchResult } from "@/lib/store/model-repository";
+import {
+    getComponentById,
+    getSubstationComponents,
+    searchByName,
+    SearchResult,
+} from "@/lib/store/model-repository";
 import useFlowStore from "@/lib/store/store-flow";
-import { createNodesAndEdges } from "@/lib/flow-utils";
+import { createNodesAndEdges, createSubstationNodesAndEdges } from "@/lib/flow-utils";
 import { useDebounce } from "use-debounce";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { cimPresentationMap } from "@/lib/cim-presentation";
@@ -47,16 +52,29 @@ export default function SearchBar() {
         fetchResults();
     }, [debouncedInput, selectedType]);
 
-    const fetchComponent = async (id: string) => {
+    const fetchComponent = async (id: string, rdfType: string) => {
         if (!id) {
             console.error("No id found");
+            return;
         }
-        let equipment = await getComponentById(id);
         setIsFocused(false);
-        if (equipment) {
-            const { nodes, edges } = createNodesAndEdges(equipment);
-            setNodes(nodes);
-            setEdges(edges);
+
+        if (rdfType === "cim:Substation") {
+            // For substations: load and expand the full internal hierarchy
+            const substationData = await getSubstationComponents(id);
+            if (substationData) {
+                const { nodes, edges } = createSubstationNodesAndEdges(substationData, "TB");
+                setNodes(nodes);
+                setEdges(edges);
+            }
+        } else {
+            // For all other types: standard single-component view
+            const equipment = await getComponentById(id);
+            if (equipment) {
+                const { nodes, edges } = createNodesAndEdges(equipment);
+                setNodes(nodes);
+                setEdges(edges);
+            }
         }
     };
 
@@ -97,7 +115,7 @@ export default function SearchBar() {
                             <article
                                 className="w-full h-10 gap-3 bg-white flex flex-row items-center hover:bg-neutral-100 hover:cursor-pointer p-2 rounded-lg"
                                 key={item.id}
-                                onClick={() => fetchComponent(item.id)}
+                                onClick={() => fetchComponent(item.id, item.rdfType)}
                             >
                                 {cimPresentationMap[item.rdfType]?.icon}
                                 {item.name}
