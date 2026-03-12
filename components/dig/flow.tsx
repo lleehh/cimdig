@@ -60,6 +60,10 @@ export default function Dig({ equipment }: DigProps) {
         onConnect,
         setNodes,
         setEdges,
+        terminalsHidden,
+        fullGraph,
+        setTerminalsHidden,
+        setFullGraph,
     } = useFlowStore(useShallow(selector));
 
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -67,10 +71,6 @@ export default function Dig({ equipment }: DigProps) {
     const [computedMinZoom, setComputedMinZoom] = useState<number>(0.05);
     const [layoutDirection, setLayoutDirection] = useState<"LR" | "TB">("LR");
     const [layoutEngine, setLayoutEngine] = useState<LayoutEngine>("dagre");
-    const [terminalsHidden, setTerminalsHidden] = useState(false);
-
-    // Store the full (uncollapsed) graph so we can restore terminals when toggling back
-    const fullGraphRef = useRef<{ nodes: CimNode[]; edges: Edge[] } | null>(null);
 
     useEffect(() => {
         if (equipment) {
@@ -79,7 +79,7 @@ export default function Dig({ equipment }: DigProps) {
             setEdges(newEdges);
             // Reset view options when a new component is loaded
             setTerminalsHidden(false);
-            fullGraphRef.current = null;
+            setFullGraph(null);
         }
     }, [equipment]);
 
@@ -91,6 +91,9 @@ export default function Dig({ equipment }: DigProps) {
 
     /** Check if the current graph is a substation (has a group node) */
     const hasSubstationGroup = nodes.some((n) => n.type === "substationGroup");
+    /** Check if any terminal nodes exist in the graph */
+    const hasTerminals =
+        terminalsHidden || nodes.some((n) => n.data?.cimData?.rdfType === "cim:Terminal");
     const substationGroupId = nodes.find(
         (n) => n.type === "substationGroup" && n.data?.groupType === "substation"
     )?.id;
@@ -101,7 +104,7 @@ export default function Dig({ equipment }: DigProps) {
         if (substationGroupId !== prevSubstationIdRef.current) {
             prevSubstationIdRef.current = substationGroupId;
             setTerminalsHidden(false);
-            fullGraphRef.current = null;
+            setFullGraph(null);
         }
     }, [substationGroupId]);
 
@@ -112,10 +115,8 @@ export default function Dig({ equipment }: DigProps) {
             if (engine) setLayoutEngine(engine);
 
             // When terminals are hidden, operate on the stored full graph
-            const workingNodes =
-                terminalsHidden && fullGraphRef.current ? fullGraphRef.current.nodes : nodes;
-            const workingEdges =
-                terminalsHidden && fullGraphRef.current ? fullGraphRef.current.edges : edges;
+            const workingNodes = terminalsHidden && fullGraph ? fullGraph.nodes : nodes;
+            const workingEdges = terminalsHidden && fullGraph ? fullGraph.edges : edges;
 
             // Check substation group in the working set (full graph always has it if visible does)
             const workingHasSubstationGroup = workingNodes.some(
@@ -293,7 +294,7 @@ export default function Dig({ equipment }: DigProps) {
 
             // Apply results: if terminals are hidden, save the full graph and collapse
             if (terminalsHidden && resultNodes.length > 0) {
-                fullGraphRef.current = { nodes: resultNodes, edges: resultEdges };
+                setFullGraph({ nodes: resultNodes, edges: resultEdges });
                 const collapsed = collapseTerminals(resultNodes, resultEdges);
                 setNodes(collapsed.nodes);
                 setEdges(collapsed.edges);
@@ -312,17 +313,17 @@ export default function Dig({ equipment }: DigProps) {
     const onToggleTerminals = useCallback(() => {
         if (!terminalsHidden) {
             // Hiding terminals: save current full graph, then collapse
-            fullGraphRef.current = { nodes: [...nodes], edges: [...edges] };
+            setFullGraph({ nodes: [...nodes], edges: [...edges] });
             const collapsed = collapseTerminals(nodes, edges);
             setNodes(collapsed.nodes);
             setEdges(collapsed.edges);
             setTerminalsHidden(true);
         } else {
             // Showing terminals: restore from saved full graph
-            if (fullGraphRef.current) {
-                setNodes(fullGraphRef.current.nodes);
-                setEdges(fullGraphRef.current.edges);
-                fullGraphRef.current = null;
+            if (fullGraph) {
+                setNodes(fullGraph.nodes);
+                setEdges(fullGraph.edges);
+                setFullGraph(null);
             }
             setTerminalsHidden(false);
         }
@@ -479,7 +480,7 @@ export default function Dig({ equipment }: DigProps) {
                                 </Button>
                             </div>
                         )}
-                        {hasSubstationGroup && (
+                        {hasTerminals && (
                             <Button
                                 variant={terminalsHidden ? "default" : "outline"}
                                 onClick={onToggleTerminals}

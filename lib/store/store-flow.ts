@@ -32,6 +32,11 @@ export type FlowState = {
     nodes: CimNode[];
     edges: Edge[];
     focusNodeId: string | null;
+    /** Whether terminal nodes are currently collapsed/hidden */
+    terminalsHidden: boolean;
+    /** The full (uncollapsed) graph, stored when terminals are hidden so
+     *  expansions can work against the complete graph and toggling back restores terminals */
+    fullGraph: { nodes: CimNode[]; edges: Edge[] } | null;
     onNodesChange: OnNodesChange<CimNode>;
     onEdgesChange: OnEdgesChange;
     onConnect: OnConnect;
@@ -40,6 +45,8 @@ export type FlowState = {
     getNodeData: (id: string) => NodeData | undefined;
     addNode: (node: CimNode) => void;
     setFocusNode: (id: string) => void;
+    setTerminalsHidden: (hidden: boolean) => void;
+    setFullGraph: (graph: { nodes: CimNode[]; edges: Edge[] } | null) => void;
 };
 
 /*
@@ -61,12 +68,18 @@ export const selector = (state: FlowState) => ({
     addNode: state.addNode,
     focusNodeId: state.focusNodeId,
     setFocusNode: state.setFocusNode,
+    terminalsHidden: state.terminalsHidden,
+    fullGraph: state.fullGraph,
+    setTerminalsHidden: state.setTerminalsHidden,
+    setFullGraph: state.setFullGraph,
 });
 
 const useFlowStore = create<FlowState>((set, get) => ({
     nodes: [],
     edges: [],
-    focusNodeId: null, // Add this line to initialize focusNodeId
+    focusNodeId: null,
+    terminalsHidden: false,
+    fullGraph: null,
     onNodesChange: (changes) => {
         set({
             nodes: applyNodeChanges(changes, get().nodes),
@@ -103,11 +116,13 @@ const useFlowStore = create<FlowState>((set, get) => ({
     },
     setFocusNode: (id) => {
         console.log("focus node", id);
-        set((state) => {
-            return {
-                focusNodeId: id,
-            };
-        });
+        set({ focusNodeId: id });
+    },
+    setTerminalsHidden: (hidden) => {
+        set({ terminalsHidden: hidden });
+    },
+    setFullGraph: (graph) => {
+        set({ fullGraph: graph });
     },
 }));
 

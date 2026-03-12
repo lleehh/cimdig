@@ -1,30 +1,17 @@
 "use client";
 import CimComponent from "@/components/dig/cim-component";
-import { Button } from "@/components/ui/button";
+import { CIM, IdentifiedObject } from "@/lib/cim";
 import {
-    CIM,
-    IdentifiedObject,
-    isConductingEquipment,
-    isConnectivityNode,
-    isTerminal,
-    PowerTransformerEnd,
-} from "@/lib/cim";
-import {
-    createEdge,
-    createNode,
-    doesEquipmentExistsInFlow,
     createConnectingNodes,
     checkNodesForConnections,
     createNodesAndEdges,
+    collapseTerminals,
 } from "@/lib/flow-utils";
 import { getComponentById } from "@/lib/store/model-repository";
 import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
-import { Edge, Handle, NodeProps, Position, useStore } from "@xyflow/react";
-import { Expand } from "lucide-react";
+import { Handle, NodeProps, Position, useStore } from "@xyflow/react";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
-import BtnGroupComponent from "../btn-group-component";
-import { func } from "ts-interface-checker";
 
 const zoomSelector = (s: { transform: number[] }) => s.transform[2] >= 0.6;
 
@@ -53,16 +40,29 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
     const [component, setComponent] = useState<CIM | null>(null);
     const showContent = useStore(zoomSelector);
 
+    const {
+        nodes,
+        edges,
+        setNodes,
+        setEdges,
+        setFocusNode,
+        terminalsHidden,
+        fullGraph,
+        setFullGraph,
+        setTerminalsHidden,
+    } = useFlowStore(useShallow(selector));
+
     const createComponentData = (componentData: IdentifiedObject | null) => {
         if (componentData) {
-            if (checkNodesForConnections(nodes, componentData).newNodesInfo.length == 0) {
+            // When terminals are hidden, check against the full (uncollapsed) graph
+            // so we correctly detect existing terminals/connections
+            const checkNodes = terminalsHidden && fullGraph ? fullGraph.nodes : nodes;
+            if (checkNodesForConnections(checkNodes, componentData).newNodesInfo.length == 0) {
                 data.otherData.expanded = true;
             }
         }
         setComponent(componentData);
     };
-
-    const { nodes, edges, setNodes, setEdges, setFocusNode } = useFlowStore(useShallow(selector));
 
     useEffect(() => {
         if (!component) {
@@ -82,6 +82,9 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
                 const { nodes: newNodes, edges: newEdges } = createNodesAndEdges(lineEquipment);
                 setNodes(newNodes);
                 setEdges(newEdges);
+                // Clear terminal state since we're leaving the substation view
+                setTerminalsHidden(false);
+                setFullGraph(null);
             }
             return;
         }
@@ -90,32 +93,102 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
 
         // We need to load the full component from the database to get all the properties
 
-        const node = nodes.find((node) => node.id === component?.rdfId);
-        const edge = edges.filter(
-            (edge) => edge.source === component?.rdfId || edge.target === component?.rdfId
-        );
+        if (terminalsHidden && fullGraph && component) {
+            // When terminals are hidden, expand against the full (uncollapsed) graph
+            // so that new terminals are added there, then re-collapse for display.
+            const fullNode = fullGraph.nodes.find((n) => n.id === component.rdfId);
 
-        /*
-            We have a set of different types that we will automatically render:
-            terminals, connectivity nodes
-         */
+            if (fullNode) {
+                const { newNodes, newEdges } = createConnectingNodes(fullGraph.nodes, component);
 
-        let colors: string[] = ["#ff9e9e", "#9eadff", "#ea9eff", "#c8ff9e", "#ffe380", "#9effdd"];
+                if (newNodes.length > 0) {
+                    // Apply colors
+                    let colors: string[] = [
+                        "#ff9e9e",
+                        "#9eadff",
+                        "#ea9eff",
+                        "#c8ff9e",
+                        "#ffe380",
+                        "#9effdd",
+                    ];
+                    newNodes[0].data.otherData.color = data.otherData.color;
+                    if (newNodes.length > 1) {
+                        newNodes.forEach((element, i) => {
+                            element.data.otherData.color = colors[i % colors.length];
+                        });
+                    }
 
-        if (node && component) {
-            const { newNodes, newEdges } = createConnectingNodes(nodes, component);
+                    // Update the full graph with the new nodes/edges
+                    const updatedFullNodes = [...fullGraph.nodes, ...newNodes];
+                    const updatedFullEdges = [...fullGraph.edges, ...newEdges];
+                    setFullGraph({ nodes: updatedFullNodes, edges: updatedFullEdges });
 
-            if (newNodes.length > 0) {
-                newNodes[0].data.otherData.color = data.otherData.color;
-                if (newNodes.length > 1) {
-                    newNodes.forEach((element, i) => {
-                        element.data.otherData.color = colors[i % colors.length];
-                    });
+                    // Re-collapse terminals and set as the displayed graph
+                    const collapsed = collapseTerminals(updatedFullNodes, updatedFullEdges);
+                    setNodes(collapsed.nodes);
+                    setEdges(collapsed.edges);
+
+                    // Focus on a non-terminal node from the new additions
+                    const focusNode = newNodes.find(
+                        (n) => n.data?.cimData?.rdfType !== "cim:Terminal"
+                    );
+                    if (focusNode) {
+                        setFocusNode(focusNode.id);
+                    } else {
+                        // All new nodes are terminals; after collapse they're gone,
+                        // so focus on the first CN/equipment bridged through them
+                        const terminalIds = new Set(
+                            newNodes
+                                .filter((n) => n.data?.cimData?.rdfType === "cim:Terminal")
+                                .map((n) => n.id)
+                        );
+                        // Find nodes connected through new terminal edges
+                        for (const edge of newEdges) {
+                            const otherId = terminalIds.has(edge.source)
+                                ? edge.target
+                                : edge.source;
+                            if (!terminalIds.has(otherId) && otherId !== component.rdfId) {
+                                // This is a non-terminal node that's reachable through the new terminals
+                                if (collapsed.nodes.find((n) => n.id === otherId)) {
+                                    setFocusNode(otherId);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+        } else {
+            // Normal expansion (terminals visible or no full graph)
+            const node = nodes.find((node) => node.id === component?.rdfId);
+            const edge = edges.filter(
+                (edge) => edge.source === component?.rdfId || edge.target === component?.rdfId
+            );
 
-                setNodes([...nodes, ...newNodes]);
-                setEdges([...edges, ...newEdges]);
-                setFocusNode(newNodes[newNodes.length - 1].id);
+            let colors: string[] = [
+                "#ff9e9e",
+                "#9eadff",
+                "#ea9eff",
+                "#c8ff9e",
+                "#ffe380",
+                "#9effdd",
+            ];
+
+            if (node && component) {
+                const { newNodes, newEdges } = createConnectingNodes(nodes, component);
+
+                if (newNodes.length > 0) {
+                    newNodes[0].data.otherData.color = data.otherData.color;
+                    if (newNodes.length > 1) {
+                        newNodes.forEach((element, i) => {
+                            element.data.otherData.color = colors[i % colors.length];
+                        });
+                    }
+
+                    setNodes([...nodes, ...newNodes]);
+                    setEdges([...edges, ...newEdges]);
+                    setFocusNode(newNodes[newNodes.length - 1].id);
+                }
             }
         }
         // Will disable expand button in btn-group-component if all nodes connected to current CIM component already exists in flow.
