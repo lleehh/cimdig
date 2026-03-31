@@ -28,6 +28,7 @@ import {
     collapseTerminals,
     LayoutEngine,
 } from "@/lib/flow-utils";
+import { relayoutWithSld } from "@/lib/sld-layout";
 
 import {
     getBoundingBox,
@@ -70,7 +71,7 @@ export default function Dig({ equipment }: DigProps) {
     const hasAutoFitRunRef = useRef<boolean>(false);
     const [computedMinZoom, setComputedMinZoom] = useState<number>(0.05);
     const [layoutDirection, setLayoutDirection] = useState<"LR" | "TB">("LR");
-    const [layoutEngine, setLayoutEngine] = useState<LayoutEngine>("dagre");
+    const [layoutEngine, setLayoutEngine] = useState<LayoutEngine>("sld");
 
     useEffect(() => {
         if (equipment) {
@@ -126,7 +127,12 @@ export default function Dig({ equipment }: DigProps) {
             let resultNodes: CimNode[] = [];
             let resultEdges: Edge[] = [];
 
-            if (workingHasSubstationGroup && activeEngine === "elk") {
+            if (workingHasSubstationGroup && activeEngine === "sld") {
+                // Use SLD for single-line diagram re-layout
+                const result = await relayoutWithSld(workingNodes, workingEdges);
+                resultNodes = result.nodes;
+                resultEdges = result.edges;
+            } else if (workingHasSubstationGroup && activeEngine === "elk") {
                 // Use ELK for hierarchical re-layout
                 const result = await relayoutWithElk(workingNodes, workingEdges, direction);
                 resultNodes = result.nodes;
@@ -462,6 +468,14 @@ export default function Dig({ equipment }: DigProps) {
                         </div>
                         {hasSubstationGroup && (
                             <div className="flex space-x-2">
+                                <Button
+                                    variant={layoutEngine === "sld" ? "default" : "outline"}
+                                    onClick={() => onLayout(layoutDirection, "sld")}
+                                    size="sm"
+                                    title="Single-line diagram layout (busbars + vertical bays)"
+                                >
+                                    SLD
+                                </Button>
                                 <Button
                                     variant={layoutEngine === "dagre" ? "default" : "outline"}
                                     onClick={() => onLayout(layoutDirection, "dagre")}

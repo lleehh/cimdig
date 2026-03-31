@@ -12,8 +12,9 @@ import Dagre from "@dagrejs/dagre";
 import ELK, { type ElkNode, type ElkExtendedEdge } from "elkjs/lib/elk.bundled";
 import { componentRefs } from "@/lib/services/cim-service";
 import type { SubstationComponents } from "@/lib/store/model-repository";
+import { sldLayoutSubstationGraph } from "@/lib/sld-layout";
 
-export type LayoutEngine = "dagre" | "elk";
+export type LayoutEngine = "dagre" | "elk" | "sld";
 
 export function doesEquipmentExistsInFlow(rdfId: string, nodes: CimNode[]): boolean {
     return nodes.some((node) => node.data.cimData.rdfId === rdfId);
@@ -317,6 +318,12 @@ export function collapseTerminals(
     const bridgedEdges: Edge[] = [];
     const seenBridgeIds = new Set<string>();
 
+    // Build edge lookup for preserving edge properties (e.g. type: "smoothstep")
+    const edgeByKey: Record<string, Edge> = {};
+    for (const edge of edges) {
+        edgeByKey[`${edge.source}->${edge.target}`] = edge;
+    }
+
     for (const termId of terminalIds) {
         const eqId = terminalToEquipment[termId];
         const cnId = terminalToCN[termId];
@@ -324,11 +331,14 @@ export function collapseTerminals(
             const bridgeId = `e${eqId}-${cnId}`;
             if (!seenBridgeIds.has(bridgeId)) {
                 seenBridgeIds.add(bridgeId);
+                // Inherit edge type from the original edges being bridged
+                const origEdge = edgeByKey[`${eqId}->${termId}`] ?? edgeByKey[`${termId}->${cnId}`];
                 bridgedEdges.push({
                     id: bridgeId,
                     source: eqId,
                     target: cnId,
                     ...edgeTemplate,
+                    ...(origEdge?.type ? { type: origEdge.type } : {}),
                 } as Edge);
             }
         }
@@ -357,7 +367,7 @@ export function collapseTerminals(
 export async function createSubstationNodesAndEdges(
     data: SubstationComponents,
     direction: "TB" | "LR" = "TB",
-    engine: LayoutEngine = "dagre"
+    engine: LayoutEngine = "sld"
 ): Promise<{ nodes: CimNode[]; edges: Edge[] }> {
     const nodes: CimNode[] = [];
     const edges: Edge[] = [];
@@ -550,6 +560,18 @@ export async function createSubstationNodesAndEdges(
         } as CimNode;
         nodes.push(stubNode);
         addEdge(ext.terminalId, stubId, true);
+    }
+
+    if (engine === "sld") {
+        // SLD handles its own hierarchical layout with busbar-oriented placement
+        return sldLayoutSubstationGraph(
+            nodes,
+            edges,
+            data.substation as CIM,
+            data.voltageLevels,
+            rdfIdToVlId,
+            data
+        );
     }
 
     if (engine === "elk") {
