@@ -82,7 +82,7 @@ export default function Dig({ equipment }: DigProps) {
             setTerminalsHidden(false);
             setFullGraph(null);
         }
-    }, [equipment]);
+    }, [equipment, setNodes, setEdges, setTerminalsHidden, setFullGraph]);
 
     useEffect(() => {
         if (focusNodeId) {
@@ -100,26 +100,29 @@ export default function Dig({ equipment }: DigProps) {
     )?.id;
     const prevSubstationIdRef = useRef<string | undefined>(undefined);
 
-    // Reset terminal visibility when a different substation is loaded
+    // Reset terminal visibility when a different substation is loaded.
+    // fullGraph is set by search-bar at load time; don't clear it here.
     useEffect(() => {
         if (substationGroupId !== prevSubstationIdRef.current) {
             prevSubstationIdRef.current = substationGroupId;
-            setTerminalsHidden(false);
-            setFullGraph(null);
+            setTerminalsHidden(true);
         }
     }, [substationGroupId]);
 
     const onLayout = useCallback(
-        async (direction: "LR" | "TB", engine?: LayoutEngine) => {
+        async (direction: "LR" | "TB", engine?: LayoutEngine, overrideTerminals?: boolean) => {
             const activeEngine = engine ?? layoutEngine;
             setLayoutDirection(direction);
             if (engine) setLayoutEngine(engine);
 
-            // When terminals are hidden, operate on the stored full graph
-            const workingNodes = terminalsHidden && fullGraph ? fullGraph.nodes : nodes;
-            const workingEdges = terminalsHidden && fullGraph ? fullGraph.edges : edges;
+            const showTerminals = overrideTerminals ?? !terminalsHidden;
 
-            // Check substation group in the working set (full graph always has it if visible does)
+            // For SLD: always work from the full graph (stored or current).
+            // SLD handles terminal collapse internally via preprocessGraph.
+            // For dagre/elk: use fullGraph when terminals are hidden.
+            const workingNodes = fullGraph ? fullGraph.nodes : nodes;
+            const workingEdges = fullGraph ? fullGraph.edges : edges;
+
             const workingHasSubstationGroup = workingNodes.some(
                 (n) => n.type === "substationGroup"
             );
@@ -128,35 +131,44 @@ export default function Dig({ equipment }: DigProps) {
             let resultEdges: Edge[] = [];
 
             if (workingHasSubstationGroup && activeEngine === "sld") {
-                // Use SLD for single-line diagram re-layout
-                const result = await relayoutWithSld(workingNodes, workingEdges);
+                // SLD handles terminal collapsing internally
+                const result = await relayoutWithSld(workingNodes, workingEdges, showTerminals);
                 resultNodes = result.nodes;
                 resultEdges = result.edges;
             } else if (workingHasSubstationGroup && activeEngine === "elk") {
-                // Use ELK for hierarchical re-layout
-                const result = await relayoutWithElk(workingNodes, workingEdges, direction);
+                // For ELK: if terminals hidden, collapse first then layout
+                let layoutNodes = workingNodes;
+                let layoutEdges = workingEdges;
+                if (!showTerminals) {
+                    const collapsed = collapseTerminals(workingNodes, workingEdges);
+                    layoutNodes = collapsed.nodes;
+                    layoutEdges = collapsed.edges;
+                }
+                const result = await relayoutWithElk(layoutNodes, layoutEdges, direction);
                 resultNodes = result.nodes;
                 resultEdges = result.edges;
             } else if (workingHasSubstationGroup) {
-                // For substation graphs with nested VL groups:
-                // 1. Extract leaf nodes (not group nodes)
-                // 2. Convert their positions back to absolute
-                // 3. Re-layout with Dagre
-                // 4. Recompute VL group bounding boxes, then substation group bounding box
-                const substationGroup = workingNodes.find(
+                // Dagre: if terminals hidden, collapse first
+                let layoutNodes = workingNodes;
+                let layoutEdges = workingEdges;
+                if (!showTerminals) {
+                    const collapsed = collapseTerminals(workingNodes, workingEdges);
+                    layoutNodes = collapsed.nodes;
+                    layoutEdges = collapsed.edges;
+                }
+
+                const substationGroup = layoutNodes.find(
                     (n) => n.type === "substationGroup" && n.data?.groupType === "substation"
                 );
-                const vlGroups = workingNodes.filter(
+                const vlGroups = layoutNodes.filter(
                     (n) => n.type === "substationGroup" && n.data?.groupType === "voltageLevel"
                 );
-                const leafNodes = workingNodes.filter((n) => n.type !== "substationGroup");
+                const leafNodes = layoutNodes.filter((n) => n.type !== "substationGroup");
 
-                // Convert leaf node positions back to absolute
                 const absoluteLeaves = leafNodes.map((n) => {
                     let absX = n.position.x;
                     let absY = n.position.y;
 
-                    // If this leaf is in a VL group, add VL group position
                     const vlParent = vlGroups.find((vl) => vl.id === n.parentId);
                     if (vlParent && substationGroup) {
                         absX += vlParent.position.x + substationGroup.position.x;
@@ -174,9 +186,8 @@ export default function Dig({ equipment }: DigProps) {
                     };
                 });
 
-                const layouted = layoutSubstationGraph(absoluteLeaves, workingEdges, direction);
+                const layouted = layoutSubstationGraph(absoluteLeaves, layoutEdges, direction);
 
-                // Build VL membership map from original parentId relationships
                 const nodeVlMap: Record<string, string> = {};
                 for (const leaf of leafNodes) {
                     const vlParent = vlGroups.find((vl) => vl.id === leaf.parentId);
@@ -185,7 +196,6 @@ export default function Dig({ equipment }: DigProps) {
                     }
                 }
 
-                // Recompute VL group bounding boxes
                 const VL_PADDING = 30;
                 const VL_LABEL_HEIGHT = 30;
                 const GROUP_PADDING = 60;
@@ -243,7 +253,6 @@ export default function Dig({ equipment }: DigProps) {
                     }
                 }
 
-                // Compute substation group bounding box from VL groups + unparented leaves
                 const topLevel = [...updatedVlGroups, ...noVlLeaves];
                 let minX = Infinity,
                     minY = Infinity,
@@ -293,18 +302,20 @@ export default function Dig({ equipment }: DigProps) {
                     resultEdges = [...layouted.edges];
                 }
             } else {
-                const layouted = getLayoutedElements(workingNodes, workingEdges, { direction });
+                // Non-substation graph: simple dagre layout
+                let layoutNodes = workingNodes;
+                let layoutEdges = workingEdges;
+                if (!showTerminals) {
+                    const collapsed = collapseTerminals(layoutNodes, layoutEdges);
+                    layoutNodes = collapsed.nodes;
+                    layoutEdges = collapsed.edges;
+                }
+                const layouted = getLayoutedElements(layoutNodes, layoutEdges, { direction });
                 resultNodes = [...layouted.nodes];
                 resultEdges = [...layouted.edges];
             }
 
-            // Apply results: if terminals are hidden, save the full graph and collapse
-            if (terminalsHidden && resultNodes.length > 0) {
-                setFullGraph({ nodes: resultNodes, edges: resultEdges });
-                const collapsed = collapseTerminals(resultNodes, resultEdges);
-                setNodes(collapsed.nodes);
-                setEdges(collapsed.edges);
-            } else if (resultNodes.length > 0) {
+            if (resultNodes.length > 0) {
                 setNodes(resultNodes);
                 setEdges(resultEdges);
             }
@@ -313,31 +324,16 @@ export default function Dig({ equipment }: DigProps) {
                 fitView({ duration: 500, padding: 0.2 });
             });
         },
-        [nodes, edges, hasSubstationGroup, terminalsHidden, layoutEngine]
+        [nodes, edges, hasSubstationGroup, terminalsHidden, layoutEngine, fullGraph]
     );
 
     const onToggleTerminals = useCallback(() => {
-        if (!terminalsHidden) {
-            // Hiding terminals: save current full graph, then collapse
-            setFullGraph({ nodes: [...nodes], edges: [...edges] });
-            const collapsed = collapseTerminals(nodes, edges);
-            setNodes(collapsed.nodes);
-            setEdges(collapsed.edges);
-            setTerminalsHidden(true);
-        } else {
-            // Showing terminals: restore from saved full graph
-            if (fullGraph) {
-                setNodes(fullGraph.nodes);
-                setEdges(fullGraph.edges);
-                setFullGraph(null);
-            }
-            setTerminalsHidden(false);
-        }
-
-        window.requestAnimationFrame(() => {
-            fitView({ duration: 500, padding: 0.2 });
-        });
-    }, [nodes, edges, terminalsHidden, setNodes, setEdges, fitView]);
+        const newHidden = !terminalsHidden;
+        setTerminalsHidden(newHidden);
+        // Re-layout with the new terminal visibility.
+        // Pass overrideTerminals so onLayout uses the NEW value (not the stale one).
+        onLayout(layoutDirection, layoutEngine, !newHidden);
+    }, [terminalsHidden, layoutDirection, layoutEngine, onLayout]);
 
     const focusNodeHandle = (nodeId: string) => {
         const layouted = getLayoutedElements(

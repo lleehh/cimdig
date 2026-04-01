@@ -78,7 +78,7 @@ const useFlowStore = create<FlowState>((set, get) => ({
     nodes: [],
     edges: [],
     focusNodeId: null,
-    terminalsHidden: false,
+    terminalsHidden: true,
     fullGraph: null,
     onNodesChange: (changes) => {
         set({

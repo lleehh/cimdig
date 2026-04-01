@@ -9,8 +9,8 @@ import {
 } from "@/lib/flow-utils";
 import { getComponentById } from "@/lib/store/model-repository";
 import useFlowStore, { CimNode, selector } from "@/lib/store/store-flow";
-import { Handle, NodeProps, Position, useStore } from "@xyflow/react";
-import { useEffect, useState } from "react";
+import { Handle, NodeProps, Position, useStore, useNodeId } from "@xyflow/react";
+import { useEffect, useMemo, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 const zoomSelector = (s: { transform: number[] }) => s.transform[2] >= 0.6;
@@ -210,6 +210,20 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
                 className="!w-3 !h-3 !rounded-none !bg-stone-400"
                 id="bottomHandle"
             />
+            <Handle
+                type="target"
+                isConnectable={false}
+                position={Position.Top}
+                className="!w-px !h-px !opacity-0 !border-0 !min-w-0 !min-h-0"
+                id="target-top"
+            />
+            <Handle
+                type="target"
+                isConnectable={false}
+                position={Position.Bottom}
+                className="!w-px !h-px !opacity-0 !border-0 !min-w-0 !min-h-0"
+                id="target-bottom"
+            />
             <div>
                 <CimComponent
                     equipment={component || data.cimData}
@@ -230,6 +244,20 @@ export default function FlowComponent({ data }: NodeProps<CimNode>) {
                 position={Position.Right}
                 className="!w-3 !h-3 !rounded-none !bg-stone-400"
                 id="topHandle"
+            />
+            <Handle
+                type="source"
+                isConnectable={false}
+                position={Position.Top}
+                className="!w-px !h-px !opacity-0 !border-0 !min-w-0 !min-h-0"
+                id="source-top"
+            />
+            <Handle
+                type="source"
+                isConnectable={false}
+                position={Position.Bottom}
+                className="!w-px !h-px !opacity-0 !border-0 !min-w-0 !min-h-0"
+                id="source-bottom"
             />
         </div>
     );

@@ -33,7 +33,7 @@ export default function SearchBar() {
     const [debouncedInput] = useDebounce(input, 200);
     const [animationParent] = useAutoAnimate({ duration: 100 });
 
-    const { setNodes, setEdges } = useFlowStore();
+    const { setNodes, setEdges, terminalsHidden, setFullGraph } = useFlowStore();
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -60,18 +60,38 @@ export default function SearchBar() {
         setIsFocused(false);
 
         if (rdfType === "cim:Substation") {
-            // For substations: load and expand the full internal hierarchy
+            // For substations: load and expand the full internal hierarchy.
+            // First, build the FULL graph (with all terminals) so we can save it
+            // for later toggling. Then build the display graph using the current
+            // terminal visibility setting.
             const substationData = await getSubstationComponents(id);
             if (substationData) {
-                const { nodes, edges } = await createSubstationNodesAndEdges(substationData, "TB");
-                setNodes(nodes);
-                setEdges(edges);
+                // Always build the full graph with all terminals for fullGraph storage
+                const fullResult = await createSubstationNodesAndEdges(
+                    substationData,
+                    "TB",
+                    "sld",
+                    true // showTerminals=true -> full graph
+                );
+                setFullGraph({ nodes: fullResult.nodes, edges: fullResult.edges });
+
+                // Now build the display graph with current terminal visibility
+                const showTerminals = !terminalsHidden;
+                const displayResult = await createSubstationNodesAndEdges(
+                    substationData,
+                    "TB",
+                    "sld",
+                    showTerminals
+                );
+                setNodes(displayResult.nodes);
+                setEdges(displayResult.edges);
             }
         } else {
             // For all other types: standard single-component view
             const equipment = await getComponentById(id);
             if (equipment) {
                 const { nodes, edges } = createNodesAndEdges(equipment);
+                setFullGraph(null);
                 setNodes(nodes);
                 setEdges(edges);
             }

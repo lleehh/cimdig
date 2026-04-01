@@ -331,14 +331,23 @@ export function collapseTerminals(
             const bridgeId = `e${eqId}-${cnId}`;
             if (!seenBridgeIds.has(bridgeId)) {
                 seenBridgeIds.add(bridgeId);
-                // Inherit edge type from the original edges being bridged
-                const origEdge = edgeByKey[`${eqId}->${termId}`] ?? edgeByKey[`${termId}->${cnId}`];
+                // Inherit edge type and handle assignments from the original edges being bridged
+                const eqToTermEdge = edgeByKey[`${eqId}->${termId}`];
+                const termToCnEdge = edgeByKey[`${termId}->${cnId}`];
+                const origEdge = eqToTermEdge ?? termToCnEdge;
                 bridgedEdges.push({
                     id: bridgeId,
                     source: eqId,
                     target: cnId,
                     ...edgeTemplate,
                     ...(origEdge?.type ? { type: origEdge.type } : {}),
+                    // Preserve source handle from eq→term edge, target handle from term→cn edge
+                    ...(eqToTermEdge?.sourceHandle
+                        ? { sourceHandle: eqToTermEdge.sourceHandle }
+                        : {}),
+                    ...(termToCnEdge?.targetHandle
+                        ? { targetHandle: termToCnEdge.targetHandle }
+                        : {}),
                 } as Edge);
             }
         }
@@ -367,7 +376,8 @@ export function collapseTerminals(
 export async function createSubstationNodesAndEdges(
     data: SubstationComponents,
     direction: "TB" | "LR" = "TB",
-    engine: LayoutEngine = "sld"
+    engine: LayoutEngine = "sld",
+    showTerminals: boolean = true
 ): Promise<{ nodes: CimNode[]; edges: Edge[] }> {
     const nodes: CimNode[] = [];
     const edges: Edge[] = [];
@@ -563,14 +573,16 @@ export async function createSubstationNodesAndEdges(
     }
 
     if (engine === "sld") {
-        // SLD handles its own hierarchical layout with busbar-oriented placement
+        // SLD handles its own hierarchical layout with busbar-oriented placement.
+        // It also handles terminal collapsing internally when showTerminals=false.
         return sldLayoutSubstationGraph(
             nodes,
             edges,
             data.substation as CIM,
             data.voltageLevels,
             rdfIdToVlId,
-            data
+            data,
+            showTerminals
         );
     }
 
